@@ -1,15 +1,11 @@
 import { TestIcon } from "../assets/svgs/TestIcon";
 import {NotificationIcon} from "../assets/svgs/NotificationIcon";
 import { Faq } from "../assets/svgs/faq";
-import { ListboxWrapper } from "../assets/component-library-stuff/ListBoxWrapper";
-import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Badge, Button, Popover, PopoverTrigger, PopoverContent, Divider, Tabs, Tab, Listbox, ListboxItem, Tooltip, ScrollShadow} from "@nextui-org/react";
+import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Badge, Popover, PopoverTrigger, PopoverContent, Tabs, Tab, Listbox, ListboxItem, ScrollShadow} from "@nextui-org/react";
 import React, { useState } from "react";
 
 const Header = () => {
     const [notificationCount, SetNotificationCount] = useState(10);
-    const [values, setValues] = React.useState(new Set(["1"]));
-
-    const arrayValues = Array.from(values);
 
     const items = [
         {
@@ -113,6 +109,8 @@ const Header = () => {
         },
     ];
 
+    /* try to incorporate a tool tip function to this menu */
+
     return(
         <div id="header">
             <div id="header-title">
@@ -135,7 +133,7 @@ const Header = () => {
                                     Notifications
                                 </h4>
                                 <div className="flex w-full flex-col">
-                                    <Tabs aria-label="Options" id="test">
+                                    <Tabs aria-label="Options" id="nav-menu-fix">
                                         <Tab key="unread" title="Unread">
                                             <ScrollShadow id="scroll-bar" hideScrollBar size={100}>
                                                 <Listbox
