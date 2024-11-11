@@ -33,6 +33,10 @@ body {
   display: flex;
 }
 
+.hover-interaction{
+  cursor: pointer;
+}
+
 /* Header */
 
 #header{
@@ -74,16 +78,18 @@ body {
   padding-right: 15px;
 }
 
+#notification{
+  height: 54px;
+  align-items: center;
+  display: flex;
+}
+
 #profile{
   flex-direction: row;
   display: flex;
   align-items: center;
   padding-right: 15px;
   gap: 12px;
-}
-
-#profile:hover{
-  cursor: pointer;
 }
 
 /*Ignore this crappy code lol */
@@ -148,6 +154,8 @@ body {
 
 .page-line{
   display:flex;
+
+  cursor: pointer;
 }
 
 .page-line p{
@@ -185,7 +193,6 @@ body {
 #dropdown-container button{
   all: unset; 
   display: inline-block; 
-  cursor: pointer;
 }
 
 .dropdown-navigation{
