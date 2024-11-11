@@ -1,12 +1,118 @@
 import { TestIcon } from "../assets/svgs/TestIcon";
 import {NotificationIcon} from "../assets/svgs/NotificationIcon";
-import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, cn, Badge, Button, Popover, PopoverTrigger, PopoverContent} from "@nextui-org/react";
+import { Faq } from "../assets/svgs/faq";
+import { ListboxWrapper } from "../assets/component-library-stuff/ListBoxWrapper";
+import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Badge, Button, Popover, PopoverTrigger, PopoverContent, Divider, Tabs, Tab, Listbox, ListboxItem, Tooltip, ScrollShadow} from "@nextui-org/react";
 import React, { useState } from "react";
 
 const Header = () => {
-    const iconClasses = "text-xl text-default-500 pointer-events-none flex-shrink-0";
     const [notificationCount, SetNotificationCount] = useState(10);
-    
+    const [values, setValues] = React.useState(new Set(["1"]));
+
+    const arrayValues = Array.from(values);
+
+    const items = [
+        {
+          key: "new",
+          color: "default",
+          label: "New file",
+          icon: <TestIcon/>,
+          className: "text-default",
+          description: "thingy"
+        },
+        {
+          key: "copy",
+          color: "success",
+          label: "Copy link",
+          icon: <TestIcon/>,
+          className: "text-success",
+          description: "thingy"
+        },
+        {
+          key: "edit",
+          color: "warning",
+          label: "Edit file",
+          icon: <TestIcon/>,
+          className: "text-warning",
+          description: "thingy"
+        },
+        {
+          key: "declined",
+          color: "danger",
+          label: "Delete file",
+          className: "text-danger",
+          icon: <TestIcon/>,
+          description: "thingy"
+        },
+        {
+          key: "declined",
+          color: "danger",
+          label: "Delete file",
+          className: "text-danger",
+          icon: <TestIcon/>,
+          description: "thingy"
+        },
+        {
+          key: "declined",
+          color: "danger",
+          label: "Delete file",
+          className: "text-danger",
+          icon: <TestIcon/>,
+          description: "thingy"
+        },
+        {
+          key: "declined",
+          color: "danger",
+          label: "Delete file",
+          className: "text-danger",
+          icon: <TestIcon/>,
+          description: "thingy"
+        }
+    ];
+
+    const items2 = [
+        {
+          key: "copy",
+          color: "success",
+          label: "Copy link",
+          icon: <TestIcon/>,
+          className: "text-success",
+          description: "thingy"
+        },
+        {
+          key: "copy",
+          color: "success",
+          label: "Copy link",
+          icon: <TestIcon/>,
+          className: "text-success",
+          description: "thingy"
+        },
+        {
+          key: "declined",
+          color: "danger",
+          label: "Delete file",
+          className: "text-danger",
+          icon: <TestIcon/>,
+          description: "thingy"
+        },
+        {
+          key: "declined",
+          color: "danger",
+          label: "Delete file",
+          className: "text-danger",
+          icon: <TestIcon/>,
+          description: "thingy"
+        },
+        {
+          key: "declined",
+          color: "danger",
+          label: "Delete file",
+          className: "text-danger",
+          icon: <TestIcon/>,
+          description: "thingy"
+        },
+    ];
+
     return(
         <div id="header">
             <div id="header-title">
@@ -17,22 +123,80 @@ const Header = () => {
                 <div id="utilities">
                     <Popover placement="bottom" showArrow={true}>
                         <PopoverTrigger>
-                            <span className="hover-interaction" id="notification">
+                            <span className="hover-interaction utility-content">
                                 <Badge content={notificationCount} shape="circle" color="danger">
                                     <NotificationIcon size={26} />
                                 </Badge>
                             </span>
                         </PopoverTrigger>
+                        <PopoverContent className="w-[240px]">
+                            <div className="flex w-full flex-col">
+                                <h4 className="text-medium font-medium" id="notification-title">
+                                    Notifications
+                                </h4>
+                                <div className="flex w-full flex-col">
+                                    <Tabs aria-label="Options" id="test">
+                                        <Tab key="unread" title="Unread">
+                                            <ScrollShadow id="scroll-bar" hideScrollBar size={100}>
+                                                <Listbox
+                                                    items={items}
+                                                    aria-label="Dynamic Actions"
+                                                    onAction={(key) => alert(key)}
+                                                >
+                                                    {(item) => (
+                                                        <ListboxItem
+                                                            key={item.key}
+                                                            startContent={item.icon} 
+                                                            description={item.description}
+                                                            color={item.color}
+                                                            className={item.className}
+                                                        >
+                                                            {item.label}
+                                                        </ListboxItem>
+                                                    )}
+                                                </Listbox>
+                                            </ScrollShadow>
+                                        </Tab>
+                                        <Tab key="read" title="Read">
+                                            <ScrollShadow id="scroll-bar" hideScrollBar size={100}>
+                                                <Listbox
+                                                    items={items2}
+                                                    aria-label="Dynamic Actions"
+                                                    onAction={(key) => alert(key)}
+                                                >
+                                                    {(item) => (
+                                                        <ListboxItem
+                                                            key={item.key}
+                                                            startContent={item.icon} 
+                                                            description={item.description}
+                                                            color={item.color}
+                                                            className={item.className}
+                                                        >
+                                                            {item.label}
+                                                        </ListboxItem>
+                                                    )}
+                                                </Listbox>
+                                            </ScrollShadow>
+                                        </Tab>
+                                    </Tabs>
+                                </div>
+                            </div>    
+                        </PopoverContent>
+                    </Popover>
+                    <Popover placement="bottom" showArrow={true}>
+                        <PopoverTrigger>
+                            <span className="hover-interaction utility-content">
+                                <Faq size={26}></Faq>
+                            </span>
+                        </PopoverTrigger>
                         <PopoverContent>
                             <div className="px-1 py-2">
-                            <div className="text-small font-bold">Popover Content</div>
-                            <div className="text-tiny">This is the popover content</div>
+                                <div className="text-small font-bold">Notifications</div>
+                                <div className="text-tiny">This is the popover content</div>
                             </div>
                         </PopoverContent>
                     </Popover>
-                    
-                    <img src="src/assets/svgs/faq.svg" alt=""/>
-                    <img src="src/assets/svgs/seperator.svg" alt="" />
+                    <img src="src/assets/svgs/seperator.svg" alt="" id="barrier"/>
                 </div>
                     <div>
                     <Dropdown id="Dropdown">
@@ -43,11 +207,11 @@ const Header = () => {
                                 <img src="src/assets/svgs/dropdown.svg" alt="" id="dropdown-header"/>
                             </div>
                         </DropdownTrigger>
-                        <DropdownMenu onAction={(key) => alert(key)} variant="bordered">
+                        <DropdownMenu onAction={(key) => alert(key)} variant="solid">
                             <DropdownItem
                                 className="text-danger"
                                 color="danger"
-                                startContent={<TestIcon className={cn(iconClasses, "text-danger")} />}
+                                startContent={<TestIcon/>}
                             >
                                 Sign Out
                             </DropdownItem>

@@ -75,13 +75,19 @@ body {
   flex-direction: row;
   display: flex;
   align-items: center;
-  padding-right: 15px;
+  gap: 15px;
+  padding: 0;
+  margin: 0;
 }
 
-#notification{
+.utility-content{
   height: 54px;
   align-items: center;
   display: flex;
+}
+
+#barrier{
+  padding-right: 15px;
 }
 
 #profile{
@@ -90,6 +96,20 @@ body {
   align-items: center;
   padding-right: 15px;
   gap: 12px;
+}
+
+#notification-title{
+  text-align: center;
+  padding: 5px;
+}
+
+#scroll-bar{
+  max-height: 200px;
+}
+
+#test{
+  margin-bottom: -10px;
+  padding:0;
 }
 
 /*Ignore this crappy code lol */
@@ -154,7 +174,6 @@ body {
 
 .page-line{
   display:flex;
-
   cursor: pointer;
 }
 
