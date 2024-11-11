@@ -1,4 +1,5 @@
 import './styles/App.css'
+import './index.css'
 import Navigation from './components/Navigation';
 import Header from './components/Header';
 
