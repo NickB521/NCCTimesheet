@@ -1,8 +1,13 @@
-import { TestIcon } from "../assets/svgs/TestIcon";
-import {NotificationIcon} from "../assets/svgs/NotificationIcon";
-import { Faq } from "../assets/svgs/faq";
-import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Badge, Popover, PopoverTrigger, PopoverContent, Tabs, Tab, Listbox, ListboxItem, ScrollShadow} from "@nextui-org/react";
-import React, { useState, useCallback} from "react";
+import { 
+    Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, 
+    Badge, Popover, PopoverTrigger, PopoverContent, Tabs, 
+    Tab, Listbox, ListboxItem, ScrollShadow 
+} from "@nextui-org/react";
+
+import React, { useState, useCallback } from "react";
+
+import { Avatar, NotificationBadge, Seperator, Faq } from "../assets/icons/header";
+import { TestIcon, DropdownIcon } from "../assets/icons";
 
 const Header = () => {
 
@@ -161,7 +166,7 @@ const Header = () => {
                         <PopoverTrigger>
                             <span className="hover-interaction utility-content">
                                 <Badge content={notificationCount} shape="circle" color="danger">
-                                    <NotificationIcon size={26} />
+                                    <NotificationBadge size={26} />
                                 </Badge>
                             </span>
                         </PopoverTrigger>
@@ -225,7 +230,7 @@ const Header = () => {
                     </Popover>
                     {hoveredItem && hoveredItem.description && hoveredItem.description.length > 0 && (
                         <div id="tooltip" style={{top: position.top, left: position.left}}>
-                            <img src="src/assets/svgs/dropdown.svg" id="tooltip-dropdown"/>
+                            <DropdownIcon id="tooltip-dropdown"/>
                             <h4 id="tooltip-note">Note</h4>
                             <p>{hoveredItem.description}</p>
                         </div>
@@ -243,15 +248,15 @@ const Header = () => {
                             </div>
                         </PopoverContent>
                     </Popover>
-                    <img src="src/assets/svgs/seperator.svg" alt="" id="barrier"/>
+                    <Seperator alt="" id="barrier"/>
                 </div>
                     <div>
                     <Dropdown id="Dropdown">
                         <DropdownTrigger>
                             <div id="profile" className="hover-interaction">
-                                <img src="src/assets/svgs/pfp.svg" alt=""/>
+                                <Avatar alt=""/>
                                 <p>Full Name</p>
-                                <img src="src/assets/svgs/dropdown.svg" alt="" id="dropdown-header"/>
+                                <DropdownIcon alt="" id="dropdown-header"/>
                             </div>
                         </DropdownTrigger>
                         <DropdownMenu onAction={(key) => alert(key)} variant="solid">
