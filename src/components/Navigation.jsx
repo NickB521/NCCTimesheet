@@ -16,7 +16,9 @@ const Navigation = () => {
                 <div className="img-container">
                     { icon }
                 </div>
-                <p>{ name }</p>
+                <p>
+                    { name }
+                </p>
             </div>
         );
     }
