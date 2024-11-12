@@ -1,34 +1,36 @@
 import React, { useState } from "react";
 
 import { Dashboard, Calendar } from "../assets/icons/navigation";
+import { DropdownIcon } from "../assets/icons";
 
 const Navigation = () => {
+    const [expanded, setExpanded] = useState(false);
 
-    const [isOpen, setIsOpen] = useState(false);
+    const toggleExpanded = () => {
+        setExpanded(!expanded);
+    }
 
-    const togglenavigation = () => {
-        setIsOpen(!isOpen);
-    };
-
-    return(
-        <div className={`navigation ${isOpen ? "open" : ""}`}>
-            <div id="pages">
-                <div className={`page-line ${isOpen ? "open" : ""}`} >
-                    <div className="img-container">
-                        <Dashboard alt="" id="active"/>
-                    </div>
-                    <p>Dashboard</p>
+    const NavigationButton = ({ name, icon }) => {
+        return (
+            <div className={ `page-line ${ expanded ? "open" : "" }` }>
+                <div className="img-container">
+                    { icon }
                 </div>
-                <div className={`page-line ${isOpen ? "open" : ""}`}>
-                    <div className="img-container">
-                        <Calendar alt="" />
-                    </div>
-                    <p>Calander</p>
-                </div>
+                <p>{ name }</p>
             </div>
+        );
+    }
+
+    return (
+        <div className={ `navigation ${ expanded ? "open" : "" }` }>
+            <div id="pages">
+                <NavigationButton name={ 'Dashboard' } icon={ <Dashboard alt=""/> } />
+                <NavigationButton name={ 'Calendar' } icon={ <Calendar alt=""/> } />
+            </div>
+
             <div id="dropdown-container" className="hover-interaction">
-                <button onClick={togglenavigation}>
-                    <img src="src/assets/icons/dropdown.svg" alt="" className={`dropdown-navigation ${isOpen ? "open" : ""}`}/>
+                <button onClick={ toggleExpanded }>
+                    <DropdownIcon alt="" className={ `dropdown-navigation ${ expanded ? "open" : "" }` }/>
                 </button>
             </div>
         </div>
