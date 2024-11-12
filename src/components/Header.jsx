@@ -2,73 +2,77 @@ import { TestIcon } from "../assets/svgs/TestIcon";
 import {NotificationIcon} from "../assets/svgs/NotificationIcon";
 import { Faq } from "../assets/svgs/faq";
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Badge, Popover, PopoverTrigger, PopoverContent, Tabs, Tab, Listbox, ListboxItem, ScrollShadow} from "@nextui-org/react";
-import React, { useState } from "react";
+import React, { useState, useCallback} from "react";
 
 const Header = () => {
-    const [notificationCount, SetNotificationCount] = useState(10);
 
     const items = [
         {
-          key: "new",
           color: "default",
           label: "New file",
           icon: <TestIcon/>,
           className: "text-default",
-          description: "thingy"
+          description: "thingy3123"
         },
         {
-          key: "copy",
           color: "success",
           label: "Copy link",
           icon: <TestIcon/>,
           className: "text-success",
-          description: "thingy"
+          description: "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT"
         },
         {
-          key: "edit",
           color: "warning",
           label: "Edit file",
           icon: <TestIcon/>,
           className: "text-warning",
-          description: "thingy"
+          description: "thingydqdqthingydqdqthingy"
         },
         {
-          key: "declined",
           color: "danger",
           label: "Delete file",
           className: "text-danger",
           icon: <TestIcon/>,
-          description: "thingy"
+          description: "thingy7674"
         },
         {
-          key: "declined",
           color: "danger",
           label: "Delete file",
           className: "text-danger",
           icon: <TestIcon/>,
-          description: "thingy"
+          description: "thingy56gs"
         },
         {
-          key: "declined",
           color: "danger",
           label: "Delete file",
           className: "text-danger",
           icon: <TestIcon/>,
-          description: "thingy"
+          description: "thingy43gsdf"
         },
         {
-          key: "declined",
           color: "danger",
           label: "Delete file",
           className: "text-danger",
           icon: <TestIcon/>,
-          description: "thingy"
+          description: "thingy4543fg3"
+        },
+        {
+            color: "danger",
+            label: "Delete file",
+            className: "text-danger",
+            icon: <TestIcon/>,description: "thingy4543fg3"
         }
     ];
 
     const items2 = [
         {
-          key: "copy",
+          color: "success",
+          label: "Copy link",
+          icon: <TestIcon/>,
+          className: "text-success",
+          description: "thingythingythingythingythingythingythingythingythingythingy"
+        },
+        {
           color: "success",
           label: "Copy link",
           icon: <TestIcon/>,
@@ -76,15 +80,6 @@ const Header = () => {
           description: "thingy"
         },
         {
-          key: "copy",
-          color: "success",
-          label: "Copy link",
-          icon: <TestIcon/>,
-          className: "text-success",
-          description: "thingy"
-        },
-        {
-          key: "declined",
           color: "danger",
           label: "Delete file",
           className: "text-danger",
@@ -92,7 +87,6 @@ const Header = () => {
           description: "thingy"
         },
         {
-          key: "declined",
           color: "danger",
           label: "Delete file",
           className: "text-danger",
@@ -100,16 +94,60 @@ const Header = () => {
           description: "thingy"
         },
         {
-          key: "declined",
           color: "danger",
           label: "Delete file",
           className: "text-danger",
           icon: <TestIcon/>,
           description: "thingy"
         },
+        {
+          color: "warning",
+          label: "Edit file",
+          icon: <TestIcon/>,
+          className: "text-warning",
+          description: "thingydqdqthingydqdqthingy"
+        },
+        {
+          color: "warning",
+          label: "Edit file",
+          icon: <TestIcon/>,
+          className: "text-warning",
+          description: "thingydqdqthingydqdqthingy"
+        }
     ];
 
-    /* try to incorporate a tool tip function to this menu */
+    const [notificationCount, SetNotificationCount] = useState(items.length);
+
+    {/*
+        Code for ToolTip    
+    */}
+
+    const [hoveredItem, setHoveredItem] = useState(null);
+    const [position, setPosition] = useState({ top: 0, left: 0 });
+
+    const handleMouseEnter = useCallback((event, item) => {
+        let description = item.description.length > 50 
+            ? item.description.substring(0, 50) + "..."
+            : item.description.length > 12
+                ? item.description  
+                : "";
+        setHoveredItem({ ...item, description });  
+        const { top, left, width, height } = event.currentTarget.getBoundingClientRect();
+        const adjustedPosition = {
+            top: top + height / 2  - 45,
+            left: left - width + 275, 
+        };
+        setPosition(adjustedPosition);
+        setTooltipHeight(tooltipHeight);
+    }, []);
+
+    const handleMouseLeave = useCallback(() => {
+        setHoveredItem(null);
+    }, []);
+
+    {/*
+        End Code for ToolTip    
+    */}
 
     return(
         <div id="header">
@@ -133,46 +171,50 @@ const Header = () => {
                                     Notifications
                                 </h4>
                                 <div className="flex w-full flex-col">
-                                    <Tabs aria-label="Options" id="nav-menu-fix">
+                                    <Tabs id="nav-menu-fix">
                                         <Tab key="unread" title="Unread">
-                                            <ScrollShadow id="scroll-bar" hideScrollBar size={100}>
+                                            <ScrollShadow size={100} className="scroll-bar">
                                                 <Listbox
                                                     items={items}
-                                                    aria-label="Dynamic Actions"
                                                     onAction={(key) => alert(key)}
+                                                    className="notification-gap-fix"
                                                 >
-                                                    {(item) => (
+                                                    {items.map((item, index) => (
                                                         <ListboxItem
-                                                            key={item.key}
+                                                            key={index}
                                                             startContent={item.icon} 
-                                                            description={item.description}
+                                                            description={item.description.length > 10 ? item.description.substring(0, 10) + "..." : item.description}
                                                             color={item.color}
                                                             className={item.className}
+                                                            onMouseEnter={(e) => handleMouseEnter(e, item)}
+                                                            onMouseLeave={handleMouseLeave}
                                                         >
                                                             {item.label}
                                                         </ListboxItem>
-                                                    )}
+                                                    ))}
                                                 </Listbox>
                                             </ScrollShadow>
                                         </Tab>
                                         <Tab key="read" title="Read">
-                                            <ScrollShadow id="scroll-bar" hideScrollBar size={100}>
+                                            <ScrollShadow size={100}className="scroll-bar">
                                                 <Listbox
-                                                    items={items2}
-                                                    aria-label="Dynamic Actions"
+                                                    items2={items2}
                                                     onAction={(key) => alert(key)}
+                                                    className="notification-gap-fix"
                                                 >
-                                                    {(item) => (
+                                                    {items2.map((item, index) => (
                                                         <ListboxItem
-                                                            key={item.key}
+                                                            key={index}
                                                             startContent={item.icon} 
-                                                            description={item.description}
+                                                            description={item.description.length > 10 ? item.description.substring(0, 10) + "..." : item.description}
                                                             color={item.color}
                                                             className={item.className}
+                                                            onMouseEnter={(e) => handleMouseEnter(e, item)}
+                                                            onMouseLeave={handleMouseLeave}
                                                         >
                                                             {item.label}
                                                         </ListboxItem>
-                                                    )}
+                                                    ))}
                                                 </Listbox>
                                             </ScrollShadow>
                                         </Tab>
@@ -181,6 +223,13 @@ const Header = () => {
                             </div>    
                         </PopoverContent>
                     </Popover>
+                    {hoveredItem && hoveredItem.description && hoveredItem.description.length > 0 && (
+                        <div id="tooltip" style={{top: position.top, left: position.left}}>
+                            <img src="src/assets/svgs/dropdown.svg" id="tooltip-dropdown"/>
+                            <h4 id="tooltip-note">Note</h4>
+                            <p>{hoveredItem.description}</p>
+                        </div>
+                    )}
                     <Popover placement="bottom" showArrow={true}>
                         <PopoverTrigger>
                             <span className="hover-interaction utility-content">
