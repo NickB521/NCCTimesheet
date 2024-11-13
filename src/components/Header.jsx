@@ -35,7 +35,6 @@ const Header = () => {
         };
 
         setPosition(adjustedPosition);
-        // setTooltipHeight(tooltipHeight);
 
     }, []);
 
@@ -92,13 +91,13 @@ const Header = () => {
                                 </h4>
 
                                 <div className="flex w-full flex-col">
-                                    <Tabs id="nav-menu-fix">
+                                    <Tabs id="header-menu-fix">
                                         <Tab key="unread" title="Unread">
                                             <ScrollShadow size={100} className="scroll-bar">
                                                 <Listbox
                                                     items={ items }
                                                     onAction={ (key) => alert(key) }
-                                                    className="notification-gap-fix"
+                                                    className="dropdown-gap-fix"
                                                 >
                                                     { items.map((item, index) => (
                                                         <ListboxItem
@@ -145,7 +144,7 @@ const Header = () => {
                         </PopoverContent>
                     </Popover>
 
-                    { hoveredItem && hoveredItem.description && hoveredItem.description.length > 0 && (
+                    { hoveredItem && hoveredItem.description && hoveredItem.description.length > 10 && (
                         <div id="tooltip" style={ { top: position.top, left: position.left } }>
                             <DropdownIcon id="tooltip-dropdown"/>
                             <h4 id="tooltip-note">Note</h4>

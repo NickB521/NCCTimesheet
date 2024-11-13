@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 
 import { Dashboard, Calendar } from "../assets/icons/navigation";
 import { DropdownIcon } from "../assets/icons";
@@ -12,7 +12,7 @@ const Navigation = () => {
 
     const NavigationButton = ({ name, icon }) => {
         return (
-            <div className={ `page-line ${ expanded ? "open" : "" }` }>
+            <div className={ "page-line" }>
                 <div className="img-container">
                     { icon }
                 </div>
@@ -32,7 +32,7 @@ const Navigation = () => {
 
             <div id="dropdown-container" className="hover-interaction">
                 <button onClick={ toggleExpanded }>
-                    <DropdownIcon alt="" className={ `dropdown-navigation ${ expanded ? "open" : "" }` }/>
+                    <DropdownIcon alt="" className={ `navigation-icon ${ expanded ? "open" : "" }` }/>
                 </button>
             </div>
         </div>

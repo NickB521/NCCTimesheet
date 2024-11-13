@@ -8,11 +8,11 @@
   --background: #F8FAFC;
 }
 
-*{
+* {
   outline: none !important;
 }
 
-html{
+html {
   overflow: hidden;
   font-family: "Inter", serif;
 }
@@ -24,18 +24,18 @@ body {
   background: var(--background);
 }
 
-#content-wrapper{
+#content-wrapper {
   flex-direction: row;
   display: flex;
 }
 
-.hover-interaction{
+.hover-interaction {
   cursor: pointer;
 }
 
 /* Header */
 
-#header{
+#header {
   width: 100vw;
   height: 80px; 
   background: var(--white);
@@ -44,7 +44,7 @@ body {
   justify-content: space-between;
 }
 
-#header-title{
+#header-title {
   flex-direction: row;
   display: flex;
   align-items: center;
@@ -54,20 +54,20 @@ body {
   font-size: 24px;
 }
 
-#logo{
+#logo {
   padding: 0px 10px;
   height: 60px;
   width: 94px;
 }
 
-#header-caption{
+#header-caption {
   flex-direction: row;
   display: flex;
   align-items: center;
   color: var(--gray);
 }
 
-#utilities{
+#utilities {
   flex-direction: row;
   display: flex;
   align-items: center;
@@ -76,17 +76,17 @@ body {
   margin: 0;
 }
 
-.utility-content{
+.utility-content {
   height: 54px;
   align-items: center;
   display: flex;
 }
 
-#barrier{
+#barrier {
   margin-right: 15px;
 }
 
-#profile{
+#profile {
   flex-direction: row;
   display: flex;
   align-items: center;
@@ -94,22 +94,32 @@ body {
   gap: 12px;
 }
 
-#notification-title{
-  text-align: center;
-  padding: 5px;
-}
-
-#scroll-bar{
-  max-height: 200px;
-}
-
-#nav-menu-fix{
+#header-menu-fix {
   margin-bottom: -10px;
+}
+
+/* Dropdown Content */
+
+#dropdown-container {
+  display: flex;
+  justify-content: right;
+  margin-bottom: 20px;
+  padding-right: 30px;
+}
+
+#dropdown-container button {
+  all: unset; 
+  display: inline-block; 
+}
+
+.dropdown-gap-fix ul {
+  gap: 0 !important;
+  height: fit-content;
 }
 
 /*Ignore this crappy code lol */
 
-#Dropdown *{
+#Dropdown * {
   font-weight: 600;
   font-size: 16px;
   align-content: center;
@@ -117,11 +127,11 @@ body {
   display: flex;
 }
 
-#Dropdown li{
+#Dropdown li {
   padding: 3px;
 }
 
-#Dropdown > * > * > * > *{
+#Dropdown > * > * > * > * {
   padding: 0px;
   margin-top: 20px;
   min-width: 145px;
@@ -130,104 +140,9 @@ body {
   border: 1px solid var(--lightGray);
 }
 
-/* Navigation */
-
-.navigation{
-  width: 90px;
-  height: calc(100vh - 80px); 
-  background: var(--white);
-  border-right: 1px solid var(--lightGray);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: .1s ease-in-out;
-}
-
-.navigation.open {
-  width: 220px;
-  transition: 0.8s ease-in-out;
-}
-
-/* Image and Pointer Content */
-
-#pointer{
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: left;
-  padding: 25px 0px;
-  gap: 35px;
-}
-
-#pages{
-  display: flex;
-  flex-direction: column;
-  padding: 15px 0px 0px 10px;
-  gap: 15px;
-}
-
-.page-line{
-  display:flex;
-  cursor: pointer;
-}
-
-.page-line p{
-  visibility: hidden;
-  opacity: 0;
-  transition: .1s ease-in-out;
-  font-size: 16px;
-  font-weight: 500;
-  margin-left: -75px;
-  align-content: center;
-}
-
-.page-line.open p{
-  visibility: visible;
-  opacity: 1;
-  transition: 0.8s ease-in-out;
-  margin-left: 25px;
-}
-
-.img-container{
-  background-color: var(--white);
-  z-index: 10;
-  border-left: 10px solid var(--white);
-}
-
-/* Dropdown Content */
-
-#dropdown-container{
-  display: flex;
-  justify-content: right;
-  margin-bottom: 20px;
-  padding-right: 30px;
-}
-
-#dropdown-container button{
-  all: unset; 
-  display: inline-block; 
-}
-
-.dropdown-navigation{
-  transition: .1s ease-in-out;
-  transform: rotate(-90deg);
-  height: 30px;
-  width: 30px;
-}
-
-.dropdown-navigation.open{
-  transform: rotate(90deg);
-}
-
-.notification-gap-fix ul{
-  gap: 0 !important;
-  height: fit-content;
-}
-
 /* Tooltip */
 
-#tooltip{
+#tooltip {
   position: absolute;
   padding: 5px;
   border: 1px solid var(--lightGray);
@@ -240,16 +155,15 @@ body {
   font-size: 12px;
   border-radius: 5px;
   box-shadow: 2px 4px 4px 0px var(--lightGray);
-  transition: .5s ease-in-out;
 }
 
-#tooltip-note{
+#tooltip-note {
   text-align: center;
   font-weight: 600;
   font-size: 14px;
 }
 
-#tooltip-dropdown{
+#tooltip-dropdown {
   position: absolute;
   left: -15px;
   top: 38%;
@@ -259,7 +173,7 @@ body {
   height: 24px;
 }
 
-/* Inner Scroll Bar */
+/* Scroll Bal */
 
 .scroll-bar {
   height: fit-content;
@@ -281,4 +195,65 @@ body {
 ::-webkit-scrollbar-thumb {
   border-radius: 8px;
   background-color: var(--lightGray);
+}
+
+/* Navigation */
+
+.navigation {
+  width: 90px;
+  height: calc(100vh - 80px); 
+  background: var(--white);
+  border-right: 1px solid var(--lightGray);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: 0.35s ease-in-out;
+}
+
+.navigation.open {
+  width: 220px;
+}
+
+#notification-title {
+  text-align: center;
+  padding: 5px;
+}
+
+.navigation-icon {
+  transition: .1s ease-in-out;
+  transform: rotate(-90deg);
+  height: 30px;
+  width: 30px;
+}
+
+.navigation-icon.open {
+  transform: rotate(90deg);
+}
+
+/* Image and Pointer Content */
+
+#pages {
+  display: flex;
+  flex-direction: column;
+  padding: 15px 0px 0px 10px;
+  gap: 15px;
+}
+
+.page-line {
+  display:flex;
+  cursor: pointer;
+}
+
+.page-line p {
+  font-size: 16px;
+  font-weight: 500;
+  align-content: center;
+  margin-left: 25px;
+  overflow: hidden;
+}
+
+.img-container {
+  background-color: var(--white);
+  z-index: 10;
+  border-left: 10px solid var(--white);
 }
