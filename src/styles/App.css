@@ -140,6 +140,18 @@ body {
   border: 1px solid var(--lightGray);
 }
 
+/* Notification List */
+
+#list-item-fix {
+  place-items: center;
+  border-radius: 5px;
+  margin-left: -10px;
+}
+
+#list-item-fix > * {
+  margin-left: 10px;
+}
+
 /* Tooltip */
 
 #tooltip {
@@ -256,13 +268,4 @@ body {
   background-color: var(--white);
   z-index: 10;
   border-left: 10px solid var(--white);
-}
-
-#list-item-fix {
-  place-items: center;
-  border-radius: 5px;
-}
-
-#list-item-fix > * {
-  margin-left: 4px;
 }

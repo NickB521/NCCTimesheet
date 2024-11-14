@@ -1,2 +1,2 @@
 export * from './dropdown-icon';
-export * from './test-icon';
+export * from './header/logout';

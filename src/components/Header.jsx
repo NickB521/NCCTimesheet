@@ -6,14 +6,13 @@ import {
 
 import React, { useState } from "react";
 
-import { Avatar, NotificationBadge, Seperator, Faq } from "../assets/icons/header";
-import { TestIcon, DropdownIcon } from "../assets/icons";
+import { Avatar, NotificationBadge, Seperator, Faq, Logout } from "../assets/icons/header";
+import { DropdownIcon } from "../assets/icons";
 
 import { items, items2 } from "../assets/data/notification-data"; 
 
 const Header = () => {
     const [notificationCount, setNotificationCount] = useState(items.length);
-    const [color, setColor] = useState("default");
 
     const FAQ = () => {
         return (
@@ -26,8 +25,8 @@ const Header = () => {
 
                 <PopoverContent>
                     <div className="px-1 py-2">
-                        <div className="text-small font-bold">FAQ</div>
-                        <div className="text-tiny">Test Test Test Test</div>
+                        <div className="text-medium font-medium text-center">FAQ</div>
+                        <div className="text-tiny text-left break-words pt-5 rounded-md">Coming Soon...</div>
                     </div>
                 </PopoverContent>
             </Popover>
@@ -77,28 +76,25 @@ const Header = () => {
 
     const NotificationListItems = ( { list } ) => {
         return (
-
-            list.map((item, index) =>
-                {console.log(index)
-                    return(
-                <Tooltip isDisabled={item.description.length > 12 ? false : true} showArrow placement="right" offset={25} closeDelay={0} content={
+            list.map(( item, index ) =>
+                <Tooltip isDisabled={ item.description.length > 12 ? false : true } showArrow placement="right" offset={ 25 } closeDelay={ 0 } content={
                     <div className="px-1 py-2">
                         <div className="text-small font-bold text-center">Note</div>
-                        <div className="text-tiny text-left break-words pt-5 rounded-md w-32" style={{width: "125px"}}>{item.description}</div>
+                        <div className="text-tiny text-left break-words pt-5 rounded-md" style={{width: "125px"}}>{item.description}</div>
                     </div>
                 }>
-                    <div className="px-1 py-1 cursor-pointer">
-                        <li key={ index } id="list-item-fix" className={`flex p3 text-${item.color}`}>
+                    <div className={ "px-1 py-1 cursor-pointer" }>
+                        <li key={ index } id="list-item-fix" className={ `text-${item.color} flex p3`}>
                             <div>
-                                <TestIcon></TestIcon>
+                                {item.icon}
                             </div>
                             <div>
-                                <p className="text-small font-bold"> {item.label} </p>
-                                <p className="text-tiny"> { item.description.length > 12 ? item.description.substring(0, 12) + "..." : item.description } </p>
+                                <p className="text-small font-bold text-current"> { item.label } </p>
+                                <p className="text-tiny text-current"> { item.description.length > 12 ? item.description.substring(0, 12) + "..." : item.description } </p>
                             </div>
                         </li>    
                     </div>
-                </Tooltip>)}
+                </Tooltip>
             )  
         );
     }
@@ -118,7 +114,7 @@ const Header = () => {
                         <DropdownItem
                             className="text-danger"
                             color="danger"
-                            startContent={ <TestIcon/> }
+                            startContent={ <Logout/> }
                         >
                             Sign Out
                         </DropdownItem>
