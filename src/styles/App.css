@@ -257,3 +257,12 @@ body {
   z-index: 10;
   border-left: 10px solid var(--white);
 }
+
+#list-item-fix {
+  place-items: center;
+  border-radius: 5px;
+}
+
+#list-item-fix > * {
+  margin-left: 4px;
+}
