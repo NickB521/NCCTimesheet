@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root { 
   --darkBlue: #0E3550;
   --lightBlue: #1C6296;
@@ -27,10 +31,6 @@ body {
 #content-wrapper{
   flex-direction: row;
   display: flex;
-}
-
-.hover-interaction{
-  cursor: pointer;
 }
 
 /* Header */
@@ -71,18 +71,6 @@ body {
   flex-direction: row;
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 0;
-  margin: 0;
-}
-
-.utility-content{
-  height: 54px;
-  align-items: center;
-  display: flex;
-}
-
-#barrier{
   padding-right: 15px;
 }
 
@@ -94,17 +82,8 @@ body {
   gap: 12px;
 }
 
-#notification-title{
-  text-align: center;
-  padding: 5px;
-}
-
-#scroll-bar{
-  max-height: 200px;
-}
-
-#nav-menu-fix{
-  margin-bottom: -10px;
+#profile:hover{
+  cursor: pointer;
 }
 
 /*Ignore this crappy code lol */
@@ -169,7 +148,6 @@ body {
 
 .page-line{
   display:flex;
-  cursor: pointer;
 }
 
 .page-line p{
@@ -207,6 +185,7 @@ body {
 #dropdown-container button{
   all: unset; 
   display: inline-block; 
+  cursor: pointer;
 }
 
 .dropdown-navigation{
@@ -218,67 +197,4 @@ body {
 
 .dropdown-navigation.open{
   transform: rotate(90deg);
-}
-
-.notification-gap-fix ul{
-  gap: 0 !important;
-  height: fit-content;
-}
-
-/* Tooltip */
-
-#tooltip{
-  position: absolute;
-  padding: 5px;
-  border: 1px solid var(--lightGray);
-  background-color: var(--white);
-  width: 125px;
-  max-width: 125px;
-  min-height: 90px;
-  max-height: 90px;
-  overflow-wrap: break-word;
-  font-size: 12px;
-  border-radius: 5px;
-  box-shadow: 2px 4px 4px 0px var(--lightGray);
-  transition: .5s ease-in-out;
-}
-
-#tooltip-note{
-  text-align: center;
-  font-weight: 600;
-  font-size: 14px;
-}
-
-#tooltip-dropdown{
-  position: absolute;
-  left: -15px;
-  top: 38%;
-  transform: translateY(-50%);
-  transform: rotate(90deg);
-  width: 24px;
-  height: 24px;
-}
-
-/* Inner Scroll Bar */
-
-.scroll-bar {
-  height: fit-content;
-  overflow: auto;
-  margin-top: 10px;
-  max-height: 280px;
-}
-
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-::-webkit-scrollbar-track {
-  border-radius: 8px;
-  background-color: var(--white);
-  border: 1px solid var(--white);;
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: 8px;
-  background-color: var(--lightGray);
 }
