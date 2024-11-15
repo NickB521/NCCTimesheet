@@ -12,8 +12,8 @@ const Navigation = () => {
 
     const NavigationButton = ({ name, icon }) => {
         return (
-            <div className={ "page-line" }>
-                <div className="img-container">
+            <div id="page-navigation-line">
+                <div id="page-navigation-img-container">
                     { icon }
                 </div>
                 <p>
@@ -25,12 +25,12 @@ const Navigation = () => {
 
     return (
         <div className={ `navigation ${ expanded ? "open" : "" }` }>
-            <div id="pages">
+            <div id="page-navigation">
                 <NavigationButton name={ 'Dashboard' } icon={ <Dashboard alt=""/> } />
                 <NavigationButton name={ 'Calendar' } icon={ <Calendar alt=""/> } />
             </div>
 
-            <div id="dropdown-container" className="hover-interaction">
+            <div id="dropdown-container" className="cursor-pointer">
                 <button onClick={ toggleExpanded }>
                     <DropdownIcon alt="" className={ `navigation-icon ${ expanded ? "open" : "" }` }/>
                 </button>

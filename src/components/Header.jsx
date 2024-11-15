@@ -18,7 +18,7 @@ const Header = () => {
         return (
             <Popover placement="bottom" showArrow={true}>
                 <PopoverTrigger>
-                    <span className="hover-interaction utility-content">
+                    <span className="cursor-pointer navigation-utility-content">
                         <Faq size={26}></Faq>
                     </span>
                 </PopoverTrigger>
@@ -38,7 +38,7 @@ const Header = () => {
             <>
                 <Popover placement="bottom" showArrow={ true }>
                     <PopoverTrigger>
-                        <span className="hover-interaction utility-content">
+                        <span className="cursor-pointer navigation-utility-content">
                             <Badge content={ notificationCount } shape="circle" color="danger">
                                 <NotificationBadge size={26} />
                             </Badge>
@@ -52,18 +52,10 @@ const Header = () => {
                             <div className="flex w-full flex-col">
                                 <Tabs id="header-menu-fix">
                                     <Tab key="unread" title="Unread">
-                                        <ScrollShadow size={100} className="scroll-bar">
-                                            <ul className="flex-col">
-                                                <NotificationListItems list={ items }/>
-                                            </ul>
-                                        </ScrollShadow>    
+                                        <NotificationListItems list={items} />
                                     </Tab>
                                     <Tab key="read" title="Read">
-                                        <ScrollShadow size={100} className="scroll-bar">
-                                            <ul>
-                                                <NotificationListItems list={ items2 }/>
-                                            </ul>
-                                        </ScrollShadow> 
+                                        <NotificationListItems list={items2} />
                                     </Tab>
                                 </Tabs>
                             </div>
@@ -74,37 +66,51 @@ const Header = () => {
         );
     }
 
-    const NotificationListItems = ( { list } ) => {
+    const NotificationListItems = ({ list }) => {
         return (
-            list.map(( item, index ) =>
-                <Tooltip isDisabled={ item.description.length > 12 ? false : true } showArrow placement="right" offset={ 25 } closeDelay={ 0 } content={
-                    <div className="px-1 py-2">
-                        <div className="text-small font-bold text-center">Note</div>
-                        <div className="text-tiny text-left break-words pt-5 rounded-md" style={{width: "125px"}}>{item.description}</div>
-                    </div>
-                }>
-                    <div className={ "px-1 py-1 cursor-pointer" }>
-                        <li key={ index } id="list-item-fix" className={ `text-${item.color} flex p3`}>
-                            <div>
-                                {item.icon}
+            <ScrollShadow size={100} id="scroll-bar">
+                <ul>
+                    {list.map((item, index) => (
+                        <Tooltip
+                            key={index}
+                            isDisabled={item.description.length <= 12}
+                            showArrow
+                            placement="right"
+                            offset={25}
+                            closeDelay={0}
+                            content={
+                                <div className="px-1 py-2">
+                                    <div className="text-small font-bold text-center">Note</div>
+                                    <div className="text-tiny text-left break-words pt-5 rounded-md" style={{ width: "125px" }}>
+                                        {item.description}
+                                    </div>
+                                </div>
+                            }
+                        >
+                            <div className="px-1 py-1 cursor-pointer">
+                                <li id="notification-list-item-fix" className={`text-${item.color} flex p3`}>
+                                    <div>{item.icon}</div>
+                                    <div>
+                                        <p className="text-small font-bold text-current">{item.label}</p>
+                                        <p className="text-tiny text-current">
+                                            {item.description.length > 12 ? `${item.description.substring(0, 12)}...` : item.description}
+                                        </p>
+                                    </div>
+                                </li>
                             </div>
-                            <div>
-                                <p className="text-small font-bold text-current"> { item.label } </p>
-                                <p className="text-tiny text-current"> { item.description.length > 12 ? item.description.substring(0, 12) + "..." : item.description } </p>
-                            </div>
-                        </li>    
-                    </div>
-                </Tooltip>
-            )  
+                        </Tooltip>
+                    ))}
+                </ul>
+            </ScrollShadow>
         );
-    }
+    };
 
     const Profile = () => {
         return(
             <>
                 <Dropdown id="Dropdown">
                     <DropdownTrigger>
-                        <div id="profile" className="hover-interaction">
+                        <div id="profile" className="cursor-pointer">
                             <Avatar alt=""/>
                             <p>Full Name</p>
                             <DropdownIcon alt="" id="dropdown-header"/>
