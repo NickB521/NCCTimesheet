@@ -5,7 +5,7 @@
 .weeklyWrapper {
     margin-top: 10px;
     margin-left: 10px;
-    width: 90%;
+    width: 85%;
 }
 .headerCard {
     height: 5%;
@@ -16,19 +16,4 @@
 }
 .tableCardHead {
     display: flex;
-    border-style: solid;
-    border-width: 2px;
-    border-color: black;
-    border-radius: 40px;
-    padding: 3px;
-    padding-right: 5px;
-}
-.tableCardHead {
-    display: flex;
-    border-style: solid;
-    border-width: 2px;
-    border-color: black;
-    border-radius: 40px;
-    padding: 3px;
-    padding-right: 5px;
 }

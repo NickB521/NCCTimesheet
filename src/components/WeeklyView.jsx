@@ -1,8 +1,10 @@
+import React, { useState, useCallback} from "react";
 import {
     Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, cn,
-    Card, CardHeader, CardBody, CardFooter
+    Card, CardHeader, CardBody, CardFooter, Table,
+    TableHeader, TableBody, TableRow, TableColumn, TableCell, 
+    Pagination, Spinner, getKeyValue, DateRangePicker
 } from "@nextui-org/react";
-
 const WeeklyView = () => {
 
     return (
@@ -17,17 +19,33 @@ const WeeklyView = () => {
                     <CardHeader>
                         <div className="tableCardHead">
                             <CardBody>
-                                Button
+                            <DateRangePicker></DateRangePicker>
                             </CardBody>
                             <Button className="tableCardButton" >Circle</Button>
                         </div>
                     </CardHeader>
                     <CardBody>
-
+                        <Table>
+                            <TableHeader>
+                                    <TableColumn></TableColumn>
+                                    <TableColumn>h1</TableColumn>
+                                    <TableColumn>h1</TableColumn>
+                                    <TableColumn>h1</TableColumn>
+                                    <TableColumn>h1</TableColumn>
+                            </TableHeader>
+                            <TableBody>
+                                <TableRow>
+                                    <TableCell>I am User Man</TableCell>
+                                    <TableCell>s</TableCell>
+                                    <TableCell>g</TableCell>
+                                    <TableCell>1231231231</TableCell>
+                                    <TableCell>Pineapple</TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
                     </CardBody>
                 </Card>
             </div>
-
         </>
     );
 }
