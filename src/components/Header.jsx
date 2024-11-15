@@ -5,6 +5,7 @@ import {
 } from "@nextui-org/react";
 
 import React, { useState } from "react";
+import { useLocation } from 'react-router-dom'
 
 import { Avatar, NotificationBadge, Seperator, Faq, Logout } from "../assets/icons/header";
 import { DropdownIcon } from "../assets/icons";
@@ -13,6 +14,16 @@ import { items, items2 } from "../assets/data/notification-data";
 
 const Header = () => {
     const [notificationCount, setNotificationCount] = useState(items.length);
+
+    const getPageName = () => {
+        let name = useLocation().pathname;
+        if (name == "/") return "Dashboard";
+
+        return name
+            .substring(1)
+            .replace(/(^|\-)([a-z])/g, (_, separator, letter) => separator + letter.toUpperCase())
+            .replace('-', ' ');
+    }
 
     const FAQ = () => {
         return (
@@ -134,7 +145,7 @@ const Header = () => {
         <div id="header">
             <div id="header-title">
                 <img src="src/assets/logo.png" id="logo" />
-                <p>Dashboard</p>
+                <p>{ getPageName() }</p>
             </div>
 
             <div id="header-caption">
