@@ -4,7 +4,7 @@ import "./styles/Dashboard.css"
 
 import Navigation from "./components/Navigation";
 import Header from "./components/Header";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./pages/Dashboard";
 
 const App = () => {
   return (
