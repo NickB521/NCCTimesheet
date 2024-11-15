@@ -150,7 +150,7 @@ body {
 
 /* Navigation */
 .navigation {
-  width: 90px;
+  width: 100px;
   height: calc(100vh - 80px);
   background: var(--white);
   border-right: 1px solid var(--light-gray);
@@ -184,19 +184,31 @@ body {
 #page-navigation {
   display: flex;
   flex-direction: column;
-  padding: 15px 0 0 10px;
+  padding: 15px 0 0 0px;
   gap: 15px;
 }
 
 #page-navigation-line {
   display: flex;
+
   cursor: pointer;
+  align-items: center;
+
+  transition: opacity 0.1s linear;
+}
+
+#page-navigation-line.inactive {
+  opacity: 0.25;
+}
+
+#page-navigation-line.inactive:hover {
+  opacity: 1;
 }
 
 #page-navigation-line p {
   font-size: 16px;
   font-weight: 500;
-  margin-left: 25px;
+  margin-left: 26px;
   overflow: hidden;
 }
 
@@ -204,4 +216,5 @@ body {
   background-color: var(--white);
   z-index: 10;
   margin-left: 10px;
+  padding-left: 15px;
 }
