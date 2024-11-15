@@ -1,7 +1,9 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 
-import { Dashboard, Calendar } from "../assets/icons/navigation";
+import { Dashboard, Calendar, Pointer } from "../assets/icons/navigation";
 import { DropdownIcon } from "../assets/icons";
+
+import { useLocation, Link } from "react-router-dom";
 
 const Navigation = () => {
     const [expanded, setExpanded] = useState(false);
@@ -10,24 +12,39 @@ const Navigation = () => {
         setExpanded(!expanded);
     }
 
-    const NavigationButton = ({ name, icon }) => {
+    const NavigationButton = ({ name, icon, page }) => {
         return (
-            <div id="page-navigation-line">
-                <div id="page-navigation-img-container">
-                    { icon }
+            <Link to={ page }>
+                <div id="page-navigation-line" className={ useLocation().pathname != page ? "inactive" : "active" }>
+                    { useLocation().pathname != page
+                        ? <></>
+                        : <Pointer id='page-navigation-pointer' /> }
+
+                    <div id="page-navigation-img-container">
+                        { icon }
+                    </div>
+                    <p>
+                        { name }
+                    </p>
                 </div>
-                <p>
-                    { name }
-                </p>
-            </div>
+            </Link>
         );
     }
 
     return (
         <div className={ `navigation ${ expanded ? "open" : "" }` }>
             <div id="page-navigation">
-                <NavigationButton name={ 'Dashboard' } icon={ <Dashboard alt=""/> } />
-                <NavigationButton name={ 'Calendar' } icon={ <Calendar alt=""/> } />
+                <NavigationButton 
+                    name={ 'Dashboard' } 
+                    icon={ <Dashboard alt="" color={ "#292F36" } /> } 
+                    page={ "/" } 
+                />
+
+                <NavigationButton 
+                    name={ 'Calendar' } 
+                    icon={ <Calendar alt="" color={ "#292F36" } /> } 
+                    page={ "/calendar" } 
+                />
             </div>
 
             <div id="dropdown-container" className="cursor-pointer">
