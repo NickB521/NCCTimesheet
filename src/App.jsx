@@ -4,10 +4,6 @@ import './styles/index.css'
 import './styles/Calendar.css'
 import Navigation from './components/Navigation';
 import Header from './components/Header';
-import WeeklyView from './pages/Calendar';
-
-import Navigation from "./components/Navigation";
-import Header from "./components/Header";
 import Dashboard from "./pages/Dashboard";
 import Calendar from "./pages/Calendar";
 
