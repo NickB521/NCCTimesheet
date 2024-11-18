@@ -3,7 +3,8 @@ import {
     Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, cn,
     Card, CardHeader, CardBody, CardFooter, Table,
     TableHeader, TableBody, TableRow, TableColumn, TableCell, 
-    Pagination, Spinner, getKeyValue, DateRangePicker
+    Pagination, Spinner, getKeyValue, DateRangePicker,
+    Textarea
 } from "@nextui-org/react";
 const WeeklyView = () => {
 
@@ -12,7 +13,7 @@ const WeeklyView = () => {
             <div className="weeklyWrapper">
                 <Card className="headerCard">
                     <CardHeader>
-                        <h2>Week View</h2>
+                        Week View
                     </CardHeader>
                 </Card>
                 <Card className="tableCard">
@@ -21,25 +22,49 @@ const WeeklyView = () => {
                             <CardBody>
                             <DateRangePicker></DateRangePicker>
                             </CardBody>
-                            <Button className="tableCardButton" >Circle</Button>
+                            {/* <Button className="tableCardButton" >Circle</Button> */}
                         </div>
                     </CardHeader>
                     <CardBody>
                         <Table>
                             <TableHeader>
                                     <TableColumn></TableColumn>
-                                    <TableColumn>h1</TableColumn>
-                                    <TableColumn>h1</TableColumn>
-                                    <TableColumn>h1</TableColumn>
-                                    <TableColumn>h1</TableColumn>
+                                    <TableColumn>Monday</TableColumn>
+                                    <TableColumn>Tuesday</TableColumn>
+                                    <TableColumn>Wednesday</TableColumn>
+                                    <TableColumn>Thursday</TableColumn>
+                                    <TableColumn>Friday</TableColumn>
+                                    <TableColumn>Saturday</TableColumn>
+                                    <TableColumn>Sunday</TableColumn>
+                                    <TableColumn>Shift Note</TableColumn>
                             </TableHeader>
                             <TableBody>
                                 <TableRow>
                                     <TableCell>I am User Man</TableCell>
-                                    <TableCell>s</TableCell>
-                                    <TableCell>g</TableCell>
-                                    <TableCell>1231231231</TableCell>
-                                    <TableCell>Pineapple</TableCell>
+                                    <TableCell>
+                                        <Button></Button>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button></Button>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button></Button>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button></Button>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button></Button>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button></Button>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button></Button>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Textarea></Textarea>
+                                    </TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>
