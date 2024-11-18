@@ -1,3 +1,4 @@
+import "./styles/Dashboard.css"
 import './styles/App.css'
 import './styles/index.css'
 import './styles/Calendar.css'
@@ -5,13 +6,23 @@ import Navigation from './components/Navigation';
 import Header from './components/Header';
 import WeeklyView from './pages/Calendar';
 
-function App () {
+import Navigation from "./components/Navigation";
+import Header from "./components/Header";
+import Dashboard from "./pages/Dashboard";
+import Calendar from "./pages/Calendar";
+
+import { Routes, Route } from "react-router-dom";
+
+const App = () => {
   return (
     <>
       <Header/>
       <div id="content-wrapper">
         <Navigation/>
-        <WeeklyView/>
+        <Routes>
+          <Route path="/" element={ <Dashboard /> } />
+          <Route path="calendar" element={ <Calendar /> } />
+        </Routes>
       </div>
     </>
   );

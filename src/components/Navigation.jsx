@@ -1,34 +1,55 @@
 import React, { useState } from "react";
 
+import { Dashboard, Calendar, Pointer } from "../assets/icons/navigation";
+import { DropdownIcon } from "../assets/icons";
+
+import { useLocation, Link } from "react-router-dom";
+
 const Navigation = () => {
+    const [expanded, setExpanded] = useState(false);
 
-    const [isOpen, setIsOpen] = useState(false);
+    const toggleExpanded = () => {
+        setExpanded(!expanded);
+    }
 
-    const togglenavigation = () => {
-        setIsOpen(!isOpen);
-    };
+    const NavigationButton = ({ name, icon, page }) => {
+        return (
+            <Link to={ page }>
+                <div id="page-navigation-line" className={ useLocation().pathname != page ? "inactive" : "active" }>
+                    { useLocation().pathname != page
+                        ? <></>
+                        : <Pointer id='page-navigation-pointer' /> }
 
-    return(
-        <div className={`navigation ${isOpen ? "open" : ""}`}>
-            <div id="pointer">
-                <img src="src/assets/svgs/pointer.svg" alt="" />
-            </div><div id="pages">
-                <div className={`page-line ${isOpen ? "open" : ""}`} >
-                    <div className="img-container">
-                        <img src="src/assets/svgs/dashboard.svg" alt="" id="active"/>
+                    <div id="page-navigation-img-container">
+                        { icon }
                     </div>
-                    <p>Dashboard</p>
+                    <p>
+                        { name }
+                    </p>
                 </div>
-                <div className={`page-line ${isOpen ? "open" : ""}`}>
-                    <div className="img-container">
-                        <img src="src/assets/svgs/calendar.svg" alt="" />
-                    </div>
-                    <p>Calander</p>
-                </div>
+            </Link>
+        );
+    }
+
+    return (
+        <div className={ `navigation ${ expanded ? "open" : "" }` }>
+            <div id="page-navigation">
+                <NavigationButton 
+                    name={ 'Dashboard' } 
+                    icon={ <Dashboard alt="" color={ "#292F36" } /> } 
+                    page={ "/" } 
+                />
+
+                <NavigationButton 
+                    name={ 'Calendar' } 
+                    icon={ <Calendar alt="" color={ "#292F36" } /> } 
+                    page={ "/calendar" } 
+                />
             </div>
-            <div id="dropdown-container" className="hover-interaction">
-                <button onClick={togglenavigation}>
-                    <img src="src/assets/svgs/dropdown.svg" alt="" className={`dropdown-navigation ${isOpen ? "open" : ""}`}/>
+
+            <div id="dropdown-container" className="cursor-pointer">
+                <button onClick={ toggleExpanded }>
+                    <DropdownIcon alt="" className={ `navigation-icon ${ expanded ? "open" : "" }` }/>
                 </button>
             </div>
         </div>

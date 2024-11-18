@@ -6,7 +6,7 @@ import {
     Pagination, Spinner, getKeyValue, DateRangePicker,
     Textarea
 } from "@nextui-org/react";
-const WeeklyView = () => {
+const Calendar = () => {
 
     return (
         <>
@@ -75,4 +75,4 @@ const WeeklyView = () => {
     );
 }
 
-export default WeeklyView;
+export default Calendar;

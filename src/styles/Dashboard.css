@@ -1,0 +1,70 @@
+#dashboard{
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 220px);
+}
+
+#dashboard-header{
+    display: flex;
+    align-items: center;
+    height: 20%;
+    width: 100%;
+    gap: 30px;
+    padding-left: 70px;
+}
+
+#dashboard-header-content{
+    display: flex;
+    align-items: baseline;
+    width: 100%;
+    gap: 30px;
+}
+
+#dashboard-body{
+    display: flex;
+    height: 80%;
+    width: 100%;
+    gap: 100px;
+}
+
+#main-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 95%;
+    width: 30%;
+    border: 1px solid var(--light-gray);
+    border-radius: 10px;
+    margin-left: 50px;
+}
+
+#card-row{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 10%;
+    justify-content: space-evenly;
+}
+
+#main-card-content{
+    height: 100%;
+    width: 70%;
+    background-color: var(--light-blue);
+    box-shadow: 2px 4px 4px 0px var(--light-gray);
+    border-radius: 10px;
+}
+
+#side-cards{
+    display: flex;
+    height: 95%;
+    width: 40%;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.side-card{
+    height: 48%;
+    width: 100%;
+    border-radius: 10px;
+    background-color: green;
+}
