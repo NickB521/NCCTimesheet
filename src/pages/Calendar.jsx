@@ -1,8 +1,8 @@
-import React, { useState, useCallback} from "react";
+import React, { useState, useCallback } from "react";
 import {
     Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, cn,
     Card, CardHeader, CardBody, CardFooter, Table,
-    TableHeader, TableBody, TableRow, TableColumn, TableCell, 
+    TableHeader, TableBody, TableRow, TableColumn, TableCell,
     Pagination, Spinner, getKeyValue, DateRangePicker,
     Textarea
 } from "@nextui-org/react";
@@ -20,7 +20,7 @@ const WeeklyView = () => {
                     <CardHeader>
                         <div className="tableCardHead">
                             <CardBody>
-                            <DateRangePicker></DateRangePicker>
+                                <DateRangePicker />
                             </CardBody>
                             {/* <Button className="tableCardButton" >Circle</Button> */}
                         </div>
@@ -28,15 +28,15 @@ const WeeklyView = () => {
                     <CardBody>
                         <Table>
                             <TableHeader>
-                                    <TableColumn></TableColumn>
-                                    <TableColumn>Monday</TableColumn>
-                                    <TableColumn>Tuesday</TableColumn>
-                                    <TableColumn>Wednesday</TableColumn>
-                                    <TableColumn>Thursday</TableColumn>
-                                    <TableColumn>Friday</TableColumn>
-                                    <TableColumn>Saturday</TableColumn>
-                                    <TableColumn>Sunday</TableColumn>
-                                    <TableColumn>Shift Note</TableColumn>
+                                <TableColumn></TableColumn>
+                                <TableColumn>Monday</TableColumn>
+                                <TableColumn>Tuesday</TableColumn>
+                                <TableColumn>Wednesday</TableColumn>
+                                <TableColumn>Thursday</TableColumn>
+                                <TableColumn>Friday</TableColumn>
+                                <TableColumn>Saturday</TableColumn>
+                                <TableColumn>Sunday</TableColumn>
+                                <TableColumn>Shift Note</TableColumn>
                             </TableHeader>
                             <TableBody>
                                 <TableRow>
