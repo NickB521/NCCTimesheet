@@ -190,10 +190,8 @@ body {
 
 #page-navigation-line {
   display: flex;
-
   cursor: pointer;
   align-items: center;
-
   transition: opacity 0.1s linear;
 }
 
