@@ -2,6 +2,7 @@ import "./styles/Dashboard.css"
 import './styles/App.css'
 import './styles/index.css'
 import './styles/Calendar.css'
+import './styles/SignIn.css'
 import Navigation from './components/Navigation';
 import Header from './components/Header';
 import Dashboard from "./pages/Dashboard";

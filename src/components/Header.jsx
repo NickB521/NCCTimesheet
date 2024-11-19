@@ -5,7 +5,7 @@ import {
 } from "@nextui-org/react";
 
 import React, { useState } from "react";
-import { useLocation } from 'react-router-dom'
+import { useLocation, Link } from "react-router-dom";
 
 import { Avatar, NotificationBadge, Seperator, Faq, Logout } from "../assets/icons/header";
 import { DropdownIcon } from "../assets/icons";
@@ -133,15 +133,18 @@ const Header = () => {
                             <DropdownIcon alt="" id="dropdown-header"/>
                         </div>
                     </DropdownTrigger>
-                    <DropdownMenu onAction={ (key) => alert(key) } variant="solid">
-                        <DropdownItem
-                            className="text-danger"
-                            color="danger"
-                            startContent={ <Logout/> }
-                        >
-                            Sign Out
-                        </DropdownItem>
+                    <Link to="/sign-in">
+                    <DropdownMenu variant="solid">
+                            <DropdownItem 
+                                id="page-navigation-line"
+                                className="text-danger"
+                                color="danger"
+                                startContent={ <Logout/> }
+                            >
+                                Sign Out
+                            </DropdownItem>
                     </DropdownMenu>
+                    </Link>
                 </Dropdown>
             </>
         );
