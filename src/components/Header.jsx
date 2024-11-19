@@ -27,7 +27,9 @@ const Header = () => {
 
     const FAQ = () => {
         return (
-            <Popover placement="bottom" showArrow={true}>
+            (useLocation().pathname == '/sign-in')
+            ? <></>
+            : <Popover placement="bottom" showArrow={true}>
                 <PopoverTrigger>
                     <span className="cursor-pointer navigation-utility-content">
                         <Faq size={26}></Faq>
@@ -46,7 +48,9 @@ const Header = () => {
 
     const Notification = () => {
         return(
-            <>
+            (useLocation().pathname == '/sign-in')
+            ? <></>
+            : <>
                 <Popover placement="bottom" showArrow={ true }>
                     <PopoverTrigger>
                         <span className="cursor-pointer navigation-utility-content">
@@ -118,7 +122,9 @@ const Header = () => {
 
     const Profile = () => {
         return(
-            <>
+            (useLocation().pathname == '/sign-in')
+            ? <></>
+            : <>
                 <Dropdown id="Dropdown">
                     <DropdownTrigger>
                         <div id="profile" className="cursor-pointer">
@@ -145,14 +151,18 @@ const Header = () => {
         <div id="header">
             <div id="header-title">
                 <img src="src/assets/logo.png" id="logo" />
-                <p>{ getPageName() }</p>
+                { (useLocation().pathname == '/sign-in')
+                ? <></>
+                : <p>{ getPageName() }</p> }
             </div>
 
             <div id="header-caption">
                 <div id="utilities">
                     <Notification/>
                     <FAQ />
-                    <Seperator id="barrier"/>
+                    { (useLocation().pathname == '/sign-in')
+                    ? <></>
+                    : <Seperator id="barrier"/> }
                 </div>
                 <div>
                     <Profile/>

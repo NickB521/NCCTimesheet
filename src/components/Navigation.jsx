@@ -6,6 +6,7 @@ import { DropdownIcon } from "../assets/icons";
 import { useLocation, Link } from "react-router-dom";
 
 const Navigation = () => {
+    console.log(useLocation().pathname)
     const [expanded, setExpanded] = useState(false);
 
     const toggleExpanded = () => {
@@ -32,7 +33,9 @@ const Navigation = () => {
     }
 
     return (
-        <div className={ `navigation ${ expanded ? "open" : "" }` }>
+        (useLocation().pathname == '/sign-in')
+        ? <></>
+        : <div className={ `navigation ${ expanded ? "open" : "" }` }>
             <div id="page-navigation">
                 <NavigationButton 
                     name={ 'Dashboard' } 
