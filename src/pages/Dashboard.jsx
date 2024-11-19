@@ -21,12 +21,12 @@ const Dashboard = () => {
         // fill out with side cards once I have the structure finished
     }
 
-    const CardRow = ({ icon1, icon2 }) => {
+    const CardRow = ({ icon1, icon2, content, message}) => {
         return (
             <div id="card-row">
                 {/* I'll make the size correct later */}
                 <Seperator />
-                <div id="main-card-content"></div>
+                <div id="main-card-content"> {content} {message}</div>
                 {icon1}
                 {icon2}
             </div>
@@ -38,17 +38,40 @@ const Dashboard = () => {
             <div id="dashboard-header" className="bg-red-100">
                 <div id="dashboard-header-content">
                     <p className="text-5xl" style={{fontSize:"48px"}}>Good {greeting}</p>
-                    <p className="text-2xl" style={{fontSize:"32px"}}>name</p>
+                    <p className="text-2xl" style={{fontSize:"32px"}}>Firstname</p>
                 </div>
             </div>
             <div id="dashboard-body">
                 <div id="main-card">
-                    <CardRow icon1={<Edit/>} icon2={<Forward/>}/>
+
+                    Timesheets
+                    <CardRow icon1={<Edit/>} icon2={<Forward/>} content ="{currentdate}" message="{currentperiod}"/>
+                    <CardRow icon1={<Edit/>} icon2={<Forward/>} content ="{currentdate}" message="{currentperiod}"/>
+                    <CardRow icon1={<Edit/>} icon2={<Forward/>} content ="{currentdate}" message="{currentperiod}"/>
+                    <CardRow icon1={<Edit/>} icon2={<Forward/>} content ="{currentdate}" message="{currentperiod}"/>
+
                 </div>
                 <div id="side-cards">
-                    <div className="side-card">
+                    <div className="side-card ">
+
+                 Announcements
+                  <CardRow content ="{Announcement #1}" message="{Message}"/>
+                  <CardRow content ="{Announcement #2}" message="{Message}"/>
+                  <CardRow content ="{Announcement #3}" message="{Message}"/>
+                  <CardRow content ="{Announcement #4}" message="{Message}"/>
+
                     </div>
                     <div className="side-card">
+                        Upcoming Holidays
+                        <CardRow/>
+                  <CardRow/>
+                  <CardRow/>
+                  <CardRow/>
+
+
+
+                  
+
                     </div>
                 </div>
             </div>

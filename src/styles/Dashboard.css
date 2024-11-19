@@ -41,7 +41,7 @@
 #card-row{
     display: flex;
     flex-direction: row;
-    width: 100%;
+    width: 80%;
     height: 10%;
     justify-content: space-evenly;
 }
@@ -52,6 +52,7 @@
     background-color: var(--light-blue);
     box-shadow: 2px 4px 4px 0px var(--light-gray);
     border-radius: 10px;
+    justify-content: space-between;
 }
 
 #side-cards{
@@ -66,5 +67,16 @@
     height: 48%;
     width: 100%;
     border-radius: 10px;
-    background-color: green;
+    background-color: orange;
+    position: relative; right: -200px;
 }
+
+#side-card-content{
+    height: 100%;
+    width: 70%;
+    background-color: var(--light-blue);
+    box-shadow: 2px 4px 4px 0px var(--light-gray);
+    border-radius: 10px;
+    justify-content: space-between;
+}
+
