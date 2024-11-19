@@ -6,7 +6,37 @@ import {
     Pagination, Spinner, getKeyValue, DateRangePicker,
     Textarea
 } from "@nextui-org/react";
+import { parseDate, getLocalTimeZone } from "@internationalized/date";
+import { useDateFormatter } from "@react-aria/i18n";
+
 const Calendar = () => {
+    const [week, setWeek] = useState({
+        start: "",
+        tuesday: "",
+        wednesday: "",
+        thursday: "",
+        friday: "",
+        saturday: "",
+        end: ""
+    });
+    const stuff = (input) => {
+        // for (const [key, value] of Object.entries(week)) {
+        //     if (key == "end") {
+        //         week.key = input.start.month + "/" + input.end.day
+        //         document.getElementById(key).innerHTML = ("Sunday " + week.key)
+        //     } else if (key == "start") {
+        //         week.key = input.start.month + "/" + input.start.day
+        //         document.getElementById(key).innerHTML = ("Monday " + week.key)
+        //     } else {
+        //         week.key = input.start.month + "/" + input.start.day
+        //         document.getElementById(key).innerHTML = (key[0].toUpperCase() + key.slice(1, key.length) + " " + week.key)
+        //         input.start.day += 1
+        //     }
+        // }
+
+
+        // setWeek(week);
+    }
 
     return (
         <>
@@ -20,22 +50,21 @@ const Calendar = () => {
                     <CardHeader>
                         <div className="tableCardHead">
                             <CardBody>
-                                <DateRangePicker />
+                                {/* <DateRangePicker aria-label="workWeekSelect" onChange={stuff} /> */}
                             </CardBody>
-                            {/* <Button className="tableCardButton" >Circle</Button> */}
                         </div>
                     </CardHeader>
                     <CardBody>
                         <Table>
                             <TableHeader>
                                 <TableColumn></TableColumn>
-                                <TableColumn>Monday</TableColumn>
-                                <TableColumn>Tuesday</TableColumn>
-                                <TableColumn>Wednesday</TableColumn>
-                                <TableColumn>Thursday</TableColumn>
-                                <TableColumn>Friday</TableColumn>
-                                <TableColumn>Saturday</TableColumn>
-                                <TableColumn>Sunday</TableColumn>
+                                <TableColumn id={"start"}>Monday</TableColumn>
+                                <TableColumn id={"tuesday"}>Tuesday</TableColumn>
+                                <TableColumn id={"wednesday"}>Wednesday</TableColumn>
+                                <TableColumn id={"thursday"}>Thursday</TableColumn>
+                                <TableColumn id={"friday"}>Friday</TableColumn>
+                                <TableColumn id={"saturday"}>Saturday</TableColumn>
+                                <TableColumn id={"end"}>Sunday</TableColumn>
                                 <TableColumn>Shift Note</TableColumn>
                             </TableHeader>
                             <TableBody>
