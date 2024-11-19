@@ -22,7 +22,8 @@
     font-weight: 600;
     padding: 10px 20px;
     color: var(--white);
-    border-bottom: 2px solid var(--yellow)
+    border-bottom: 2px solid var(--yellow);
+    margin-bottom: 5px;
 }
 
 .sign-in-input{
