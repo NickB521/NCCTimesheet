@@ -134,7 +134,7 @@ const Header = () => {
                         </div>
                     </DropdownTrigger>
                     <Link to="/sign-in">
-                    <DropdownMenu variant="solid">
+                        <DropdownMenu variant="solid">
                             <DropdownItem 
                                 id="page-navigation-line"
                                 className="text-danger"
@@ -143,7 +143,7 @@ const Header = () => {
                             >
                                 Sign Out
                             </DropdownItem>
-                    </DropdownMenu>
+                        </DropdownMenu>
                     </Link>
                 </Dropdown>
             </>

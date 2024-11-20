@@ -1,9 +1,10 @@
+/* Main Organization */
 #sign-in {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    width: 100%;
+    width: 100vw;
     background: linear-gradient(to right, var(--dark-blue) , var(--light-blue));
 }
 
@@ -14,6 +15,7 @@
     flex-direction: column;
     height: 100%;
     width: 15%;
+    margin-top: -80px;
     gap: 20px;
 }
 
@@ -26,6 +28,7 @@
     margin-bottom: 5px;
 }
 
+/* Ignore This Crappy stuff lol */
 .sign-in-input{
     min-height: 5%;
 }
@@ -39,7 +42,8 @@
     font-weight: 600 !important;
 }
 
-#sign-in-text-forgot, #sign-in-text-new{
+/* The Content's Organization */
+#sign-in-text{
     width: 100%;
     margin-top: -5px;
     color: var(--white);
@@ -49,14 +53,6 @@
     font-weight: 600;
 }
 
-#sign-in-text-forgot{
-    align-items: left;
-}
-
-#sign-in-text-new{
-    align-items: center;
-}
-
 #sign-in-button-div{
     display: flex;
     justify-content: center;
@@ -64,7 +60,7 @@
     width: 50%;
 }
 
-#sign-in-button-div > *{
+#sign-in-button{
     width: 100%;
     height: 100%;
     padding: 10px 15px;
@@ -72,6 +68,6 @@
     background-color: var(--yellow);
 }
 
-#sign-in-button-div > *:hover{
+#sign-in-button:hover{
     opacity: .95;
 }

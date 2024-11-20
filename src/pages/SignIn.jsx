@@ -4,6 +4,8 @@ import { User, Eye, EyeClosed, Lock } from "../assets/icons/sign-in";
 
 import { Input } from "@nextui-org/react";
 
+import { Link } from "react-router-dom";
+
 const SignIn = () => {
     const [isVisible, setIsVisible] = useState(false);
 
@@ -30,22 +32,24 @@ const SignIn = () => {
                             startContent={<Lock/>}
                             endContent={
                                 <button className="focus:outline-none" type="button" onClick={toggleVisibility} aria-label="toggle password visibility">
-                                {isVisible ? (
-                                    <Eye className="text-2xl text-default-400 pointer-events-none" />
-                                ) : (
-                                    <EyeClosed className="text-2xl text-default-400 pointer-events-none" />
-                                )}
+                                    {isVisible ? (
+                                        <Eye className="text-2xl text-default-400 pointer-events-none" />) 
+                                        : (
+                                        <EyeClosed className="text-2xl text-default-400 pointer-events-none" />)
+                                    }
                                 </button>
                             }
                         />
                     </div>
-                    <div id="sign-in-text-forgot">
+                    <div id="sign-in-text">
                         <p>Forgot Password?</p>
                     </div>
                     <div id="sign-in-button-div">
-                        <button>Sign In</button>
+                        <Link to="/" style={{width: "100%"}}>
+                            <button id="sign-in-button">Sign In</button>
+                        </Link>
                     </div>
-                    <div id="sign-in-text-new">
+                    <div id="sign-in-text" style={{alignItems: "center"}}>
                         <p>Sign Up Today!</p>
                     </div>
                 </div>
