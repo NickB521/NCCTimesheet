@@ -17,3 +17,7 @@
 .tableCardHead {
     display: flex;
 }
+#errorCode {
+    color: red;
+    font-weight: bold;
+}

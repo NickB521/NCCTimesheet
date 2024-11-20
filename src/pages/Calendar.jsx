@@ -1,41 +1,41 @@
 import React, { useState, useCallback } from "react";
 import {
-    Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, cn,
-    Card, CardHeader, CardBody, CardFooter, Table,
+    Button, Card, CardHeader, CardBody, Table,
     TableHeader, TableBody, TableRow, TableColumn, TableCell,
-    Pagination, Spinner, getKeyValue, DateRangePicker,
-    Textarea
+    Textarea, DatePicker
 } from "@nextui-org/react";
-import { parseDate, getLocalTimeZone } from "@internationalized/date";
-import { useDateFormatter } from "@react-aria/i18n";
+import {CalendarDate, getDayOfWeek } from "@internationalized/date";
 
 const Calendar = () => {
     const [week, setWeek] = useState({
-        start: "",
+        monday: "",
         tuesday: "",
         wednesday: "",
         thursday: "",
         friday: "",
         saturday: "",
-        end: ""
+        sunday: ""
     });
+
     const stuff = (input) => {
-        // for (const [key, value] of Object.entries(week)) {
-        //     if (key == "end") {
-        //         week.key = input.start.month + "/" + input.end.day
-        //         document.getElementById(key).innerHTML = ("Sunday " + week.key)
-        //     } else if (key == "start") {
-        //         week.key = input.start.month + "/" + input.start.day
-        //         document.getElementById(key).innerHTML = ("Monday " + week.key)
-        //     } else {
-        //         week.key = input.start.month + "/" + input.start.day
-        //         document.getElementById(key).innerHTML = (key[0].toUpperCase() + key.slice(1, key.length) + " " + week.key)
-        //         input.start.day += 1
-        //     }
-        // }
+        const date = new CalendarDate(input.year, input.month, input.day);
+        if (getDayOfWeek(date, "en-US") == 1) {
+            for (const [key, value] of Object.entries(week)) {
+                if (key != "key") {
+                    week.key = input.month + "/" + input.day
+                    console.log(key)
+                    document.getElementById(key).innerHTML = week.key
+                    input.day += 1
+                }
+            }
+            input.day -= 7
+            console.log(input)
+            setWeek(week);
+            document.getElementById("errorCode").innerHTML = "";
+        } else {
+            document.getElementById("errorCode").innerHTML = "Please select a monday!";
+        }
 
-
-        // setWeek(week);
     }
 
     return (
@@ -50,7 +50,8 @@ const Calendar = () => {
                     <CardHeader>
                         <div className="tableCardHead">
                             <CardBody>
-                                {/* <DateRangePicker aria-label="workWeekSelect" onChange={stuff} /> */}
+                                <DatePicker aria-label="workWeekSelect" id="workWeekSelect" onChange={stuff} />
+                                <div id={"errorCode"}></div>
                             </CardBody>
                         </div>
                     </CardHeader>
@@ -58,13 +59,13 @@ const Calendar = () => {
                         <Table>
                             <TableHeader>
                                 <TableColumn></TableColumn>
-                                <TableColumn id={"start"}>Monday</TableColumn>
-                                <TableColumn id={"tuesday"}>Tuesday</TableColumn>
-                                <TableColumn id={"wednesday"}>Wednesday</TableColumn>
-                                <TableColumn id={"thursday"}>Thursday</TableColumn>
-                                <TableColumn id={"friday"}>Friday</TableColumn>
-                                <TableColumn id={"saturday"}>Saturday</TableColumn>
-                                <TableColumn id={"end"}>Sunday</TableColumn>
+                                <TableColumn> Monday <div id={"monday"}></div></TableColumn>
+                                <TableColumn>Tuesday <div id={"tuesday"}></div></TableColumn>
+                                <TableColumn>Wednesday <div id={"wednesday"}></div></TableColumn>
+                                <TableColumn>Thursday <div id={"thursday"}></div></TableColumn>
+                                <TableColumn>Friday <div id={"friday"}></div></TableColumn>
+                                <TableColumn>Saturday <div id={"saturday"}></div></TableColumn>
+                                <TableColumn>Sunday <div id={"sunday"}></div></TableColumn>
                                 <TableColumn>Shift Note</TableColumn>
                             </TableHeader>
                             <TableBody>
