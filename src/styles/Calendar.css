@@ -8,7 +8,9 @@
     width: 85%;
 }
 .headerCard {
-    height: 5%;
+    text-align: center;
+    color: black;
+    font-weight: bold;
     margin-bottom: 5px;
 }
 .tableCard {
