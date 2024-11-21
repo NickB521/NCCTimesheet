@@ -33,7 +33,7 @@ const Calendar = () => {
             setWeek(week);
             document.getElementById("errorCode").innerHTML = "";
         } else {
-            document.getElementById("errorCode").innerHTML = "Please select a monday!";
+            document.getElementById("errorCode").innerHTML = "Please select a Monday!";
         }
 
     }
