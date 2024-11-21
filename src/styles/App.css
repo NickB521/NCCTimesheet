@@ -11,11 +11,11 @@
 /* Global Styles */
 * {
   outline: none !important;
+  font-family: "Inter", serif;
 }
 
 html {
   overflow: hidden;
-  font-family: "Inter", serif;
 }
 
 body {
