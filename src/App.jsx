@@ -6,7 +6,6 @@ import Navigation from "./components/Navigation";
 import Header from "./components/Header";
 import Dashboard from "./pages/Dashboard";
 
-import Dashboard from "./pages/Dashboard";
 import Calendar from "./pages/Calendar";
 
 import { Routes, Route } from "react-router-dom";
