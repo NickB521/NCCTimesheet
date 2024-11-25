@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Edit, Forward } from "../assets/icons/dashboard";
+import { Edit, Forward, Seperator } from "../assets/icons/dashboard";
+
+const Widget = ({ date, content }) => (
+  <div id="card-row">
+    <Seperator></Seperator>
+    <div className="flex-1 text-white" id="card-row-content" style={{}}>
+      <p className="font-semibold">{date}</p>
+      <p>{content}</p>
+    </div>
+  </div>
+);
 
 const Dashboard = () => {
     const [greeting, setGreeting] = useState('');
@@ -45,13 +55,32 @@ const Dashboard = () => {
                     {/* <CardRow icon1={<Edit/>} icon2={<Forward/>}/> */}
                 </div>
                 <div id="side-cards">
-                    <div className="side-card">
+                  <div className="side-card">
+                      <h1 style={{fontSize: "24px", fontWeight: "600", padding: "15px 0px 10px"}}>Upcoming Holidays</h1>
+                      <Widget date="01/01/2024" content="New Year's Day" />
+                      <Widget date="01/01/2024" content="New Year's Day" />
+                      <Widget date="01/01/2024" content="New Year's Day" />
+                      <Widget date="01/01/2024" content="New Year's Day" />
                     </div>
-                    <div className="side-card">
+                   <div className="side-card">
+                      <h1 style={{fontSize: "24px", fontWeight: "600", padding: "15px 0px 10px"}}>Upcoming Holidays</h1>
+                      <Widget date="01/01/2024" content="New Year's Day" />
+                      <Widget date="01/01/2024" content="New Year's Day" />
+                      <Widget date="01/01/2024" content="New Year's Day" />
+                      <Widget date="01/01/2024" content="New Year's Day" />
+                    </div><div className="side-card">
+                      <h1 style={{fontSize: "24px", fontWeight: "600", padding: "15px 0px 10px"}}>Upcoming Holidays</h1>
+                      <Widget date="01/01/2024" content="New Year's Day" />
+                      <Widget date="01/01/2024" content="New Year's Day" />
+                      <Widget date="01/01/2024" content="New Year's Day" />
+                      <Widget date="01/01/2024" content="New Year's Day" />
                     </div>
-                    <div className="side-card">
-                    </div>
-                    <div className="side-card">
+                   <div className="side-card">
+                      <h1 style={{fontSize: "24px", fontWeight: "600", padding: "15px 0px 10px"}}>Upcoming Holidays</h1>
+                      <Widget date="01/01/2024" content="New Year's Day" />
+                      <Widget date="01/01/2024" content="New Year's Day" />
+                      <Widget date="01/01/2024" content="New Year's Day" />
+                      <Widget date="01/01/2024" content="New Year's Day" />
                     </div>
                 </div>
             </div>
