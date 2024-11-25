@@ -19,14 +19,11 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div
-      id="dashboard"
-      className="p-6 bg-gray-100 min-h-screen flex flex-col"
-    >
+    <div id="dashboard" className="p-6 bg-gray-100 min-h-screen flex flex-col">
       {/* Header */}
       <div className="mb-6">
         <p className="text-4xl font-bold text-gray-700">
-          Good {greeting} Name
+          Good {greeting}, {name || "Name"}
         </p>
       </div>
 
@@ -47,9 +44,7 @@ const Dashboard = () => {
             </div>
             {/* Previous Timesheets */}
             <div className="mt-6">
-              <h3 className="text-lg font-semibold mb-4">
-                Previous Timesheets
-              </h3>
+              <h3 className="text-lg font-semibold mb-4">Previous Timesheets</h3>
               <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                 <TimesheetCard
                   date="2023-11-12"
@@ -73,23 +68,23 @@ const Dashboard = () => {
             </div>
             {/* View All Timesheets Button */}
             <button
-  style={{
-    marginTop: "22px",
-    backgroundColor: "#1E40AF",
-    color: "white",
-    fontWeight: "600",
-    padding: "8px 16px",
-    borderRadius: "4px",
-    border: "none",
-    cursor: "pointer",
-    display: "block",   
-    margin: "0 auto",
-  }}
-  onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#2563EB")}
-  onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#1E40AF")}
->
-  View All Timesheets
-</button>
+              style={{
+                marginTop: "22px",
+                backgroundColor: "#1E40AF",
+                color: "white",
+                fontWeight: "600",
+                padding: "8px 16px",
+                borderRadius: "4px",
+                border: "none",
+                cursor: "pointer",
+                display: "block",   
+                margin: "0 auto",
+              }}
+              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#2563EB")}
+              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#1E40AF")}
+            >
+              View All Timesheets
+            </button>
           </div>
         </div>
 
@@ -99,9 +94,9 @@ const Dashboard = () => {
           <div className="bg-white p-4 shadow rounded-lg flex-1">
             <h2 className="text-lg font-semibold mb-4">Announcements</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              <AnnouncementCard message="(Message)" date="11/20/2023" />
-              <AnnouncementCard message="(Message)" date="11/18/2023" />
-              <AnnouncementCard message="(Message)" date="11/15/2023" />
+              <Card message="(Message)" date="11/20/2023" />
+              <Card message="(Message)" date="11/18/2023" />
+              <Card message="(Message)" date="11/15/2023" />
             </div>
           </div>
 
@@ -109,9 +104,9 @@ const Dashboard = () => {
           <div className="bg-white p-4 shadow rounded-lg flex-1">
             <h2 className="text-lg font-semibold mb-4">Upcoming Holidays</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              <HolidayCard date="11/23/2023" name="Thanksgiving" />
-              <HolidayCard date="12/25/2023" name="Christmas" />
-              <HolidayCard date="01/01/2024" name="New Year's Day" />
+              <Card date="11/23/2023" name="Thanksgiving" />
+              <Card date="12/25/2023" name="Christmas" />
+              <Card date="01/01/2024" name="New Year's Day" />
             </div>
           </div>
         </div>
@@ -121,18 +116,11 @@ const Dashboard = () => {
 };
 
 const TimesheetCard = ({ date, hours, status, icons }) => (
-  <div
-    className="flex items-center p-4 shadow relative"
-    style={{ backgroundColor: "#084c83", borderRadius: "10px" }}
-  >
-    <Seperator
-      style={{ marginRight: "16px", backgroundColor: "#FFC107" }}
-    />
+  <div className="flex items-center p-4 shadow relative" style={{ backgroundColor: "#084c83", borderRadius: "10px" }}>
+    <Seperator style={{ marginRight: "16px", backgroundColor: "#FFC107" }} />
     <div className="flex-1 text-white">
       <p className="font-semibold">{date}</p>
-      <p>
-        {hours} Hours - {status}
-      </p>
+      <p>{hours} Hours - {status}</p>
     </div>
     <div className="flex space-x-2">
       {icons.map((icon, index) => (
@@ -144,32 +132,12 @@ const TimesheetCard = ({ date, hours, status, icons }) => (
   </div>
 );
 
-const AnnouncementCard = ({ date, message }) => (
-  <div
-    className="flex items-center p-4 shadow"
-    style={{ backgroundColor: "#084c83", borderRadius: "10px" }}
-  >
-    <Seperator
-      style={{ marginRight: "16px", backgroundColor: "#FFC107" }}
-    />
+const Card = ({ date, message, name }) => (
+  <div className="flex items-center p-4 shadow" style={{ backgroundColor: "#084c83", borderRadius: "10px" }}>
+    <Seperator style={{ marginRight: "16px", backgroundColor: "#FFC107" }} />
     <div className="flex-1 text-white">
       <p className="font-semibold">{date}</p>
-      <p>{message}</p>
-    </div>
-  </div>
-);
-
-const HolidayCard = ({ date, name }) => (
-  <div
-    className="flex items-center p-4 shadow"
-    style={{ backgroundColor: "#084c83", borderRadius: "10px" }}
-  >
-    <Seperator
-      style={{ marginRight: "16px", backgroundColor: "#FFC107" }}
-    />
-    <div className="flex-1 text-white">
-      <p className="font-semibold">{date}</p>
-      <p>{name}</p>
+      <p>{message || name}</p>
     </div>
   </div>
 );
