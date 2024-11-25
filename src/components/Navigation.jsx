@@ -33,7 +33,7 @@ const Navigation = () => {
     }
 
     return (
-        (useLocation().pathname == '/sign-in')
+        (useLocation().pathname == '/sign-in' || useLocation().pathname == '/sign-up')
         ? <></>
         : <div className={ `navigation ${ expanded ? "open" : "" }` }>
             <div id="page-navigation">

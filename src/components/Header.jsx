@@ -27,7 +27,7 @@ const Header = () => {
 
     const FAQ = () => {
         return (
-            (useLocation().pathname == '/sign-in')
+            (useLocation().pathname == '/sign-in' || useLocation().pathname == '/sign-up')
             ? <></>
             : <Popover placement="bottom" showArrow={true}>
                 <PopoverTrigger>
@@ -48,7 +48,7 @@ const Header = () => {
 
     const Notification = () => {
         return(
-            (useLocation().pathname == '/sign-in')
+            (useLocation().pathname == '/sign-in' || useLocation().pathname == '/sign-up')
             ? <></>
             : <>
                 <Popover placement="bottom" showArrow={ true }>
@@ -122,7 +122,7 @@ const Header = () => {
 
     const Profile = () => {
         return(
-            (useLocation().pathname == '/sign-in')
+            (useLocation().pathname == '/sign-in' || useLocation().pathname == '/sign-up')
             ? <></>
             : <>
                 <Dropdown id="Dropdown">
@@ -154,7 +154,7 @@ const Header = () => {
         <div id="header">
             <div id="header-title">
                 <img src="src/assets/logo.png" id="logo" />
-                { (useLocation().pathname == '/sign-in')
+                { (useLocation().pathname == '/sign-in' || useLocation().pathname == '/sign-up')
                 ? <></>
                 : <p>{ getPageName() }</p> }
             </div>
@@ -163,7 +163,7 @@ const Header = () => {
                 <div id="utilities">
                     <Notification/>
                     <FAQ />
-                    { (useLocation().pathname == '/sign-in')
+                    { (useLocation().pathname == '/sign-in' || useLocation().pathname == '/sign-up')
                     ? <></>
                     : <Seperator id="barrier"/> }
                 </div>
