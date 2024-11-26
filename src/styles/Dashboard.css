@@ -31,6 +31,7 @@
     flex-direction: column;
     align-items: center;
     height: 95%;
+    min-height: fit-content;
     width: 60%;
     border: 1px solid var(--light-gray);
     box-shadow: 2px 4px 4px 0px var(--light-gray);
@@ -62,8 +63,7 @@
 }
 
 .side-card {
-    height: 445px;
-    max-height: 445px;
+    height: 100%;
     width: 100%;
     border: 1px solid var(--light-gray);
     box-shadow: 2px 4px 4px 0px var(--light-gray);
@@ -72,7 +72,6 @@
     flex-direction: column;
     align-items: center;
     gap: 2px;
-    overflow-y: auto;
 }
 
 #card-row{
@@ -94,7 +93,7 @@
 }
 
 #timesheet-button{
-    margin-top: 10px;
+    margin-top: 5px;
     padding: 10px 20px;
     border-radius: 10px;
     background: var(--light-blue);
