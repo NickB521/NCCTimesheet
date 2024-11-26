@@ -1,14 +1,35 @@
 import React, { useState, useEffect } from "react";
-import { Edit, Forward, Seperator } from "../assets/icons/dashboard";
+import { Edit, Forward, Success, Denied, Seperator } from "../assets/icons/dashboard";
 
 const Widget = ({ date, content }) => (
   <div id="card-row">
-    <Seperator></Seperator>
-    <div className="flex-1 text-white" id="card-row-content" style={{}}>
+    <Seperator/>
+    <div className="flex-1 text-white" id="card-row-content">
       <p className="font-semibold">{date}</p>
       <p>{content}</p>
     </div>
   </div>
+);
+
+const TimesheetCard = ({ date, hours, icon }) => (
+  <div id="card-row">
+    <Seperator/>
+    <div className="flex-1 text-white" id="card-row-content" style={{display:"flex"}}>
+      <div className="flex-1 text-white">
+        <p className="font-semibold">{date}</p>
+        <p>{hours} Hours</p>
+      </div>
+      <button className="text-white" style={{display:"flex", justifyContent:"Right", alignItems:"center", transform:"rotate(90deg)"}}>
+        <Forward/>
+      </button>
+    </div>
+    <div className="flex space-x-2">
+      <button className="text-white">
+        {icon}
+      </button>
+    </div>
+  </div>
+  
 );
 
 const Dashboard = () => {
@@ -27,62 +48,68 @@ const Dashboard = () => {
         }
     }, []);
 
-    const SideCards = () => {
-        // fill out with side cards once I have the structure finished
-    }
-
-    const CardRow = ({ icon1, icon2 }) => {
-        return (
-            <div id="card-row">
-                {/* I'll make the size correct later */}
-                <div id="main-card-content"></div>
-                {icon1}
-                {icon2}
-            </div>
-        );
-    };
-
     return (
         <div id="dashboard">
             <div id="dashboard-header" className="bg-red-100">
                 <div id="dashboard-header-content">
-                    <p className="text-5xl" style={{fontSize:"48px"}}>Good {greeting}</p>
+                    <p className="text-5xl" style={{fontSize:"48px"}}>Good {greeting}!</p>
                     <p className="text-2xl" style={{fontSize:"32px"}}>name</p>
                 </div>
             </div>
             <div id="dashboard-body">
-                <div id="main-card">
-                    {/* <CardRow icon1={<Edit/>} icon2={<Forward/>}/> */}
+              <div id="main-card">
+                <h1 style={{fontSize: "36px", fontWeight: "600", padding: "15px 0px 10px"}}>Timesheets</h1>
+                <h1 style={{fontSize: "24px", fontWeight: "600", padding: "15px 0px 10px"}}>Recent Timesheets</h1>
+                <TimesheetCard
+                  date="2023-11-19"
+                  hours="40"
+                  status="Current"
+                  icon={<Edit/>}
+                />
+                <h1 style={{fontSize: "24px", fontWeight: "600", padding: "15px 0px 10px"}}>Past Timesheets</h1>
+                <TimesheetCard
+                  date="2023-11-12"
+                  hours="40"
+                  status="Declined"
+                  icon={<Denied/>}
+                />
+                <TimesheetCard
+                  date="2023-11-05"
+                  hours="35"
+                  status="Approved"
+                  icon={<Success/>}
+                />
+              </div>
+              <div id="side-cards">
+                <div className="side-card">
+                  <h1 style={{fontSize: "24px", fontWeight: "600", padding: "15px 0px 10px"}}>Upcoming Holidays</h1>
+                  <Widget date="01/01/2024" content="New Year's Day" />
+                  <Widget date="01/01/2024" content="New Year's Day" />
+                  <Widget date="01/01/2024" content="New Year's Day" />
+                  <Widget date="01/01/2024" content="New Year's Day" />
                 </div>
-                <div id="side-cards">
+                <div className="side-card">
+                  <h1 style={{fontSize: "24px", fontWeight: "600", padding: "15px 0px 10px"}}>Upcoming Holidays</h1>
+                  <Widget date="01/01/2024" content="New Year's Day" />
+                  <Widget date="01/01/2024" content="New Year's Day" />
+                  <Widget date="01/01/2024" content="New Year's Day" />
+                  <Widget date="01/01/2024" content="New Year's Day" />
+                </div>
+                <div className="side-card">
+                  <h1 style={{fontSize: "24px", fontWeight: "600", padding: "15px 0px 10px"}}>Upcoming Holidays</h1>
+                  <Widget date="01/01/2024" content="New Year's Day" />
+                  <Widget date="01/01/2024" content="New Year's Day" />
+                  <Widget date="01/01/2024" content="New Year's Day" />
+                  <Widget date="01/01/2024" content="New Year's Day" />
+                </div>
                   <div className="side-card">
-                      <h1 style={{fontSize: "24px", fontWeight: "600", padding: "15px 0px 10px"}}>Upcoming Holidays</h1>
-                      <Widget date="01/01/2024" content="New Year's Day" />
-                      <Widget date="01/01/2024" content="New Year's Day" />
-                      <Widget date="01/01/2024" content="New Year's Day" />
-                      <Widget date="01/01/2024" content="New Year's Day" />
-                    </div>
-                   <div className="side-card">
-                      <h1 style={{fontSize: "24px", fontWeight: "600", padding: "15px 0px 10px"}}>Upcoming Holidays</h1>
-                      <Widget date="01/01/2024" content="New Year's Day" />
-                      <Widget date="01/01/2024" content="New Year's Day" />
-                      <Widget date="01/01/2024" content="New Year's Day" />
-                      <Widget date="01/01/2024" content="New Year's Day" />
-                    </div><div className="side-card">
-                      <h1 style={{fontSize: "24px", fontWeight: "600", padding: "15px 0px 10px"}}>Upcoming Holidays</h1>
-                      <Widget date="01/01/2024" content="New Year's Day" />
-                      <Widget date="01/01/2024" content="New Year's Day" />
-                      <Widget date="01/01/2024" content="New Year's Day" />
-                      <Widget date="01/01/2024" content="New Year's Day" />
-                    </div>
-                   <div className="side-card">
-                      <h1 style={{fontSize: "24px", fontWeight: "600", padding: "15px 0px 10px"}}>Upcoming Holidays</h1>
-                      <Widget date="01/01/2024" content="New Year's Day" />
-                      <Widget date="01/01/2024" content="New Year's Day" />
-                      <Widget date="01/01/2024" content="New Year's Day" />
-                      <Widget date="01/01/2024" content="New Year's Day" />
-                    </div>
-                </div>
+                    <h1 style={{fontSize: "24px", fontWeight: "600", padding: "15px 0px 10px"}}>Upcoming Holidays</h1>
+                    <Widget date="01/01/2024" content="New Year's Day" />
+                    <Widget date="01/01/2024" content="New Year's Day" />
+                    <Widget date="01/01/2024" content="New Year's Day" />
+                    <Widget date="01/01/2024" content="New Year's Day" />
+                  </div>
+              </div>
             </div>
         </div>
     );
