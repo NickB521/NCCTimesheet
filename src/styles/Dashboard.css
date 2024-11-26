@@ -92,3 +92,12 @@
     color: white;
     margin-left: -20px;
 }
+
+#timesheet-button{
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background: var(--light-blue);
+    color: white;
+    font-weight: 600;
+}
