@@ -1,7 +1,7 @@
 #dashboard {
     display: flex;
     flex-direction: column;
-    width: calc(100% - 220px);
+    width: 100%;
 }
 
 #dashboard-header {
@@ -24,26 +24,27 @@
     height: 80%;
     width: calc(100% - 20px);
     gap: 20px;
+    height: auto;
 }
 
 #main-card {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 95%;
-    min-height: fit-content;
+    height: 100%;
     width: 60%;
     border: 1px solid var(--light-gray);
     box-shadow: 2px 4px 4px 0px var(--light-gray);
     margin-left: 20px;
+    padding-bottom: 20px;
 }
 
 #card-row {
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly;
     width: 100%;
     height: 10%;
-    justify-content: space-evenly;
 }
 
 #main-card-content {
@@ -58,12 +59,11 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    height: 95%;
+    height: 100%;
     width: 100%;
 }
 
 .side-card {
-    height: 100%;
     width: 100%;
     border: 1px solid var(--light-gray);
     box-shadow: 2px 4px 4px 0px var(--light-gray);
@@ -72,6 +72,13 @@
     flex-direction: column;
     align-items: center;
     gap: 2px;
+}
+
+.side-card h1{
+    font-size: 24px;
+    font-weight: 600;
+    padding: 15px 0px 10px;
+    text-align: center;
 }
 
 #card-row{
@@ -93,7 +100,7 @@
 }
 
 #timesheet-button{
-    margin-top: 5px;
+    margin-top: 10px;
     padding: 10px 20px;
     border-radius: 10px;
     background: var(--light-blue);

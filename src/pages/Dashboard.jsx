@@ -49,14 +49,14 @@ const Dashboard = () => {
     }, []);
 
     return (
-        <div id="dashboard">
+        <div id="dashboard" >
             <div id="dashboard-header" className="bg-red-100">
                 <div id="dashboard-header-content">
                     <p className="text-5xl" style={{fontSize:"48px"}}>Good {greeting}!</p>
                     <p className="text-2xl" style={{fontSize:"32px"}}>name</p>
                 </div>
             </div>
-            <div id="dashboard-body" style={{overflowY: "auto"}}>
+            <div id="dashboard-body">
               <div id="main-card">
                 <h1 style={{fontSize: "36px", fontWeight: "600", padding: "15px 0px 10px"}}>Timesheets</h1>
                 <h1 style={{fontSize: "24px", fontWeight: "600", padding: "15px 0px 10px"}}>Recent Timesheets</h1>
@@ -107,28 +107,28 @@ const Dashboard = () => {
               </div>
               <div id="side-cards">
                 <div className="side-card">
-                  <h1 style={{fontSize: "24px", fontWeight: "600", padding: "15px 0px 10px"}}>Upcoming Holidays</h1>
+                  <h1>Upcoming Holidays</h1>
                   <Widget date="01/01/2024" content="New Year's Day" />
                   <Widget date="01/01/2024" content="New Year's Day" />
                   <Widget date="01/01/2024" content="New Year's Day" />
                   <Widget date="01/01/2024" content="New Year's Day" />
                 </div>
                 <div className="side-card">
-                  <h1 style={{fontSize: "24px", fontWeight: "600", padding: "15px 0px 10px"}}>Upcoming Holidays</h1>
+                  <h1>Upcoming Holidays</h1>
                   <Widget date="01/01/2024" content="New Year's Day" />
                   <Widget date="01/01/2024" content="New Year's Day" />
                   <Widget date="01/01/2024" content="New Year's Day" />
                   <Widget date="01/01/2024" content="New Year's Day" />
                 </div>
                 <div className="side-card">
-                  <h1 style={{fontSize: "24px", fontWeight: "600", padding: "15px 0px 10px"}}>Upcoming Holidays</h1>
+                  <h1>Upcoming Holidays</h1>
                   <Widget date="01/01/2024" content="New Year's Day" />
                   <Widget date="01/01/2024" content="New Year's Day" />
                   <Widget date="01/01/2024" content="New Year's Day" />
                   <Widget date="01/01/2024" content="New Year's Day" />
                 </div>
                 <div className="side-card">
-                  <h1 style={{fontSize: "24px", fontWeight: "600", padding: "15px 0px 10px"}}>Upcoming Holidays</h1>
+                  <h1>Upcoming Holidays</h1>
                   <Widget date="01/01/2024" content="New Year's Day" />
                   <Widget date="01/01/2024" content="New Year's Day" />
                   <Widget date="01/01/2024" content="New Year's Day" />

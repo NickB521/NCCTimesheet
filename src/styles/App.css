@@ -14,20 +14,27 @@
 }
 
 html {
-  overflow: hidden;
   font-family: "Inter", serif;
+  overflow-x: hidden;
+  background: var(--background);
 }
 
 body {
   margin: 0;
   padding: 0;
   display: flex;
-  background: var(--background);
+}
+
+#content-wrapper-wrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
 }
 
 #content-wrapper {
   display: flex;
   flex-direction: row;
+  width: calc(100% - 220px);
 }
 
 /* Header */
@@ -38,6 +45,10 @@ body {
   border-bottom: 1px solid var(--light-gray);
   display: flex;
   justify-content: space-between;
+  position: sticky;
+  align-self: flex-start;
+  top: 0;
+  overflow-y: auto;
 }
 
 #header-title, #header-caption {
@@ -158,6 +169,8 @@ body {
   flex-direction: column;
   justify-content: space-between;
   transition: 0.35s ease-in-out;
+  top: 80px;
+  position: sticky;
 }
 
 .navigation.open {
