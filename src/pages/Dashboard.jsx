@@ -1,14 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { Edit, Forward, Success, Denied, Seperator } from "../assets/icons/dashboard";
-
+import { Tooltip } from "@nextui-org/react";
 
 const Widget = ({ date, content }) => (
   <div id="card-row">
     <Seperator/>
-    <div className="flex-1 text-white" id="card-row-content">
-      <p className="font-semibold">{date}</p>
-      <p>{content}</p>
-    </div>
+    <Tooltip
+      isDisabled={content.length < 25}
+      showArrow
+      placement="right"
+      offset={25}
+      closeDelay={0}
+      content={
+          <div className="px-1 py-2">
+              <div className="text-small text-center" style={{paddingBottom: "5px", fontWeight: "600"}}>{date}</div>
+              <div className="text-tiny text-left break-words pt-5 rounded-md" style={{ width: "125px" }}>
+                  {content}
+              </div>
+          </div>
+      }
+    >
+      <div className="flex-1 text-white" id="card-row-content">
+        <p className="font-semibold">{date}</p>
+        <p>{content.length > 25 ? `${content.substring(0, 25)}...` : content}</p>
+      </div>
+    </Tooltip>
   </div>
 );
 
@@ -121,18 +137,18 @@ const Dashboard = () => {
                   <Widget date="01/01/2024" content="New Year's Day" />
                 </div>
                 <div className="side-card">
-                  <h1>Upcoming Holidays</h1>
-                  <Widget date="01/01/2024" content="New Year's Day" />
-                  <Widget date="01/01/2024" content="New Year's Day" />
-                  <Widget date="01/01/2024" content="New Year's Day" />
-                  <Widget date="01/01/2024" content="New Year's Day" />
+                  <h1>Contact Information</h1>
+                  <div>
+                    <h2>Worksite Supervisor</h2>
+                    <p>Supervisor 1</p>
+                  </div>
                 </div>
                 <div className="side-card">
-                  <h1>Upcoming Holidays</h1>
-                  <Widget date="01/01/2024" content="New Year's Day" />
-                  <Widget date="01/01/2024" content="New Year's Day" />
-                  <Widget date="01/01/2024" content="New Year's Day" />
-                  <Widget date="01/01/2024" content="New Year's Day" />
+                  <h1>Announcements</h1>
+                  <Widget date="06/02/2024" content="NCCVT - Mandatory PD Training, Zoom Link In Email" />
+                  <Widget date="08/21/2024" content="Supervisor 1 - PD Days Wed/Thur" />
+                  <Widget date="09/18/2024" content="Day Off Tomorrow" />
+                  <Widget date="10/15/2024" content="Shift Availible For Pickup" />
                 </div>
               </div>
             </div>

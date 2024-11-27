@@ -22,7 +22,7 @@
 #dashboard-body {
     display: flex;
     height: 80%;
-    width: calc(100% - 20px);
+    width: 90%;
     gap: 20px;
     height: auto;
 }
@@ -36,6 +36,7 @@
     border: 1px solid var(--light-gray);
     box-shadow: 2px 4px 4px 0px var(--light-gray);
     margin-left: 20px;
+    border-radius: 10px;
     padding-bottom: 20px;
 }
 
@@ -72,6 +73,7 @@
     flex-direction: column;
     align-items: center;
     gap: 2px;
+    padding-bottom: 13px;
 }
 
 .side-card h1{
