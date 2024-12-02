@@ -2,46 +2,100 @@ import React, { useState, useEffect } from "react";
 import { Edit, Forward, Success, Denied, Seperator } from "../assets/icons/dashboard";
 import { Tooltip } from "@nextui-org/react";
 
-const Widget = ({ date, content }) => (
-  <div id="card-row">
-    <Seperator/>
-    <Tooltip
-      isDisabled={content.length < 25}
-      showArrow
-      placement="right"
-      offset={25}
-      closeDelay={0}
-      content={
-          <div className="px-1 py-2">
-              <div className="text-small text-center" style={{paddingBottom: "5px", fontWeight: "600"}}>{date}</div>
-              <div className="text-tiny text-left break-words pt-5 rounded-md" style={{ width: "125px" }}>
-                  {content}
-              </div>
-          </div>
+const Widget = ({ date, content }) => {
+  const [maxChars, setMaxChars] = useState(25);
+
+  useEffect(() => {
+    const updateMaxChars = () => {
+      const screenWidth = window.innerWidth;
+
+      if (screenWidth < 950) {
+        setMaxChars(5);
+      } 
+      else if (screenWidth < 1100) {
+        setMaxChars(10);
+      } 
+      else if (screenWidth < 1350) {
+        setMaxChars(15);
+      } 
+      else if (screenWidth < 1600) {
+        setMaxChars(20);
+      } 
+      else if (screenWidth < 1750) {
+        setMaxChars(30);
+      } 
+      else if (screenWidth < 1950) {
+        setMaxChars(40);
+      } 
+      else {
+        setMaxChars(50);
       }
-    >
-      <div className="flex-1 text-white" id="card-row-content">
-        <p className="font-semibold">{date}</p>
-        <p>{content.length > 25 ? `${content.substring(0, 25)}...` : content}</p>
-      </div>
-    </Tooltip>
-  </div>
-);
+    };
+
+    updateMaxChars();
+    window.addEventListener("resize", updateMaxChars);
+
+    return () => {
+      window.removeEventListener("resize", updateMaxChars);
+    };
+  }, []);
+
+  const isOverflowing = content.length > maxChars;
+
+  return (
+    <div id="card-row">
+      <Seperator />
+      <Tooltip
+        isDisabled={!isOverflowing}
+        showArrow
+        placement="right"
+        offset={25}
+        closeDelay={0}
+        content={
+          <div className="px-1 py-2">
+            <div
+              className="text-small text-center"
+              style={{ paddingBottom: "5px", fontWeight: "600" }}
+            >
+              {date}
+            </div>
+            <div
+              className="text-tiny text-left break-words pt-5 rounded-md"
+              style={{ width: "125px" }}
+            >
+              {content}
+            </div>
+          </div>
+        }
+      >
+        <div className="flex-1 text-white" id="card-row-content">
+          <p className="font-semibold">{date}</p>
+          <p>
+            {isOverflowing ? `${content.substring(0, maxChars)}...` : content}
+          </p>
+        </div>
+      </Tooltip>
+    </div>
+  );
+};
 
 const TimesheetCard = ({ date, hours, icon, status }) => (
   <div id="card-row">
-    <Seperator/>
-    <div className="flex-1 text-white" id="card-row-content" style={{display:"flex"}}>
+    <Seperator />
+    <div className="flex-1 text-white" id="card-row-content" style={{ display: "flex" }}>
       <div className="flex-1 text-white">
         <p className="font-semibold">{date}</p>
         <p>{hours} Hours</p>
       </div>
-      <button className="text-white" style={{display:"flex", justifyContent:"Right", alignItems:"center", transform:"rotate(90deg)"}}>
-        <Forward/>
+      <button
+        className="text-white"
+        style={{ display: "flex", justifyContent: "Right", alignItems: "center", transform: "rotate(90deg)" }}
+      >
+        <Forward />
       </button>
     </div>
     <div className="flex space-x-2">
-      <button className={`text-${status}`} style={{marginLeft: "10px"}}>
+      <button className={`text-${status}`} style={{ marginLeft: "10px" }}>
         {icon}
       </button>
     </div>
@@ -75,14 +129,14 @@ const Dashboard = () => {
             <div id="dashboard-body">
               <div id="main-card">
                 <h1 style={{fontSize: "36px", fontWeight: "600", padding: "15px 0px 10px"}}>Timesheets</h1>
-                <h1 style={{fontSize: "24px", fontWeight: "600", padding: "15px 0px 10px"}}>Recent Timesheets</h1>
+                <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Recent Timesheets</h1>
                 <TimesheetCard
                   date="2023-11-19"
                   hours="40"
                   status="default"
                   icon={<Edit/>}
                 />
-                <h1 style={{fontSize: "24px", fontWeight: "600", padding: "15px 0px 10px"}}>Past Timesheets</h1>
+                <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Past Timesheets</h1>
                 <TimesheetCard
                   date="2023-11-12"
                   hours="40"
@@ -129,18 +183,32 @@ const Dashboard = () => {
                   <Widget date="01/01/2024" content="New Year's Day" />
                   <Widget date="01/01/2024" content="New Year's Day" />
                 </div>
-                <div className="side-card">
-                  <h1>Upcoming Holidays</h1>
-                  <Widget date="01/01/2024" content="New Year's Day" />
-                  <Widget date="01/01/2024" content="New Year's Day" />
-                  <Widget date="01/01/2024" content="New Year's Day" />
-                  <Widget date="01/01/2024" content="New Year's Day" />
+                <div className="side-card break-words">
+                  <h1>Worksite Policies</h1>
+                  <div style={{width: "80%"}}>
+                    <h2 style={{fontSize: "18px", fontWeight: "600"}}>Code Differently</h2>
+                    <div style={{paddingTop: "20px"}}>
+                        <p>1</p>
+                        <p className="break-words">dawdawdawda</p>
+                    </div>
+                    <div>
+                        <p></p>
+                        <p className="break-words"></p>
+                    </div>
+                  </div>
                 </div>
-                <div className="side-card">
+                <div className="side-card break-words" style={{textAlign: "center"}}>
                   <h1>Contact Information</h1>
-                  <div>
-                    <h2>Worksite Supervisor</h2>
-                    <p>Supervisor 1</p>
+                  <div style={{width: "80%"}}>
+                    <h2 style={{fontSize: "18px", fontWeight: "600"}}>Worksite Supervisor(s)</h2>
+                    <div style={{paddingTop: "20px"}}>
+                        <p>Supervisor 1</p>
+                        <a href="mailto:" className="break-words">Supervisor1@domain.com</a>
+                    </div>
+                    <div>
+                        <p>Supervisor 1</p>
+                        <a href="mailto:" className="break-words">Supervisor1@domain.com</a>
+                    </div>
                   </div>
                 </div>
                 <div className="side-card">
@@ -157,3 +225,4 @@ const Dashboard = () => {
 }
 
 export default Dashboard;
+
