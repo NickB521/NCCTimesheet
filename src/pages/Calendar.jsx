@@ -7,13 +7,6 @@ import {
 import { CalendarDate, getDayOfWeek, Time } from "@internationalized/date";
 
 const WeekTool = ({ week, stuffed, breaked, day }) => {
-    const handleSubmit = (inpt, timeType) => {
-        // console.log(Math.round((inpt.minute / 15) * 15));
-        console.log(inpt)
-        setWeek(week => ({
-            ...week, [day]: { ...week[day], [timeType]: { ...week[day][timeType], hour: inpt.hour, minute: ((((inpt.minute + 7.5)/15 | 0) * 15) % 60), second: inpt.second }}
-        }));
-    }
     return (
         <>
             <Tooltip
@@ -23,10 +16,9 @@ const WeekTool = ({ week, stuffed, breaked, day }) => {
                     // Make the form handle all input
                     // change the provider to allow for native handling or adapt to aria????
                     <>
-                        <h1>Shift</h1>
                         {/* Make the onchange change the value of the start time and set value to starttime value for controlled input???? */}
-                        <TimeInput isRequired id={`StartTime-${day}`} label={"Start Time"} 
-                            onChange={(inpt) => stuffed(inpt, day, "startTime")} value={week[day].startTime}></TimeInput>
+                        <TimeInput isRequired label={"Start Time"}
+                            onChange={(inpt) => stuffed(inpt, day, "startTime")} value={week[day].startTime}/>
                         <Checkbox onClick={() => breaked(day)} isSelected={week[day].break.taken}>Meal Break?</Checkbox>
                         {week[day].break.taken ?
                             <>
@@ -34,8 +26,10 @@ const WeekTool = ({ week, stuffed, breaked, day }) => {
                                 <Textarea label={"Break End"}></Textarea>
                             </>
                             : <></>}
-                        <Textarea id={`EndTime-${day}`} label={"End Time"}></Textarea>
-                        <Button type="submit">Finish</Button>
+                        <TimeInput isRequired label={"End Time"}
+                            onChange={(inpt) => stuffed(inpt, day, "endTime")} value={week[day].endTime}/>
+                            <p>{"" + (week[day].startTime.hour - week[day].endTime.hour)}</p>
+                        <Button type="submit">Save</Button>
                     </>
                 }
                 classNames={{
@@ -61,8 +55,7 @@ const Calendar = () => {
             day: "",
             startTime: {
                 hour: 0,
-                minute: 0,
-                second: 0
+                minute: 0
             },
             endTime: "",
             break: {
@@ -76,8 +69,7 @@ const Calendar = () => {
             day: "",
             startTime: {
                 hour: 0,
-                minute: 0,
-                second: 0
+                minute: 0
             },
             endTime: "",
             break: {
@@ -91,8 +83,7 @@ const Calendar = () => {
             day: "",
             startTime: {
                 hour: 0,
-                minute: 0,
-                second: 0
+                minute: 0
             },
             endTime: "",
             break: {
@@ -106,8 +97,7 @@ const Calendar = () => {
             day: "",
             startTime: {
                 hour: 0,
-                minute: 0,
-                second: 0
+                minute: 0
             },
             endTime: "",
             break: {
@@ -121,8 +111,7 @@ const Calendar = () => {
             day: "",
             startTime: {
                 hour: 0,
-                minute: 0,
-                second: 0
+                minute: 0
             },
             endTime: "",
             break: {
@@ -136,8 +125,7 @@ const Calendar = () => {
             day: "",
             startTime: {
                 hour: 0,
-                minute: 0,
-                second: 0
+                minute: 0
             },
             endTime: "",
             break: {
@@ -151,8 +139,7 @@ const Calendar = () => {
             day: "",
             startTime: {
                 hour: 0,
-                minute: 0,
-                second: 0
+                minute: 0
             },
             endTime: "",
             break: {
@@ -193,8 +180,11 @@ const Calendar = () => {
     }
 
     const timeSet = (inpt, day, timeType) => {
+        if(inpt.hour == null){
+            inpt.hour = 0;
+        }
         setWeek(week => ({
-            ...week, [day]: { ...week[day], [timeType]: { ...week[day][timeType], hour: inpt.hour, minute: ((((inpt.minute + 7.5)/15 | 0) * 15) % 60), second: inpt.second }}
+            ...week, [day]: { ...week[day], [timeType]: { ...week[day][timeType], hour: inpt.hour, minute: ((((inpt.minute + 7.5)/15 | 0) * 15) % 60)}}
         }));
     }
 
