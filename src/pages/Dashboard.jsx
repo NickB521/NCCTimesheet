@@ -224,10 +224,10 @@ const Dashboard = () => {
         <div id="side-cards">
           <div className="side-card">
             <h1>Upcoming Holidays</h1>
-            <Widget date="01/01/2024" content="New Year's Day" />
-            <Widget date="01/01/2024" content="New Year's Day" />
-            <Widget date="01/01/2024" content="New Year's Day" />
-            <Widget date="01/01/2024" content="New Year's Day" />
+            <Widget date="12/24-25/2024" content="Christmas" />
+            <Widget date="01/01/2025" content="New Year's Day" />
+            <Widget date="01/20/2025" content="Martin Luther King, Jr. Day" />
+            <Widget date="05/26/2025" content="Memorial Day" />
           </div>
           <div className="side-card break-words">
             <h1>Worksite Policies</h1>
