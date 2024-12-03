@@ -11,12 +11,14 @@
 /* Global Styles */
 * {
   outline: none !important;
+  font-family: "Inter", serif;
 }
 
 html {
   font-family: "Inter", serif;
   overflow-x: hidden;
   background: var(--background);
+  overflow: hidden;
 }
 
 body {
@@ -203,10 +205,8 @@ body {
 
 #page-navigation-line {
   display: flex;
-
   cursor: pointer;
   align-items: center;
-
   transition: opacity 0.1s linear;
 }
 

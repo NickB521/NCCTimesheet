@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.weeklyWrapper {
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 85%;
+}
+.headerCard {
+    text-align: center;
+    color: black;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.tableCard {
+    width: 100%;
+}
+.tableCardHead {
+    display: flex;
+}
+#errorCode {
+    color: red;
+    font-weight: bold;
+}
