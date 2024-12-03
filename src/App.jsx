@@ -15,8 +15,14 @@ const App = () => {
   return (
     <>
       <Header/>
-      <div id="content-wrapper">
+      <div id="content-wrapper-wrapper">
         <Navigation/>
+        <div id="content-wrapper">
+          <Routes>
+            <Route path="/" element={ <Dashboard /> } />
+            <Route path="calendar" element={ <Calendar /> } />
+          </Routes>
+        </div>
         <Routes>
           <Route path="/" element={ <Dashboard /> } />
           <Route path="calendar" element={ <Calendar /> } />
