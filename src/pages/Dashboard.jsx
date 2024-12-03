@@ -102,126 +102,184 @@ const TimesheetCard = ({ date, hours, icon, status }) => (
   </div>
 );
 
+const EmailCard = ({ name, email }) => {
+  let [maxChars, setMaxChars] = useState(100);
+  let screenWidth;
+
+  useEffect(() => {
+    const updateMaxChars = () => {
+      screenWidth = window.innerWidth;
+      if (screenWidth < 950) {
+        setMaxChars(5);
+      } 
+      else if (screenWidth < 1100) {
+        setMaxChars(10);
+      } 
+      else if (screenWidth < 1350) {
+        setMaxChars(15);
+      } 
+      else if (screenWidth < 1600) {
+        setMaxChars(20);
+      } 
+      else if (screenWidth < 1750) {
+        setMaxChars(30);
+      } 
+      else if (screenWidth < 1950) {
+        setMaxChars(40);
+      } 
+      else {
+        setMaxChars(50);
+      }
+    }
+
+    updateMaxChars();
+
+    window.addEventListener("resize", updateMaxChars);
+    return () => {
+      window.removeEventListener("resize", updateMaxChars);
+    };
+  }, []);
+  
+  return(
+    <>
+      <p>{name}</p>
+      <a href={`mailto:${email}`} className="break-words">{email.length > maxChars ? `${email.substring(0, maxChars)}...` : email}</a>
+    </>
+  )
+}
+
 const Dashboard = () => {
-    const [greeting, setGreeting] = useState('');
+  const [greeting, setGreeting] = useState('');
 
-    useEffect(() => {
-        const currentHour = new Date().getHours();
-        if (currentHour >= 5 && currentHour < 12) {
-            setGreeting("Morning");
-        } else if (currentHour >= 12 && currentHour < 18) {
-            setGreeting("Afternoon");
-        } else if (currentHour >= 18 && currentHour < 22) {
-            setGreeting("Evening");
-        } else {
-            setGreeting("Night");
-        }
-    }, []);
+  useEffect(() => {
+    const currentHour = new Date().getHours();
+    if (currentHour >= 5 && currentHour < 12) {
+        setGreeting("Morning");
+    } else if (currentHour >= 12 && currentHour < 18) {
+        setGreeting("Afternoon");
+    } else if (currentHour >= 18 && currentHour < 22) {
+        setGreeting("Evening");
+    } else {
+        setGreeting("Night");
+    }
+  }, []);
 
-    return (
-        <div id="dashboard" >
-            <div id="dashboard-header" className="bg-red-100">
-                <div id="dashboard-header-content">
-                    <p className="text-5xl" style={{fontSize:"48px"}}>Good {greeting}!</p>
-                    <p className="text-2xl" style={{fontSize:"32px"}}>name</p>
-                </div>
-            </div>
-            <div id="dashboard-body">
-              <div id="main-card">
-                <h1 style={{fontSize: "36px", fontWeight: "600", padding: "15px 0px 10px"}}>Timesheets</h1>
-                <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Recent Timesheets</h1>
-                <TimesheetCard
-                  date="2023-11-19"
-                  hours="40"
-                  status="default"
-                  icon={<Edit/>}
-                />
-                <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Past Timesheets</h1>
-                <TimesheetCard
-                  date="2023-11-12"
-                  hours="40"
-                  status="danger"
-                  icon={<Denied/>}
-                />
-                <TimesheetCard
-                  date="2023-11-05"
-                  hours="35"
-                  status="success"
-                  icon={<Success/>}
-                />
-                <TimesheetCard
-                  date="2023-11-05"
-                  hours="35"
-                  status="success"
-                  icon={<Success/>}
-                />
-                <TimesheetCard
-                  date="2023-11-05"
-                  hours="35"
-                  status="success"
-                  icon={<Success/>}
-                />
-                <TimesheetCard
-                  date="2023-11-05"
-                  hours="35"
-                  status="success"
-                  icon={<Success/>}
-                />
-                <TimesheetCard
-                  date="2023-11-05"
-                  hours="35"
-                  status="success"
-                  icon={<Success/>}
-                />
-                <button id="timesheet-button">View All Timesheets</button>
-              </div>
-              <div id="side-cards">
-                <div className="side-card">
-                  <h1>Upcoming Holidays</h1>
-                  <Widget date="01/01/2024" content="New Year's Day" />
-                  <Widget date="01/01/2024" content="New Year's Day" />
-                  <Widget date="01/01/2024" content="New Year's Day" />
-                  <Widget date="01/01/2024" content="New Year's Day" />
-                </div>
-                <div className="side-card break-words">
-                  <h1>Worksite Policies</h1>
-                  <div style={{width: "80%"}}>
-                    <h2 style={{fontSize: "18px", fontWeight: "600"}}>Code Differently</h2>
-                    <div style={{paddingTop: "20px"}}>
-                        <p>1</p>
-                        <p className="break-words">dawdawdawda</p>
-                    </div>
-                    <div>
-                        <p></p>
-                        <p className="break-words"></p>
-                    </div>
-                  </div>
-                </div>
-                <div className="side-card break-words" style={{textAlign: "center"}}>
-                  <h1>Contact Information</h1>
-                  <div style={{width: "80%"}}>
-                    <h2 style={{fontSize: "18px", fontWeight: "600"}}>Worksite Supervisor(s)</h2>
-                    <div style={{paddingTop: "20px"}}>
-                        <p>Supervisor 1</p>
-                        <a href="mailto:" className="break-words">Supervisor1@domain.com</a>
-                    </div>
-                    <div>
-                        <p>Supervisor 1</p>
-                        <a href="mailto:" className="break-words">Supervisor1@domain.com</a>
-                    </div>
-                  </div>
-                </div>
-                <div className="side-card">
-                  <h1>Announcements</h1>
-                  <Widget date="06/02/2024" content="NCCVT - Mandatory PD Training, Zoom Link In Email" />
-                  <Widget date="08/21/2024" content="Supervisor 1 - PD Days Wed/Thur" />
-                  <Widget date="09/18/2024" content="Day Off Tomorrow" />
-                  <Widget date="10/15/2024" content="Shift Availible For Pickup" />
-                </div>
-              </div>
-            </div>
+  return (
+    <div id="dashboard" >
+      <div id="dashboard-header" className="bg-red-100">
+        <div id="dashboard-header-content">
+          <p className="text-5xl" style={{fontSize:"48px"}}>Good {greeting}!</p>
+          <p className="text-2xl" style={{fontSize:"32px"}}>name</p>
         </div>
-    );
+      </div>
+      <div id="dashboard-body">
+        <div id="main-card">
+          <h1 style={{fontSize: "36px", fontWeight: "600", padding: "15px 0px 10px"}}>Timesheets</h1>
+          <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Recent Timesheets</h1>
+          <TimesheetCard
+            date="2023-11-19"
+            hours="40"
+            status="default"
+            icon={<Edit/>}
+          />
+          <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Past Timesheets</h1>
+          <TimesheetCard
+            date="2023-11-12"
+            hours="40"
+            status="danger"
+            icon={<Denied/>}
+          />
+          <TimesheetCard
+            date="2023-11-05"
+            hours="35"
+            status="success"
+            icon={<Success/>}
+          />
+          <TimesheetCard
+            date="2023-11-05"
+            hours="35"
+            status="success"
+            icon={<Success/>}
+          />
+          <TimesheetCard
+            date="2023-11-05"
+            hours="35"
+            status="success"
+            icon={<Success/>}
+          />
+          <TimesheetCard
+            date="2023-11-05"
+            hours="35"
+            status="success"
+            icon={<Success/>}
+          />
+          <TimesheetCard
+            date="2023-11-05"
+            hours="35"
+            status="success"
+            icon={<Success/>}
+          />
+          <button id="timesheet-button">View All Timesheets</button>
+        </div>
+        <div id="side-cards">
+          <div className="side-card">
+            <h1>Upcoming Holidays</h1>
+            <Widget date="01/01/2024" content="New Year's Day" />
+            <Widget date="01/01/2024" content="New Year's Day" />
+            <Widget date="01/01/2024" content="New Year's Day" />
+            <Widget date="01/01/2024" content="New Year's Day" />
+          </div>
+          <div className="side-card break-words">
+            <h1>Worksite Policies</h1>
+            <div style={{width: "80%"}}>
+              <h2 style={{fontSize: "18px", fontWeight: "600"}}>Code Differently</h2>
+              <div style={{paddingTop: "20px"}}>
+                <ol style={{listStyleType:"numbered"}}>
+                  <li>Have a working computer</li>
+                  <li>Have a working  camera and microphone</li>
+                  <li>Arrive a few minutes early</li>
+                  <li>Dress Code: Smart casual</li>
+                  <li>Meeting ID: 882 9530 8001</li>
+                  <li>Passcode: 951068</li>
+                </ol>
+              </div>
+              <div>
+                <p></p>
+                <p className="break-words"></p>
+              </div>
+            </div>
+          </div>
+          <div className="side-card break-words" style={{textAlign: "center", gap:"20px"}}>
+            <h1>Contact Information</h1>
+            <div style={{width: "80%"}}>
+              <h2 style={{fontSize: "18px", fontWeight: "600"}}>Worksite Supervisor(s)</h2>
+              <div style={{paddingTop: "20px"}}>
+                <EmailCard name="Jeff Lawrence" email="jeff@codedifferently.com"/>
+              </div>
+              <div>
+                <EmailCard name="Nick Blackson" email="nicolas@codedifferently.com"/>
+              </div>
+              <br />
+              <h2 style={{fontSize: "18px", fontWeight: "600", paddingTop: "20px", borderTop: "#ECC644 2px solid"}}>County Coordinators(s)</h2>
+              <div style={{paddingTop: "20px"}}>
+                <EmailCard name="Zanora Berry-El" email="Zanora.Berry-El@newcastlede.gov"/>
+              </div>
+              <div>
+                <EmailCard name="Raymond Gravuer" email="Raymond.Gravuer@newcastlede.gov"/>
+              </div>
+            </div>
+          </div>
+          <div className="side-card">
+            <h1>Announcements</h1>
+            <Widget date="06/02/2024" content="NCCVT - Mandatory PD Training, Zoom Link In Email" />
+            <Widget date="08/21/2024" content="Supervisor 1 - PD Days Wed/Thur" />
+            <Widget date="09/18/2024" content="Day Off Tomorrow" />
+            <Widget date="10/15/2024" content="Shift Availible For Pickup" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Dashboard;
