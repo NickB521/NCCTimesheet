@@ -28,7 +28,7 @@ const WeekTool = ({ week, stuffed, breaked, day }) => {
                             : <></>}
                         <TimeInput isRequired label={"End Time"}
                             onChange={(inpt) => stuffed(inpt, day, "endTime")} value={week[day].endTime}/>
-                            <p>{"" + (week[day].startTime.hour - week[day].endTime.hour)}</p>
+                            <p>Total Hours: {"" + (week[day].startTime.hour - week[day].endTime.hour)}</p>
                         <Button type="submit">Save</Button>
                     </>
                 }
