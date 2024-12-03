@@ -35,7 +35,6 @@
 
 .sign-in-input > * > * > *{
     min-height: 100%;
-    max-width: 290px;
 }
 
 ::placeholder, input {

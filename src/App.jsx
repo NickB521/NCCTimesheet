@@ -21,13 +21,9 @@ const App = () => {
           <Routes>
             <Route path="/" element={ <Dashboard /> } />
             <Route path="calendar" element={ <Calendar /> } />
+            <Route path="sign-in" element={ <SignIn /> } />
           </Routes>
         </div>
-        <Routes>
-          <Route path="/" element={ <Dashboard /> } />
-          <Route path="calendar" element={ <Calendar /> } />
-          <Route path="sign-in" element={ <SignIn /> } />
-        </Routes>
       </div>
     </>
   );
