@@ -21,14 +21,14 @@ const Widget = ({ date, content }) => {
       else if (screenWidth < 1600) {
         setMaxChars(20);
       } 
-      else if (screenWidth < 1750) {
+      else if (screenWidth < 1850) {
         setMaxChars(30);
       } 
-      else if (screenWidth < 1950) {
+      else if (screenWidth < 1970) {
         setMaxChars(40);
       } 
       else {
-        setMaxChars(50);
+        setMaxChars(45);
       }
     };
 
