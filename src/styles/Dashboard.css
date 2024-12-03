@@ -21,8 +21,8 @@
 
 #dashboard-body {
     display: flex;
-    height: 80%;
-    width: 90%;
+    height: 100%;
+    width: 88%;
     gap: 20px;
     height: auto;
 }
