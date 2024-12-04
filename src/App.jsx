@@ -16,7 +16,7 @@ const App = () => {
   return (
     <>
       <Header/>
-      <div id="content-wrapper">
+      <div id="content-wrapper-wrapper">
         <Navigation/>
         <Routes>
           <Route path="/" element={ <Dashboard /> } />
