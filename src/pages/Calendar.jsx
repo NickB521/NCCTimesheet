@@ -36,7 +36,8 @@ const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {
                             : ""
                         }
                             
-                            <TimeInput isRequired label={"End Time"} onChange={(inpt) => timeSet(inpt, day, "endTime")} value={week[day].endTime.hour != 0 ? week[day].endTime : ""}/>
+                            <TimeInput isRequired label={"End Time"} onChange={(inpt) => timeSet(inpt, day, "endTime")} value={week[day].endTime.hour != 0 ? week[day].endTime : ""}
+                                isDisabled={week[day].saved}/>
                             {week[day].saved ? "Total Hours Worked: " + week[day].totalHours : ""}
                             <Button style={{alignItems: "center", justifyContent: "center", width: "60%", padding: "20px", color:"white", background:"#1C6296"}} onClick={() => {saveHandle(day), setButtonColor("#1C6296")}}> { week[day].saved ? "Edit" : "Save"}</Button>
                         </div>
@@ -237,17 +238,23 @@ const Calendar = () => {
     }
 
     const timeSet = (inpt, day, timeType) => {
-        if (inpt.hour == null) {
-            inpt.hour = 0;
-        }
+        // if (inpt.hour == null) {
+        //     inpt.hour = week[day][timeType].hour;
+        // }
         setWeek(week => ({
             ...week, [day]: { ...week[day], [timeType]: { ...week[day][timeType], hour: inpt.hour, minute: ((((inpt.minute + 7.5) / 15 | 0) * 15) % 60) } }
         }));
     }
 
     const saveHandle = (day) => {
+        let end = (week[day].endTime.hour + (week[day].endTime.minute / 60));
+        let start = (week[day].startTime.hour + (week[day].startTime.minute / 60))
         if(!week[day].saved){
-            console.log("hours be houring")
+            if(start > end){
+                week[day].totalHours = (end+12 - start)
+            } else{
+                week[day].totalHours = (end - start)
+            }
         }
         setWeek(week => ({
             ...week, [day]: { ...week[day], saved: !(week[day].saved) }
