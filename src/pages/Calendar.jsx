@@ -238,9 +238,9 @@ const Calendar = () => {
     }
 
     const timeSet = (inpt, day, timeType) => {
-        // if (inpt.hour == null) {
-        //     inpt.hour = week[day][timeType].hour;
-        // }
+        if (inpt.hour == null) {
+            inpt.hour = week[day][timeType].hour;
+        }
         setWeek(week => ({
             ...week, [day]: { ...week[day], [timeType]: { ...week[day][timeType], hour: inpt.hour, minute: ((((inpt.minute + 7.5) / 15 | 0) * 15) % 60) } }
         }));
