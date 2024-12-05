@@ -2,49 +2,48 @@ import React, { useState } from "react";
 import {
     Button, Card, CardHeader, CardBody, Table,
     TableHeader, TableBody, TableRow, TableColumn, TableCell,
-    Textarea, DatePicker, Tooltip, Checkbox, TimeInput
+    Textarea, DatePicker, Checkbox, TimeInput, Popover, PopoverTrigger, PopoverContent
 } from "@nextui-org/react";
-import { CalendarDate, getDayOfWeek, Time } from "@internationalized/date";
+import { CalendarDate, getDayOfWeek } from "@internationalized/date";
 
-const WeekTool = ({ week, stuffed, breaked, day }) => {
+const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {
+
+    const [buttonColor, setButtonColor] = useState("#292F36");
+
     return (
         <>
-            <Tooltip
-                showArrow
-                placement="bottom"
-                content={
-                    // Make the form handle all input
-                    // change the provider to allow for native handling or adapt to aria????
-                    <>
-                        {/* Make the onchange change the value of the start time and set value to starttime value for controlled input???? */}
-                        <TimeInput isRequired label={"Start Time"}
-                            onChange={(inpt) => stuffed(inpt, day, "startTime")} value={week[day].startTime}/>
-                        <Checkbox onClick={() => breaked(day)} isSelected={week[day].break.taken}>Meal Break?</Checkbox>
-                        {week[day].break.taken ?
+            <Popover placement="bottom" showArrow style={{marginTop: "10px"}}>
+                <PopoverTrigger placement="bottom" showArrow>
+                    <Button style={{width: "80%", color: "white", background:`${buttonColor}`}}>{week[day].saved ? "Hours: " + week[day].totalHours : "Add Shift"}</Button>
+                </PopoverTrigger>
+                <PopoverContent style={{display: "flex", flexDirection: "column", height: "fit-content", width: "170px", border: "gray 1px", alignItems: "center"}}>
+                    <div className="flex w-full flex-col" style={{width: "180px", display: "flex", alignItems:"center", justifyContent:"space-evenly", paddingBottom: "20px"}}>
+                        <h4 className="text-medium font-medium" id="notification-title" style={{padding: "20px"}}>
+                            Shift Information
+                        </h4>
+                        <div className="flex w-full flex-col" style={{gap: "20px", width: "90%", display: "flex", alignItems:"center"}}>
+                            <TimeInput isRequired label={"Start Time"} onChange={(inpt) => timeSet(inpt, day, "startTime")} value={week[day].startTime.hour != 0 ? week[day].startTime : ""} 
+                                isDisabled={week[day].saved}/>
+                            <Checkbox onClick={() => breakHandle(day)} isSelected={week[day].breakTaken}
+                                isDisabled={week[day].saved}>Meal Break?</Checkbox>
+                        {week[day].breakTaken ?
                             <>
-                                <Textarea label={"Break Start"}></Textarea>
-                                <Textarea label={"Break End"}></Textarea>
+                                <TimeInput isRequired label={"Break Start"} onChange={(inpt) => timeSet(inpt, day, "breakStart")} value={week[day].breakStart.hour != 0 ? week[day].breakStart: ""}
+                                isDisabled={week[day].saved} />
+                                <TimeInput isRequired label={"Break End"} onChange={(inpt) => timeSet(inpt, day, "breakEnd")} value={week[day].breakEnd.hour != 0 ? week[day].breakEnd: ""}
+                                isDisabled={week[day].saved} />
                             </>
-                            : <></>}
-                        <TimeInput isRequired label={"End Time"}
-                            onChange={(inpt) => stuffed(inpt, day, "endTime")} value={week[day].endTime}/>
-                            <p>Total Hours: {"" + (week[day].startTime.hour - week[day].endTime.hour)}</p>
-                        <Button type="submit">Save</Button>
-                    </>
-                }
-                classNames={{
-                    base: [
-                        // arrow color
-                        "before:bg-neutral-400 dark:before:bg-white",
-                    ],
-                    content: [
-                        "py-2 px-4 shadow-xl",
-                        "text-black bg-gradient-to-br from-white to-neutral-400",
-                    ],
-                }}
-            >
-                <Button></Button>
-            </Tooltip>
+                            : ""
+                        }
+                            
+                            <TimeInput isRequired label={"End Time"} onChange={(inpt) => timeSet(inpt, day, "endTime")} value={week[day].endTime.hour != 0 ? week[day].endTime : ""}
+                                isDisabled={week[day].saved}/>
+                            {week[day].saved ? "Total Hours Worked: " + week[day].totalHours : ""}
+                            <Button style={{alignItems: "center", justifyContent: "center", width: "60%", padding: "20px", color:"white", background:"#1C6296"}} onClick={() => {saveHandle(day), setButtonColor("#1C6296")}}> { week[day].saved ? "Edit" : "Save"}</Button>
+                        </div>
+                    </div>  
+                </PopoverContent>
+            </Popover>
         </>
     );
 }
@@ -57,13 +56,21 @@ const Calendar = () => {
                 hour: 0,
                 minute: 0
             },
-            endTime: "",
-            break: {
-                taken: false,
-                start: "",
-                end: ""
+            endTime: {
+                hour: 0,
+                minute: 0
             },
-            submitted: false
+            breakStart: {
+                hour: 0,
+                minute: 0
+            },
+            breakEnd: {
+                hour: 0,
+                minute: 0
+            },
+            totalHours: 0,
+            breakTaken: false,
+            saved: false
         },
         tuesday: {
             day: "",
@@ -71,13 +78,21 @@ const Calendar = () => {
                 hour: 0,
                 minute: 0
             },
-            endTime: "",
-            break: {
-                taken: false,
-                start: "",
-                end: ""
+            endTime: {
+                hour: 0,
+                minute: 0
             },
-            submitted: false
+            breakStart: {
+                hour: 0,
+                minute: 0
+            },
+            breakEnd: {
+                hour: 0,
+                minute: 0
+            },
+            totalHours: 0,
+            breakTaken: false,
+            saved: false
         },
         wednesday: {
             day: "",
@@ -85,13 +100,21 @@ const Calendar = () => {
                 hour: 0,
                 minute: 0
             },
-            endTime: "",
-            break: {
-                taken: false,
-                start: "",
-                end: ""
+            endTime: {
+                hour: 0,
+                minute: 0
             },
-            submitted: false
+            breakStart: {
+                hour: 0,
+                minute: 0
+            },
+            breakEnd: {
+                hour: 0,
+                minute: 0
+            },
+            totalHours: 0,
+            breakTaken: false,
+            saved: false
         },
         thursday: {
             day: "",
@@ -99,13 +122,21 @@ const Calendar = () => {
                 hour: 0,
                 minute: 0
             },
-            endTime: "",
-            break: {
-                taken: false,
-                start: "",
-                end: ""
+            endTime: {
+                hour: 0,
+                minute: 0
             },
-            submitted: false
+            breakStart: {
+                hour: 0,
+                minute: 0
+            },
+            breakEnd: {
+                hour: 0,
+                minute: 0
+            },
+            totalHours: 0,
+            breakTaken: false,
+            saved: false
         },
         friday: {
             day: "",
@@ -113,13 +144,22 @@ const Calendar = () => {
                 hour: 0,
                 minute: 0
             },
-            endTime: "",
-            break: {
-                taken: false,
-                start: "",
-                end: ""
+            endTime: {
+                hour: 0,
+                minute: 0
             },
-            submitted: false
+
+            breakStart: {
+                hour: 0,
+                minute: 0
+            },
+            breakEnd: {
+                hour: 0,
+                minute: 0
+            },
+            totalHours: 0,
+            breakTaken: false,
+            saved: false
         },
         saturday: {
             day: "",
@@ -127,13 +167,22 @@ const Calendar = () => {
                 hour: 0,
                 minute: 0
             },
-            endTime: "",
-            break: {
-                taken: false,
-                start: "",
-                end: ""
+            endTime: {
+                hour: 0,
+                minute: 0
             },
-            submitted: false
+
+            breakStart: {
+                hour: 0,
+                minute: 0
+            },
+            breakEnd: {
+                hour: 0,
+                minute: 0
+            },
+            totalHours: 0,
+            breakTaken: false,
+            saved: false
         },
         sunday: {
             day: "",
@@ -141,17 +190,26 @@ const Calendar = () => {
                 hour: 0,
                 minute: 0
             },
-            endTime: "",
-            break: {
-                taken: false,
-                start: "",
-                end: ""
+            endTime: {
+                hour: 0,
+                minute: 0
             },
-            submitted: false
+
+            breakStart: {
+                hour: 0,
+                minute: 0
+            },
+            breakEnd: {
+                hour: 0,
+                minute: 0
+            },
+            totalHours: 0,
+            breakTaken: false,
+            saved: false
         }
     });
 
-    const stuff = (input) => {
+    const CalendarHandle = (input) => {
         const date = new CalendarDate(input.year, input.month, input.day);
         const key = Object.keys(week)
         if (getDayOfWeek(date, "en-US") == 1) {
@@ -173,18 +231,33 @@ const Calendar = () => {
         }
     }
 
-    const breaked = (day) => {
+    const breakHandle = (day) => {
         setWeek(week => ({
-            ...week, [day]: { ...week[day], break: { ...week[day].break, taken: !(week[day].break.taken) } }
+            ...week, [day]: { ...week[day], breakTaken: !(week[day].breakTaken) }
         }));
     }
 
     const timeSet = (inpt, day, timeType) => {
-        if(inpt.hour == null){
-            inpt.hour = 0;
+        // if (inpt.hour == null) {
+        //     inpt.hour = week[day][timeType].hour;
+        // }
+        setWeek(week => ({
+            ...week, [day]: { ...week[day], [timeType]: { ...week[day][timeType], hour: inpt.hour, minute: ((((inpt.minute + 7.5) / 15 | 0) * 15) % 60) } }
+        }));
+    }
+
+    const saveHandle = (day) => {
+        let end = (week[day].endTime.hour + (week[day].endTime.minute / 60));
+        let start = (week[day].startTime.hour + (week[day].startTime.minute / 60))
+        if(!week[day].saved){
+            if(start > end){
+                week[day].totalHours = (end+12 - start)
+            } else{
+                week[day].totalHours = (end - start)
+            }
         }
         setWeek(week => ({
-            ...week, [day]: { ...week[day], [timeType]: { ...week[day][timeType], hour: inpt.hour, minute: ((((inpt.minute + 7.5)/15 | 0) * 15) % 60)}}
+            ...week, [day]: { ...week[day], saved: !(week[day].saved) }
         }));
     }
 
@@ -200,7 +273,7 @@ const Calendar = () => {
                     <CardHeader>
                         <div className="tableCardHead">
                             <CardBody>
-                                <DatePicker aria-label="workWeekSelect" id="workWeekSelect" onChange={stuff} />
+                                <DatePicker aria-label="workWeekSelect" id="workWeekSelect" onChange={CalendarHandle} />
                                 <div id={"errorCode"}></div>
                             </CardBody>
                         </div>
@@ -209,7 +282,7 @@ const Calendar = () => {
                         <Table>
                             <TableHeader>
                                 <TableColumn></TableColumn>
-                                <TableColumn> Monday <div id={"monday"}></div></TableColumn>
+                                <TableColumn>Monday <div id={"monday"}></div></TableColumn>
                                 <TableColumn>Tuesday <div id={"tuesday"}></div></TableColumn>
                                 <TableColumn>Wednesday <div id={"wednesday"}></div></TableColumn>
                                 <TableColumn>Thursday <div id={"thursday"}></div></TableColumn>
@@ -220,27 +293,27 @@ const Calendar = () => {
                             </TableHeader>
                             <TableBody>
                                 <TableRow>
-                                    <TableCell>I am User Man</TableCell>
+                                    <TableCell>Name</TableCell>
                                     <TableCell>
-                                        <WeekTool week={week} stuffed={timeSet} breaked={breaked} day={"monday"} />
+                                        <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"monday"} saveHandle={saveHandle} />
                                     </TableCell>
                                     <TableCell>
-                                        <WeekTool week={week} stuffed={timeSet} breaked={breaked} day={"tuesday"} />
+                                        <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"tuesday"} saveHandle={saveHandle} />
                                     </TableCell>
                                     <TableCell>
-                                        <WeekTool week={week} stuffed={timeSet} breaked={breaked} day={"wednesday"} />
+                                        <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"wednesday"} saveHandle={saveHandle} />
                                     </TableCell>
                                     <TableCell>
-                                        <WeekTool week={week} stuffed={timeSet} breaked={breaked} day={"thursday"} />
+                                        <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"thursday"} saveHandle={saveHandle} />
                                     </TableCell>
                                     <TableCell>
-                                        <WeekTool week={week} stuffed={timeSet} breaked={breaked} day={"friday"} />
+                                        <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"friday"} saveHandle={saveHandle} />
                                     </TableCell>
                                     <TableCell>
-                                        <WeekTool week={week} stuffed={timeSet} breaked={breaked} day={"saturday"} />
+                                        <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"saturday"} saveHandle={saveHandle} />
                                     </TableCell>
                                     <TableCell>
-                                        <WeekTool week={week} stuffed={timeSet} breaked={breaked} day={"sunday"} />
+                                        <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"sunday"} saveHandle={saveHandle} />
                                     </TableCell>
                                     <TableCell>
                                         <Textarea></Textarea>

@@ -29,7 +29,7 @@ const Header = () => {
         return (
             (useLocation().pathname == '/sign-in' || useLocation().pathname == '/sign-up')
             ? <></>
-            : <Popover placement="bottom" showArrow={true}>
+            : <Popover placement="bottom" showArrow={true} style={{marginTop: "10px"}}>
                 <PopoverTrigger>
                     <span className="cursor-pointer navigation-utility-content">
                         <Faq size={26}></Faq>
@@ -51,7 +51,7 @@ const Header = () => {
             (useLocation().pathname == '/sign-in' || useLocation().pathname == '/sign-up')
             ? <></>
             : <>
-                <Popover placement="bottom" showArrow={ true }>
+                <Popover placement="bottom" showArrow={ true } style={{marginTop: "10px"}}>
                     <PopoverTrigger>
                         <span className="cursor-pointer navigation-utility-content">
                             <Badge content={ notificationCount } shape="circle" color="danger">
