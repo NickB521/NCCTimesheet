@@ -2,50 +2,47 @@ import React, { useState } from "react";
 import {
     Button, Card, CardHeader, CardBody, Table,
     TableHeader, TableBody, TableRow, TableColumn, TableCell,
-    Textarea, DatePicker, Tooltip, Checkbox, TimeInput
+    Textarea, DatePicker, Checkbox, TimeInput, Popover, PopoverTrigger, PopoverContent
 } from "@nextui-org/react";
-import { CalendarDate, getDayOfWeek } from "@internationalized/date";
+import { CalendarDate, getDayOfWeek, Time } from "@internationalized/date";
 
 const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {
+
+    const [buttonColor, setButtonColor] = useState("#292F36");
+
     return (
         <>
-            <Tooltip
-                showArrow
-                placement="bottom"
-                content={
-                    // change the provider to allow for native handling or adapt to aria????
-                    <>
-                        <TimeInput isRequired label={"Start Time"} onChange={(inpt) => timeSet(inpt, day, "startTime")} value={week[day].startTime} 
-                            isDisabled={week[day].saved}/>
-                        <Checkbox onClick={() => breakHandle(day)} isSelected={week[day].breakTaken}
-                            isDisabled={week[day].saved}>Meal Break?</Checkbox>
+            <Popover placement="bottom" showArrow style={{marginTop: "10px"}}>
+                <PopoverTrigger placement="bottom" showArrow>
+                    <Button style={{width: "80%", color: "white", background:`${buttonColor}`}}>{week[day].saved ? "Hours: " + week[day].totalHours : "Add Shift"}</Button>
+                </PopoverTrigger>
+                <PopoverContent style={{display: "flex", flexDirection: "column", height: "fit-content", width: "170px", border: "gray 1px", alignItems: "center"}}>
+                    <div className="flex w-full flex-col" style={{width: "180px", display: "flex", alignItems:"center", justifyContent:"space-evenly", paddingBottom: "20px"}}>
+                        <h4 className="text-medium font-medium" id="notification-title" style={{padding: "20px"}}>
+                            Shift Information
+                        </h4>
+                        <div className="flex w-full flex-col" style={{gap: "20px", width: "90%", display: "flex", alignItems:"center"}}>
+                            <TimeInput isRequired label={"Start Time"} onChange={(inpt) => timeSet(inpt, day, "startTime")} value={week[day].startTime.hour != 0 ? week[day].startTime : ""} 
+                                isDisabled={week[day].saved}/>
+                            <Checkbox onClick={() => breakHandle(day)} isSelected={week[day].breakTaken}
+                                isDisabled={week[day].saved}>Meal Break?</Checkbox>
                         {week[day].breakTaken ?
                             <>
-                                <TimeInput isRequired label={"Break Start"} onChange={(inpt) => timeSet(inpt, day, "breakStart")} value={week[day].breakStart}
+                                <TimeInput isRequired label={"Break Start"} onChange={(inpt) => timeSet(inpt, day, "breakStart")} value={week[day].breakStart.hour != 0 ? week[day].breakStart: ""}
                                 isDisabled={week[day].saved} />
-                                <TimeInput isRequired label={"Break End"} onChange={(inpt) => timeSet(inpt, day, "breakEnd")} value={week[day].breakEnd}
+                                <TimeInput isRequired label={"Break End"} onChange={(inpt) => timeSet(inpt, day, "breakEnd")} value={week[day].breakEnd.hour != 0 ? week[day].breakEnd: ""}
                                 isDisabled={week[day].saved} />
                             </>
-                            : ""}
-                        <TimeInput isRequired label={"End Time"} onChange={(inpt) => timeSet(inpt, day, "endTime")} value={week[day].endTime}
-                        isDisabled={week[day].saved} />
-                        {week[day].saved ? "Total Hours Worked: " + week[day].totalHours : ""}
-                        <Button onClick={() => saveHandle(day)}> { week[day].saved ? "Edit" : "Save"}</Button>
-                    </>
-                }
-                classNames={{
-                    base: [
-                        // arrow color
-                        "before:bg-neutral-400 dark:before:bg-white",
-                    ],
-                    content: [
-                        "py-2 px-4 shadow-xl",
-                        "text-black bg-gradient-to-br from-white to-neutral-400",
-                    ],
-                }}
-            >
-                <Button></Button>
-            </Tooltip>
+                            : ""
+                        }
+                            
+                            <TimeInput isRequired label={"End Time"} onChange={(inpt) => timeSet(inpt, day, "endTime")} value={week[day].endTime.hour != 0 ? week[day].endTime : ""}/>
+                            {week[day].saved ? "Total Hours Worked: " + week[day].totalHours : ""}
+                            <Button style={{alignItems: "center", justifyContent: "center", width: "60%", padding: "20px", color:"white", background:"#1C6296"}} onClick={() => {saveHandle(day), setButtonColor("#1C6296")}}> { week[day].saved ? "Edit" : "Save"}</Button>
+                        </div>
+                    </div>  
+                </PopoverContent>
+            </Popover>
         </>
     );
 }
@@ -278,7 +275,7 @@ const Calendar = () => {
                         <Table>
                             <TableHeader>
                                 <TableColumn></TableColumn>
-                                <TableColumn> Monday <div id={"monday"}></div></TableColumn>
+                                <TableColumn>Monday <div id={"monday"}></div></TableColumn>
                                 <TableColumn>Tuesday <div id={"tuesday"}></div></TableColumn>
                                 <TableColumn>Wednesday <div id={"wednesday"}></div></TableColumn>
                                 <TableColumn>Thursday <div id={"thursday"}></div></TableColumn>
@@ -289,7 +286,7 @@ const Calendar = () => {
                             </TableHeader>
                             <TableBody>
                                 <TableRow>
-                                    <TableCell>I am User Man</TableCell>
+                                    <TableCell>Name</TableCell>
                                     <TableCell>
                                         <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"monday"} saveHandle={saveHandle} />
                                     </TableCell>
