@@ -248,13 +248,23 @@ const Calendar = () => {
 
     const saveHandle = (day) => {
         let end = (week[day].endTime.hour + (week[day].endTime.minute / 60));
-        let start = (week[day].startTime.hour + (week[day].startTime.minute / 60))
-        if(!week[day].saved){
+        let start = (week[day].startTime.hour + (week[day].startTime.minute / 60));
+        let breakEnd = (week[day].breakEnd.hour + (week[day].breakEnd.minute / 60));
+        let breakStart = (week[day].breakStart.hour + (week[day].breakStart.minute / 60));
+        if(!week[day].saved && end > 0 && start > 0){
             if(start > end){
                 week[day].totalHours = (end+12 - start)
             } else{
                 week[day].totalHours = (end - start)
+            } 
+            if(breakEnd > 0 && breakStart > 0){
+                if(breakStart > breakEnd){
+                    week[day].totalHours -= (breakEnd+12 - breakStart)
+                } else{
+                    week[day].totalHours -= (breakEnd - breakStart)
+                }
             }
+            
         }
         setWeek(week => ({
             ...week, [day]: { ...week[day], saved: !(week[day].saved) }
