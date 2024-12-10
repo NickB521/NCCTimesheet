@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Button, Card, CardHeader, CardBody, Table,
     TableHeader, TableBody, TableRow, TableColumn, TableCell,
     Textarea, DatePicker, Checkbox, TimeInput, Popover, PopoverTrigger, PopoverContent
 } from "@nextui-org/react";
-import { CalendarDate, getDayOfWeek } from "@internationalized/date";
+import { getDayOfWeek, getLocalTimeZone, today } from "@internationalized/date";
 
 const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {
 
@@ -209,26 +209,21 @@ const Calendar = () => {
         }
     });
 
+    useEffect(() => {
+        let currentDate = today(getLocalTimeZone())
+        CalendarHandle(currentDate)
+    })
+
     const CalendarHandle = (input) => {
-        const date = new CalendarDate(input.year, input.month, input.day);
         const key = Object.keys(week)
-        if (getDayOfWeek(date, "en-US") == 1) {
-            for (let i = 0; i < key.length; i++) {
-                week[key[i]].day = input.month + "/" + input.day
-                document.getElementById(key[i]).innerHTML = week[key[i]].day + ""
-                input.day += 1
-            }
-            input.day -= 7
-            setWeek(week);
-            document.getElementById("errorCode").innerHTML = "";
-        } else {
-            document.getElementById("errorCode").innerHTML = "Please select a Monday!";
-            if (document.getElementById("monday").innerHTML.includes("/")) {
-                for (let i = 0; i < key.length; i++) {
-                    document.getElementById(key[i]).innerHTML = ""
-                }
-            }
+        input.day -= (getDayOfWeek(input, "en-US") - 1)
+        for (let i = 0; i < key.length; i++) {
+            week[key[i]].day = input.month + "/" + input.day
+            document.getElementById(key[i]).innerHTML = week[key[i]].day + ""
+            input.day += 1
         }
+        input.day -= 7
+        setWeek(week);
     }
 
     const breakHandle = (day) => {
@@ -238,9 +233,9 @@ const Calendar = () => {
     }
 
     const timeSet = (inpt, day, timeType) => {
-        if (inpt.hour == null) {
-            inpt.hour = week[day][timeType].hour;
-        }
+        // if (inpt.hour == null) {
+        //     inpt.hour = week[day][timeType].hour;
+        // }
         setWeek(week => ({
             ...week, [day]: { ...week[day], [timeType]: { ...week[day][timeType], hour: inpt.hour, minute: ((((inpt.minute + 7.5) / 15 | 0) * 15) % 60) } }
         }));
@@ -248,23 +243,13 @@ const Calendar = () => {
 
     const saveHandle = (day) => {
         let end = (week[day].endTime.hour + (week[day].endTime.minute / 60));
-        let start = (week[day].startTime.hour + (week[day].startTime.minute / 60));
-        let breakEnd = (week[day].breakEnd.hour + (week[day].breakEnd.minute / 60));
-        let breakStart = (week[day].breakStart.hour + (week[day].breakStart.minute / 60));
-        if(!week[day].saved && end > 0 && start > 0){
+        let start = (week[day].startTime.hour + (week[day].startTime.minute / 60))
+        if(!week[day].saved){
             if(start > end){
                 week[day].totalHours = (end+12 - start)
             } else{
                 week[day].totalHours = (end - start)
-            } 
-            if(breakEnd > 0 && breakStart > 0){
-                if(breakStart > breakEnd){
-                    week[day].totalHours -= (breakEnd+12 - breakStart)
-                } else{
-                    week[day].totalHours -= (breakEnd - breakStart)
-                }
             }
-            
         }
         setWeek(week => ({
             ...week, [day]: { ...week[day], saved: !(week[day].saved) }
