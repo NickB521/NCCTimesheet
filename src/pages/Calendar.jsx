@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Button, Card, CardHeader, CardBody, Table,
     TableHeader, TableBody, TableRow, TableColumn, TableCell,
     Textarea, DatePicker, Tooltip, Checkbox, TimeInput
 } from "@nextui-org/react";
-import { CalendarDate, getDayOfWeek } from "@internationalized/date";
+import { getDayOfWeek, getLocalTimeZone, today } from "@internationalized/date";
 
 const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {
     return (
@@ -15,22 +15,22 @@ const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {
                 content={
                     // change the provider to allow for native handling or adapt to aria????
                     <>
-                        <TimeInput isRequired label={"Start Time"} onChange={(inpt) => timeSet(inpt, day, "startTime")} value={week[day].startTime} 
-                            isDisabled={week[day].saved}/>
+                        <TimeInput isRequired label={"Start Time"} onChange={(inpt) => timeSet(inpt, day, "startTime")} value={week[day].startTime}
+                            isDisabled={week[day].saved} />
                         <Checkbox onClick={() => breakHandle(day)} isSelected={week[day].breakTaken}
                             isDisabled={week[day].saved}>Meal Break?</Checkbox>
                         {week[day].breakTaken ?
                             <>
                                 <TimeInput isRequired label={"Break Start"} onChange={(inpt) => timeSet(inpt, day, "breakStart")} value={week[day].breakStart}
-                                isDisabled={week[day].saved} />
+                                    isDisabled={week[day].saved} />
                                 <TimeInput isRequired label={"Break End"} onChange={(inpt) => timeSet(inpt, day, "breakEnd")} value={week[day].breakEnd}
-                                isDisabled={week[day].saved} />
+                                    isDisabled={week[day].saved} />
                             </>
                             : ""}
                         <TimeInput isRequired label={"End Time"} onChange={(inpt) => timeSet(inpt, day, "endTime")} value={week[day].endTime}
-                        isDisabled={week[day].saved} />
+                            isDisabled={week[day].saved} />
                         {week[day].saved ? "Total Hours Worked: " + week[day].totalHours : ""}
-                        <Button onClick={() => saveHandle(day)}> { week[day].saved ? "Edit" : "Save"}</Button>
+                        <Button onClick={() => saveHandle(day)}> {week[day].saved ? "Edit" : "Save"}</Button>
                     </>
                 }
                 classNames={{
@@ -211,26 +211,21 @@ const Calendar = () => {
         }
     });
 
+    useEffect(() => {
+        let currentDate = today(getLocalTimeZone())
+        CalendarHandle(currentDate)
+    })
+
     const CalendarHandle = (input) => {
-        const date = new CalendarDate(input.year, input.month, input.day);
         const key = Object.keys(week)
-        if (getDayOfWeek(date, "en-US") == 1) {
-            for (let i = 0; i < key.length; i++) {
-                week[key[i]].day = input.month + "/" + input.day
-                document.getElementById(key[i]).innerHTML = week[key[i]].day + ""
-                input.day += 1
-            }
-            input.day -= 7
-            setWeek(week);
-            document.getElementById("errorCode").innerHTML = "";
-        } else {
-            document.getElementById("errorCode").innerHTML = "Please select a Monday!";
-            if (document.getElementById("monday").innerHTML.includes("/")) {
-                for (let i = 0; i < key.length; i++) {
-                    document.getElementById(key[i]).innerHTML = ""
-                }
-            }
+        input.day -= (getDayOfWeek(input, "en-US") - 1)
+        for (let i = 0; i < key.length; i++) {
+            week[key[i]].day = input.month + "/" + input.day
+            document.getElementById(key[i]).innerHTML = week[key[i]].day + ""
+            input.day += 1
         }
+        input.day -= 7
+        setWeek(week);
     }
 
     const breakHandle = (day) => {
@@ -249,7 +244,7 @@ const Calendar = () => {
     }
 
     const saveHandle = (day) => {
-        if(!week[day].saved){
+        if (!week[day].saved) {
             console.log("hours be houring")
         }
         setWeek(week => ({
