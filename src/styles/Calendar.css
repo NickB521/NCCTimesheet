@@ -23,3 +23,41 @@
     color: red;
     font-weight: bold;
 }
+
+/* calendar-dropdown Content */
+#dropdown-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    padding-right: 30px;
+  }
+  
+#dropdown-container button {
+all: unset;
+}
+
+.dropdown-gap-fix ul {
+gap: 0 !important;
+height: fit-content;
+}
+
+/* calendar-dropdown Items */
+#calendar-dropdown > *{
+font-size: 16px;
+align-content: center;
+flex-direction: column;
+display: flex;
+}
+
+#calendar-dropdown li {
+padding: 3px;
+}
+
+#calendar-dropdown > * > * > * > * {
+padding: 0;
+margin-top: 20px;
+min-width: 145px;
+border-radius: 10px;
+box-shadow: 2px 4px 4px 0px var(--light-gray);
+border: 1px solid var(--light-gray);
+}
