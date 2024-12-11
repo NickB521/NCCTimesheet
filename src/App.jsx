@@ -7,6 +7,10 @@ import Navigation from './components/Navigation';
 import Header from './components/Header';
 import Dashboard from "./users/employee/pages/Dashboard.jsx";
 import Calendar from "./users/employee/pages/Calendar.jsx";
+import SupervisorDashboard from "./users/supervisor/pages/SupervisorDashboard.jsx";
+import SupervisorCalendar from "./users/supervisor/pages/SupervisorCalendar.jsx";
+import CoordinatorDashboard from "./users/coordinator/pages/CoordinatorDashboard.jsx"
+import CoordinatorCalendar from "./users/coordinator/pages/CoordinatorCalendar.jsx"
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 
@@ -26,7 +30,6 @@ const getCalendar = (role) => {
 }
 
 const getDashboard = (role) => {
-  console.log(role);
   switch (role){
     case "Employee":
       return <Dashboard/>;
@@ -38,15 +41,16 @@ const getDashboard = (role) => {
 }
 
 const App = () => {
+
   const [user, setUser] = useState({
     name: "USER IS ME",
-    role: "Employee",
+    role: "Supervisor",
     email: "email@email.com",
     worksite: {
       name: ""
-    },
-    temp: true
+    }
   });
+
   return (
     <>
       <Header />
