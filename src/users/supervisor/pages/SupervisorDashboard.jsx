@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Edit, Forward, Success, Denied, Seperator } from "/src/assets/icons/dashboard";
-import { Tooltip } from "@nextui-org/react";
+import { Tooltip, Textarea } from "@nextui-org/react";
 
 const Widget = ({ date, content }) => {
   const [maxChars, setMaxChars] = useState(25);
@@ -150,6 +150,9 @@ const EmailCard = ({ name, email }) => {
 
 const SupervisorDashboard = () => {
   const [greeting, setGreeting] = useState('');
+  const [editPolicies, setEditPolicies] = useState(true);
+  const [submitText, setSubmitText] = useState("Edit");
+  const [worksitePolicies, setWorksitePolicies] = useState("");
 
   useEffect(() => {
     const currentHour = new Date().getHours();
@@ -231,21 +234,17 @@ const SupervisorDashboard = () => {
           </div>
           <div className="side-card break-words">
             <h1>Worksite Policies</h1>
-            <div style={{width: "80%"}}>
+            <div id="worksite-policies">
               <h2 style={{fontSize: "18px", fontWeight: "600", textAlign:"center"}}>Code Differently</h2>
-              <div style={{paddingTop: "20px"}}>
-                <ol style={{listStyleType:"numbered"}}>
-                  <li>Have a working computer</li>
-                  <li>Have a working  camera and microphone</li>
-                  <li>Arrive a few minutes early</li>
-                  <li>Dress Code: Smart casual</li>
-                  <li>Meeting ID: 882 9530 8001</li>
-                  <li>Passcode: 951068</li>
-                </ol>
-              </div>
-              <div>
-                <p></p>
-                <p className="break-words"></p>
+              <div style={{paddingTop: "20px", height: "80%"}}>
+                <textarea 
+                  disabled={editPolicies}
+                  placeholder="Enter your description"
+                  onChange={(inp) => setWorksitePolicies(inp)}
+                >
+                  {worksitePolicies}
+                </textarea>
+                <button id="textarea-button" onClick={() => {setEditPolicies(!editPolicies), setSubmitText(editPolicies ? "Submit" : "Edit")}}>{submitText}</button>
               </div>
             </div>
           </div>
