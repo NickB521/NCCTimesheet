@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Edit, Forward, Success, Denied, Seperator } from "../assets/icons/dashboard";
+import { Edit, Forward, Success, Denied, Seperator } from "/src/assets/icons/dashboard";
 import { Tooltip } from "@nextui-org/react";
 
 const Widget = ({ date, content }) => {
