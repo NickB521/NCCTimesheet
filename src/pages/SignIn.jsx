@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { User, Eye, EyeClosed, Lock } from "../assets/icons/sign-in";
 import { Input } from "@nextui-org/react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const SignInput = ({ type, placeholder, startContent, endContent, isPassword }) => {
+const SignInput = ({ type, placeholder, startContent, endContent, isPassword, setInfo }) => {
     const [isVisible, setIsVisible] = useState(false);
 
     const toggleVisibility = () => {
@@ -15,9 +15,10 @@ const SignInput = ({ type, placeholder, startContent, endContent, isPassword }) 
     return (
         <div className="sign-in-input flex w-full flex-wrap md:flex-nowrap gap-4">
             <Input
-                type={inputType}
-                placeholder={placeholder}
+                onChange={(inp) => setInfo(inp)}
                 radius="full"
+                placeholder={placeholder}
+                type={inputType}
                 startContent={startContent}
                 endContent={
                     isPassword ? (
@@ -41,7 +42,24 @@ const SignInput = ({ type, placeholder, startContent, endContent, isPassword }) 
     );
 };
 
+
+
 const SignIn = () => {
+    
+    const [pass, setPass] = useState("");
+    const [username, setUsername] = useState("");
+
+    const navigate = useNavigate();
+
+    const LogIn = () => {
+        console.log(pass, username);
+        navigate("/");
+    }
+    
+    const SignUp = () => {
+        navigate("/sign-up");
+    }
+
     return (
         <>
             <div id="sign-in">
@@ -52,12 +70,14 @@ const SignIn = () => {
                         type="text"
                         placeholder="Username"
                         startContent={<User />}
+                        setInfo={setUsername}
                     />
 
                     <SignInput
                         isPassword={true}
                         placeholder="Password"
                         startContent={<Lock />}
+                        setInfo={setPass}
                     />
 
                     <div id="sign-in-text">
@@ -65,15 +85,11 @@ const SignIn = () => {
                     </div>
 
                     <div id="sign-in-button-div">
-                        <Link to="/" style={{ width: "100%" }}>
-                            <button id="sign-in-button">Sign In</button>
-                        </Link>
+                        <button id="sign-in-button" onClick={LogIn}>Sign In</button>
                     </div>
 
                     <div id="sign-in-text" style={{ textAlign: "center" }}>
-                        <Link to="/sign-up" style={{ width: "100%" }}>
-                            <p>Sign Up Today!</p>
-                        </Link>
+                        <button onClick={SignUp}>Sign Up Today!</button>
                     </div>
                 </div>
             </div>

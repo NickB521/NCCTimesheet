@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Edit, Forward, Success, Denied, Seperator } from "../assets/icons/dashboard";
+import { Edit, Forward, Success, Denied, Seperator } from "/src/assets/icons/dashboard";
 import { Tooltip } from "@nextui-org/react";
 
 const Widget = ({ date, content }) => {
@@ -148,7 +148,7 @@ const EmailCard = ({ name, email }) => {
   )
 }
 
-const Dashboard = () => {
+const SupervisorDashboard = () => {
   const [greeting, setGreeting] = useState('');
 
   useEffect(() => {
@@ -168,7 +168,7 @@ const Dashboard = () => {
     <div id="dashboard" >
       <div id="dashboard-header" className="bg-red-100">
         <div id="dashboard-header-content">
-          <p className="text-5xl" style={{fontSize:"48px"}}>Good {greeting}!</p>
+          <p className="text-5xl" style={{fontSize:"48px"}}>Supervisor Good {greeting}!</p>
           <p className="text-2xl" style={{fontSize:"32px"}}>name</p>
         </div>
       </div>
@@ -282,5 +282,5 @@ const Dashboard = () => {
   );
 }
 
-export default Dashboard;
+export default SupervisorDashboard;
 
