@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Edit, Forward, Success, Denied, Seperator } from "/src/assets/icons/dashboard";
-import { Tooltip, Textarea } from "@nextui-org/react";
+import { Tooltip } from "@nextui-org/react";
+import { announcements } from "../../../assets/data/announcement-data";
 
 const Widget = ({ date, content }) => {
   const [maxChars, setMaxChars] = useState(25);
@@ -154,6 +155,9 @@ const SupervisorDashboard = () => {
   const [submitText, setSubmitText] = useState("Edit");
   const [worksitePolicies, setWorksitePolicies] = useState("");
 
+  const addAnnouncementRow = () => {
+  }
+
   useEffect(() => {
     const currentHour = new Date().getHours();
     if (currentHour >= 5 && currentHour < 12) {
@@ -239,7 +243,7 @@ const SupervisorDashboard = () => {
               <div style={{paddingTop: "20px", height: "80%"}}>
                 <textarea 
                   disabled={editPolicies}
-                  placeholder="Enter your description"
+                  placeholder="Enter your policies..."
                   onChange={(inp) => setWorksitePolicies(inp)}
                 >
                   {worksitePolicies}
@@ -270,10 +274,18 @@ const SupervisorDashboard = () => {
           </div>
           <div className="side-card">
             <h1>Announcements</h1>
-            <Widget date="06/02/2024" content="NCCVT - Mandatory PD Training, Zoom Link In Email" />
-            <Widget date="08/21/2024" content="Supervisor 1 - PD Days Wed/Thur" />
-            <Widget date="09/18/2024" content="Day Off Tomorrow" />
-            <Widget date="10/15/2024" content="Shift Availible For Pickup" />
+            <div id="announcement-content">
+              {announcements.map((item, index) => (
+                  <Widget key={index} date={item.date} content={item.content} />
+              ))}
+              <Widget date="06/02/2024" content="NCCVT - Mandatory PD Training, Zoom Link In Email" />
+              <Widget date="08/21/2024" content="Supervisor 1 - PD Days Wed/Thur" />
+              <Widget date="09/18/2024" content="Day Off Tomorrow" />
+              <Widget date="10/15/2024" content="Shift Availible For Pickup" />
+              <Widget date="09/18/2024" content="Day Off Tomorrow" />
+              <Widget date="10/15/2024" content="Shift Availible For Pickup" />
+            </div>
+            <button id="announcement-button" onClick={() => addAnnouncementRow()}>Make Announcement</button>
           </div>
         </div>
       </div>
