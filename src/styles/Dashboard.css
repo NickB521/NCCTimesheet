@@ -121,12 +121,11 @@
 
 textarea{
     overflow-x: visible;
-    width: 100%;
-    height: 90% !important;
     background-color: var(--background);
     border-radius: 10px;
     padding: 10px !important;
     font-size: 10px;
+    resize: none !important;
 }
 
 #textarea-button{
@@ -149,4 +148,47 @@ textarea{
     border-radius: 10px;
     padding: 10px 20px;
     margin-top: 10px;
+}
+
+#announcement-window{
+    position: absolute;
+    display: flex;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--light-blue);
+    height: 300px;
+    width: 300px;
+    border-radius: 10px;
+    border: 1px var(--light-gray) solid;
+    box-shadow: 2px 4px 4px 0px var(--light-gray);
+    justify-content: center;
+    padding: 10px 20px;
+}
+
+#announcement-window-content{
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    color: white;
+}
+
+#announcement-button-div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 15px 0px 5px;
+}
+
+#announcement-button-div > button{
+    padding: 10px 20px; 
+    border-radius: 10px;
+    background-color: var(--dark-blue);
+}
+
+#cancel{
+    background-color: var(--gray) !important;
 }
