@@ -203,30 +203,6 @@ const SupervisorDashboard = () => {
             status="success"
             icon={<Edit/>}
           />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Edit/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
           <button id="timesheet-button">View All Timesheets</button>
         </div>
         <div id="side-cards">
