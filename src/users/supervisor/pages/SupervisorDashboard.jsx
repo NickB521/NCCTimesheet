@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Edit, Forward, Success, Denied, Seperator } from "/src/assets/icons/dashboard";
 import { Tooltip } from "@nextui-org/react";
 import { announcements } from "../../../assets/data/announcement-data";
+import { timesheets } from "../../../assets/data/timesheets-data";
 
 const Widget = ({ date, content }) => {
   const [maxChars, setMaxChars] = useState(25);
@@ -175,32 +176,32 @@ const SupervisorDashboard = () => {
     <div id="dashboard" >
       <div id="dashboard-header" className="bg-red-100">
         <div id="dashboard-header-content">
-          <p className="text-5xl" style={{fontSize:"48px"}}>Supervisor Good {greeting}!</p>
+          <p className="text-5xl" style={{fontSize:"48px"}}>Good {greeting} Supervisor!</p>
           <p className="text-2xl" style={{fontSize:"32px"}}>name</p>
         </div>
       </div>
       <div id="dashboard-body">
         <div id="main-card">
           <h1 style={{fontSize: "36px", fontWeight: "600", padding: "15px 0px 10px"}}>Timesheets</h1>
-          <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Recent Timesheets</h1>
+          <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Submitted Timesheets</h1>
           <TimesheetCard
             date="2023-11-19"
             hours="40"
             status="default"
             icon={<Edit/>}
           />
-          <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Past Timesheets</h1>
-          <TimesheetCard
+            <TimesheetCard
             date="2023-11-12"
             hours="40"
-            status="danger"
-            icon={<Denied/>}
+            status="default"
+            icon={<Edit/>}
           />
+          <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Resubmitted Timesheets</h1>
           <TimesheetCard
             date="2023-11-05"
             hours="35"
             status="success"
-            icon={<Success/>}
+            icon={<Edit/>}
           />
           <button id="timesheet-button">View All Timesheets</button>
         </div>
