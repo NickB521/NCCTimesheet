@@ -207,26 +207,27 @@ const SupervisorDashboard = () => {
             <Widget date="01/20/2025" content="Martin Luther King, Jr. Day" />
             <Widget date="05/26/2025" content="Memorial Day" />
           </div>
-
-          <div id="worksite-policies">
-          <h2 style={{ fontSize: "18px", fontWeight: "600", textAlign: "center" }}>Code Differently</h2>
-          <div style={{ paddingTop: "20px", height: "80%" }}>
-            <textarea
-              disabled={editPolicies}
-              placeholder="Enter your policies..."
-              onChange={(e) => setWorksitePolicies(e.target.value)}
-              value={worksitePolicies}
-              style={{ width: "100%", height: "90%" }}
-            />
-            <button
-              id="textarea-button"
-              onClick={() => {
-                setEditPolicies(!editPolicies);
-                setSubmitText(editPolicies ? "Submit" : "Edit");
-              }}
-            >
-              {submitText}
-            </button>
+          <div className="side-card">
+            <div id="worksite-policies">
+              <h2 style={{ fontSize: "18px", fontWeight: "600", textAlign: "center" }}>Code Differently</h2>
+              <div style={{ paddingTop: "20px", height: "80%" }}>
+                <textarea
+                  disabled={editPolicies}
+                  placeholder="Enter your policies..."
+                  onChange={(e) => setWorksitePolicies(e.target.value)}
+                  value={worksitePolicies}
+                  style={{ width: "100%", height: "90%" }}
+                />
+                <button
+                  id="textarea-button"
+                  onClick={() => {
+                    setEditPolicies(!editPolicies);
+                    setSubmitText(editPolicies ? "Submit" : "Edit");
+                  }}
+                >
+                  {submitText}
+                </button>
+              </div>
           </div>
         </div>
 
