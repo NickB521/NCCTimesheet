@@ -157,8 +157,8 @@ textarea{
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: var(--light-blue);
-    height: 300px;
-    width: 300px;
+    height: 400px;
+    width: 400px;
     border-radius: 10px;
     border: 1px var(--light-gray) solid;
     box-shadow: 2px 4px 4px 0px var(--light-gray);
