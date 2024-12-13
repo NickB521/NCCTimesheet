@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { User, Eye, EyeClosed, Lock } from "../assets/icons/sign-in";
+import { Email, Eye, EyeClosed, Lock } from "../assets/icons/sign-in";
 import { Input } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 
@@ -15,7 +15,7 @@ const SignInput = ({ type, placeholder, startContent, endContent, isPassword, se
     return (
         <div className="sign-in-input flex w-full flex-wrap md:flex-nowrap gap-4">
             <Input
-                onChange={(inp) => setInfo(inp)}
+                onValueChange={(inp) => setInfo(inp)}
                 radius="full"
                 placeholder={placeholder}
                 type={inputType}
@@ -42,18 +42,18 @@ const SignInput = ({ type, placeholder, startContent, endContent, isPassword, se
     );
 };
 
-
-
 const SignIn = () => {
     
     const [pass, setPass] = useState("");
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
 
     const navigate = useNavigate();
 
     const LogIn = () => {
-        console.log(pass, username);
-        navigate("/");
+        if(email && pass && (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email))){
+            navigate("/");
+        }
+        
     }
     
     const SignUp = () => {
@@ -68,9 +68,9 @@ const SignIn = () => {
                     
                     <SignInput
                         type="text"
-                        placeholder="Username"
-                        startContent={<User />}
-                        setInfo={setUsername}
+                        placeholder="Email"
+                        startContent={<Email />}
+                        setInfo={setEmail}
                     />
 
                     <SignInput

@@ -6,8 +6,8 @@ import { DropdownIcon } from "../assets/icons";
 import { useLocation, Link } from "react-router-dom";
 
 const Navigation = () => {
-    console.log(useLocation().pathname)
     const [expanded, setExpanded] = useState(false);
+    const location = useLocation();
 
     const toggleExpanded = () => {
         setExpanded(!expanded);
@@ -16,8 +16,8 @@ const Navigation = () => {
     const NavigationButton = ({ name, icon, page }) => {
         return (
             <Link to={ page }>
-                <div id="page-navigation-line" className={ useLocation().pathname != page ? "inactive" : "active" }>
-                    { useLocation().pathname != page
+                <div id="page-navigation-line" className={ location.pathname != page ? "inactive" : "active" }>
+                    { location.pathname != page
                         ? <></>
                         : <Pointer id='page-navigation-pointer' /> }
 
@@ -33,7 +33,7 @@ const Navigation = () => {
     }
 
     return (
-        (useLocation().pathname == '/sign-in' || useLocation().pathname == '/sign-up')
+        (location.pathname == '/sign-in' || location.pathname == '/sign-up')
         ? <></>
         : <div className={ `navigation ${ expanded ? "open" : "" }` }>
             <div id="page-navigation">

@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { User, Eye, EyeClosed, Lock, Email, Worksite } from "../assets/icons/sign-in";
+import { Eye, EyeClosed, Lock, Email, Worksite } from "../assets/icons/sign-in";
 import { Input } from "@nextui-org/react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const SignInput = ({ type, placeholder, startContent, endContent, isPassword, worksiteOptions }) => {
+const SignInput = ({ type, placeholder, startContent, endContent, isPassword, info, setInfo, worksiteOptions }) => {
     const [isVisible, setIsVisible] = useState(false);
-    const [inputValue, setInputValue] = useState("");
     const [filteredOptions, setFilteredOptions] = useState([]);
 
     const toggleVisibility = () => {
@@ -14,20 +13,19 @@ const SignInput = ({ type, placeholder, startContent, endContent, isPassword, wo
 
     const inputType = isPassword ? (isVisible ? "text" : "password") : type;
 
-    const handleInputChange = (e) => {
-        const value = e.target.value;
-        setInputValue(value);
+    const handleInputChange = (inp) => {
+        setInfo(inp);
 
         if (type === "worksite" && worksiteOptions) {
             const matches = worksiteOptions.filter((worksiteOptions) =>
-                worksiteOptions.toLowerCase().includes(value.toLowerCase())
+                worksiteOptions.toLowerCase().includes(inp.toLowerCase())
             );
             setFilteredOptions(matches);
         }
     };
 
     const handleOptionClick = (worksiteOptions) => {
-        setInputValue(worksiteOptions);
+        setInfo(worksiteOptions);
         setFilteredOptions([]);
     };
 
@@ -35,11 +33,11 @@ const SignInput = ({ type, placeholder, startContent, endContent, isPassword, wo
         <div className="sign-in-input flex w-full flex-wrap md:flex-nowrap gap-4 relative">
             <Input
                 type={inputType}
+                value={info}
                 placeholder={placeholder}
                 radius="full"
                 startContent={startContent}
-                value={inputValue}
-                onChange={handleInputChange}
+                onValueChange={(inp) => handleInputChange(inp)}
                 endContent={
                     isPassword ? (
                         <button
@@ -58,7 +56,7 @@ const SignInput = ({ type, placeholder, startContent, endContent, isPassword, wo
                 }
             />
             {type === "worksite" && filteredOptions.length > 0 && (
-                <ul className="absolute top-full left-0 w-full bg-white border border-gray-300 rounded-md z-10 overflow-y-auto" style={{marginTop: "80px", maxHeight: "120px"}}>
+                <ul className="absolute top-full left-0 w-full bg-white border border-gray-300 rounded-md z-10 overflow-y-auto" style={{ marginTop: "80px", maxHeight: "120px" }}>
                     {filteredOptions.map((worksiteOptions, index) => (
                         <li
                             key={index}
@@ -76,7 +74,19 @@ const SignInput = ({ type, placeholder, startContent, endContent, isPassword, wo
 
 const SignUp = () => {
     const worksites = ["Code Differently", "Ice Cream Parlor", "Library", "Site 4", "Site 5"];
+    const [email, setEmail] = useState("");
+    const [pass, setPass] = useState("");
+    const [workSite, setWorkSite] = useState("");
+    const navigate = useNavigate();
+    const SignUp = () => {
+        if (email && pass && workSite && (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email))) {
+            navigate("/");
+        }
 
+    }
+    const LogIn = () => {
+        navigate("/sign-in");
+    }
     return (
         <>
             <div id="sign-in">
@@ -87,37 +97,33 @@ const SignUp = () => {
                         type="email"
                         placeholder="Email"
                         startContent={<Email />}
-                    />
-
-                    <SignInput
-                        type="username"
-                        placeholder="Username"
-                        startContent={<User />}
+                        info={email}
+                        setInfo={setEmail}
                     />
 
                     <SignInput
                         isPassword={true}
                         placeholder="Password"
                         startContent={<Lock />}
+                        info={pass}
+                        setInfo={setPass}
                     />
 
                     <SignInput
                         type="worksite"
                         placeholder="Worksite"
                         startContent={<Worksite />}
+                        info={workSite}
+                        setInfo={setWorkSite}
                         worksiteOptions={worksites}
                     />
 
                     <div id="sign-in-button-div">
-                        <Link to="/" style={{ width: "100%" }}>
-                            <button id="sign-in-button">Sign Up</button>
-                        </Link>
+                            <button id="sign-in-button" onClick={SignUp}>Sign Up</button>
                     </div>
 
                     <div id="sign-in-text" style={{ textAlign: "center" }}>
-                        <Link to="/sign-in" style={{ width: "100%" }}>
-                            <p>Already Have An Account?</p>
-                        </Link>
+                            <button onClick={LogIn}>Already Have An Account?</button>
                     </div>
                 </div>
             </div>
