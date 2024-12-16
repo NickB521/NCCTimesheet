@@ -3,6 +3,7 @@ import { Edit, Forward, Success, Denied, Seperator } from "/src/assets/icons/das
 import { Tooltip } from "@nextui-org/react";
 import { announcements } from "../../../assets/data/announcement-data";
 import { timesheets } from "../../../assets/data/timesheets-data";
+import { resubmitted } from "../../../assets/data/resubmittedtimesheets-data";
 
 const Widget = ({ date, content }) => {
   const [maxChars, setMaxChars] = useState(25);
@@ -184,25 +185,18 @@ const SupervisorDashboard = () => {
         <div id="main-card">
           <h1 style={{fontSize: "36px", fontWeight: "600", padding: "15px 0px 10px"}}>Timesheets</h1>
           <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Submitted Timesheets</h1>
-          <TimesheetCard
-            date="2023-11-19"
-            hours="40"
-            status="default"
-            icon={<Edit/>}
-          />
-            <TimesheetCard
-            date="2023-11-12"
-            hours="40"
-            status="default"
-            icon={<Edit/>}
-          />
+
+          {timesheets.map((item, index) => (
+                  <Widget key={index} date={item.date} content={item.content} />
+              ))}
+              
+
           <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Resubmitted Timesheets</h1>
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Edit/>}
-          />
+
+          {resubmitted.map((item, index) => (
+                  <Widget key={index} date={item.date} content={item.content} />
+              ))}
+
           <button id="timesheet-button">View All Timesheets</button>
         </div>
         <div id="side-cards">
