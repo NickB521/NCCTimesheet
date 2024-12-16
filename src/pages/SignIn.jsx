@@ -1,46 +1,8 @@
 import React, { useState } from "react";
-import { Email, Eye, EyeClosed, Lock } from "../assets/icons/sign-in";
-import { Input } from "@nextui-org/react";
+import { Email, Lock } from "../assets/icons/sign-in";
 import { useNavigate } from "react-router-dom";
+import SignInput from "../components/SignInput";
 
-const SignInput = ({ type, placeholder, startContent, endContent, isPassword, setInfo }) => {
-    const [isVisible, setIsVisible] = useState(false);
-
-    const toggleVisibility = () => {
-        setIsVisible(!isVisible);
-    };
-
-    const inputType = isPassword ? (isVisible ? "text" : "password") : type;
-
-    return (
-        <div className="sign-in-input flex w-full flex-wrap md:flex-nowrap gap-4">
-            <Input
-                onValueChange={(inp) => setInfo(inp)}
-                radius="full"
-                placeholder={placeholder}
-                type={inputType}
-                startContent={startContent}
-                endContent={
-                    isPassword ? (
-                        <button
-                            className="focus:outline-none"
-                            type="button"
-                            onClick={toggleVisibility}
-                        >
-                            {isVisible ? (
-                                <Eye className="text-2xl text-default-400 pointer-events-none" />
-                            ) : (
-                                <EyeClosed className="text-2xl text-default-400 pointer-events-none" />
-                            )}
-                        </button>
-                    ) : (
-                        endContent
-                    )
-                }
-            />
-        </div>
-    );
-};
 
 const SignIn = () => {
     
@@ -70,6 +32,7 @@ const SignIn = () => {
                         type="text"
                         placeholder="Email"
                         startContent={<Email />}
+                        info={email}
                         setInfo={setEmail}
                     />
 
@@ -77,6 +40,7 @@ const SignIn = () => {
                         isPassword={true}
                         placeholder="Password"
                         startContent={<Lock />}
+                        info={pass}
                         setInfo={setPass}
                     />
 
