@@ -9,13 +9,15 @@ const useResponsiveMaxChars = (defaultMax) => {
   useEffect(() => {
     const updateMaxChars = () => {
       const screenWidth = window.innerWidth;
-      if (screenWidth < 950) setMaxChars(5);
-      else if (screenWidth < 1100) setMaxChars(10);
-      else if (screenWidth < 1350) setMaxChars(15);
-      else if (screenWidth < 1600) setMaxChars(20);
-      else if (screenWidth < 1850) setMaxChars(30);
-      else if (screenWidth < 1970) setMaxChars(40);
-      else setMaxChars(45);
+      if (screenWidth < 1000) setMaxChars(5);
+      else if (screenWidth < 1175) setMaxChars(10);
+      else if (screenWidth < 1275) setMaxChars(12);
+      else if (screenWidth < 1400) setMaxChars(15);
+      else if (screenWidth < 1700) setMaxChars(17);
+      else if (screenWidth < 1950) setMaxChars(25);
+      else if (screenWidth < 2250) setMaxChars(30);
+      else if (screenWidth < 2450) setMaxChars(35);
+      else setMaxChars(40);
     };
 
     updateMaxChars();
@@ -241,10 +243,10 @@ const SupervisorDashboard = () => {
           </div>
           <div className="side-card">
             <h1>Announcements</h1>
-            <div id="announcement-content">
+            <div id="announcement-content" style={{cursor:"pointer"}} >
               {announcements.map((item, index) => (
                 <div onClick={() => handleAnnouncementClick(index)} key={index}>
-                  <Widget date={item.date} content={item.content} />
+                  <Widget date={item.date} content={item.content}/>
                 </div>
               ))}
             </div>
