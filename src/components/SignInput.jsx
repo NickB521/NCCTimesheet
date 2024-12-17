@@ -2,20 +2,25 @@ import React, { useState } from "react";
 import { Eye, EyeClosed } from "../assets/icons/sign-in";
 import { Input } from "@nextui-org/react";
 
-const SignInput = ({ type, placeholder, startContent, endContent, isPassword, info, setInfo, worksiteOptions }) => {
+const SignInput = ({ placeholder, startContent, endContent, info, setInfo, worksiteOptions }) => {
+
+    //Initalizes 2 states isVisibile is used to show and hide password 
+    //FilterOptions is used while the user is typing a worksite
     const [isVisible, setIsVisible] = useState(false);
     const [filteredOptions, setFilteredOptions] = useState([]);
 
+    //Toggles the isVisible state
     const toggleVisibility = () => {
         setIsVisible(!isVisible);
     };
 
-    const inputType = isPassword ? (isVisible ? "text" : "password") : type;
+    //Handles the input type depending on what placeHolder is used
+    const inputType = (placeholder == "Password") ? (isVisible ? "text" : "password") : "text";
 
+    //Handles any input change and handles filtering of possible worksites
     const handleInputChange = (inp) => {
         setInfo(inp);
-
-        if (type === "worksite" && worksiteOptions) {
+        if (placeholder === "Worksite" && worksiteOptions) {
             const matches = worksiteOptions.filter((worksiteOptions) =>
                 worksiteOptions.toLowerCase().includes(inp.toLowerCase())
             );
@@ -23,6 +28,7 @@ const SignInput = ({ type, placeholder, startContent, endContent, isPassword, in
         }
     };
 
+    //this changes info based on which worksite is selected and clears the filtered list
     const handleOptionClick = (worksiteOptions) => {
         setInfo(worksiteOptions);
         setFilteredOptions([]);
@@ -38,7 +44,7 @@ const SignInput = ({ type, placeholder, startContent, endContent, isPassword, in
                 startContent={startContent}
                 onValueChange={(inp) => handleInputChange(inp)}
                 endContent={
-                    isPassword ? (
+                    placeholder == "Password" ? (
                         <button
                             type="button"
                             onClick={toggleVisibility}
@@ -54,7 +60,7 @@ const SignInput = ({ type, placeholder, startContent, endContent, isPassword, in
                     )
                 }
             />
-            {type === "worksite" && filteredOptions.length > 0 && (
+            {placeholder === "Worksite" && filteredOptions.length > 0 && (
                 <ul className="absolute top-full left-0 w-full bg-white border border-gray-300 rounded-md z-10 overflow-y-auto" style={{ marginTop: "80px", maxHeight: "120px" }}>
                     {filteredOptions.map((worksiteOptions, index) => (
                         <li

@@ -11,6 +11,8 @@ const SignIn = () => {
 
     const navigate = useNavigate();
 
+    //this checks if all needed information is filled out and validates if email is a email
+    //THIS NEEDS TO BE ADJUSTED TO THE API CALLS FOR VALIDATION!!!!!!!!!
     const LogIn = () => {
         if(email && pass && (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email))){
             navigate("/");
@@ -18,6 +20,7 @@ const SignIn = () => {
         
     }
     
+    //navigates the user to the sign-up page
     const SignUp = () => {
         navigate("/sign-up");
     }
@@ -29,7 +32,6 @@ const SignIn = () => {
                     <div id="sign-in-title">Sign In</div>
                     
                     <SignInput
-                        type="text"
                         placeholder="Email"
                         startContent={<Email />}
                         info={email}
@@ -37,7 +39,6 @@ const SignIn = () => {
                     />
 
                     <SignInput
-                        isPassword={true}
                         placeholder="Password"
                         startContent={<Lock />}
                         info={pass}

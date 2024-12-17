@@ -4,7 +4,7 @@ import {
     TableHeader, TableBody, TableRow, TableColumn, TableCell,
     Textarea, DatePicker, Checkbox, TimeInput, Popover, PopoverTrigger, PopoverContent
 } from "@nextui-org/react";
-import { getDayOfWeek, getLocalTimeZone, today } from "@internationalized/date";
+import { getDayOfWeek, getLocalTimeZone, today, startOfWeek } from "@internationalized/date";
 
 const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {
 
@@ -215,14 +215,19 @@ const Calendar = () => {
     })
 
     const CalendarHandle = (input) => {
-        const key = Object.keys(week)
-        input.day -= (getDayOfWeek(input, "en-US") - 1)
-        for (let i = 0; i < key.length; i++) {
-            week[key[i]].day = input.month + "/" + input.day
-            document.getElementById(key[i]).innerHTML = week[key[i]].day + ""
-            input.day += 1
+        let weekOf = startOfWeek(input, "en-US");
+        if (weekOf.day == input.day){
+            weekOf = weekOf.add({days: -6});
         }
-        input.day -= 7
+        else {
+            weekOf = weekOf.add({days: 1});
+        }
+        const key = Object.keys(week)
+        for (let i = 0; i < key.length; i++) {
+            week[key[i]].day = weekOf.month + "/" + weekOf.day;
+            document.getElementById(key[i]).innerHTML = week[key[i]].day + "";
+            weekOf = weekOf.add({days: 1});
+        }
         setWeek(week);
     }
 

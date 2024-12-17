@@ -11,15 +11,19 @@ const SignUp = () => {
     const [workSite, setWorkSite] = useState("");
     const navigate = useNavigate();
 
+    //this checks if all needed information is filled out and validates if email is a email
+    //THIS NEEDS TO BE ADJUSTED TO THE API CALLS FOR VALIDATION!!!!!!!!!
     const SignUp = () => {
         if (email && pass && workSite && (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email))) {
             navigate("/");
         }
-
     }
+
+    //navigates the user to log-in
     const LogIn = () => {
         navigate("/sign-in");
     }
+    
     return (
         <>
             <div id="sign-in">
@@ -27,7 +31,6 @@ const SignUp = () => {
                     <div id="sign-in-title">Sign Up</div>
 
                     <SignInput
-                        type="email"
                         placeholder="Email"
                         startContent={<Email />}
                         info={email}
@@ -35,7 +38,6 @@ const SignUp = () => {
                     />
 
                     <SignInput
-                        isPassword={true}
                         placeholder="Password"
                         startContent={<Lock />}
                         info={pass}
@@ -43,7 +45,6 @@ const SignUp = () => {
                     />
 
                     <SignInput
-                        type="worksite"
                         placeholder="Worksite"
                         startContent={<Worksite />}
                         info={workSite}
