@@ -81,6 +81,18 @@ const Header = () => {
         );
     }
 
+    const setActiveNotification = (item) => {
+
+        const notificationItems = {
+            day: item.day,
+            month: item.month,
+            year: item.year,
+        }
+
+        sessionStorage.setItem('activeNotification', JSON.stringify(notificationItems));
+        console.log(sessionStorage.getItem('activeNotification'));
+    };
+
     const NotificationListItems = ({ list }) => {
         return (
             <ScrollShadow size={100} id="scroll-bar">
@@ -102,17 +114,27 @@ const Header = () => {
                                 </div>
                             }
                         >
-                            <div className="px-1 py-1 cursor-pointer">
-                                <li id="notification-list-item-fix" className={`text-${item.color} flex p3`}>
-                                    <div>{item.icon}</div>
-                                    <div>
-                                        <p className="text-small font-bold text-current">{item.label}</p>
-                                        <p className="text-tiny text-current">
-                                            {item.description.length > 12 ? `${item.description.substring(0, 12)}...` : item.description}
-                                        </p>
-                                    </div>
-                                </li>
-                            </div>
+                            <Link 
+                                to="/calendar" 
+                                onClick={() => {
+                                    setActiveNotification(item);
+                                    if (window.location.pathname === "/calendar") {
+                                        window.location.reload();
+                                    }
+                                }}
+                            >
+                                <div className="px-1 py-1 cursor-pointer">
+                                    <li id="notification-list-item-fix" className={`text-${item.color} flex p3`}>
+                                        <div>{item.icon}</div>
+                                        <div>
+                                            <p className="text-small font-bold text-current">{item.label}</p>
+                                            <p className="text-tiny text-current">
+                                                {item.description.length > 12 ? `${item.description.substring(0, 12)}...` : item.description}
+                                            </p>
+                                        </div>
+                                    </li>
+                                </div>
+                            </Link>
                         </Tooltip>
                     ))}
                 </ul>

@@ -4,7 +4,7 @@ import {
     TableHeader, TableBody, TableRow, TableColumn, TableCell,
     Textarea, DatePicker, Checkbox, TimeInput, Popover, PopoverTrigger, PopoverContent
 } from "@nextui-org/react";
-import { getLocalTimeZone, today, startOfWeek } from "@internationalized/date";
+import { DateTime } from 'luxon';  
 
 const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {
 
@@ -28,9 +28,9 @@ const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {
                                 hourCycle={24} granularity="minute" isDisabled={week[day].saved}>Meal Break?</Checkbox>
                         {week[day].breakTaken ?
                             <>
-                                <TimeInput isRequired label={"Break Start"} onChange={(inpt) => timeSet(inpt, day, "breakStart")} value={week[day].breakStart.hour != 0 ? week[day].breakStart: ""}
+                                <TimeInput isRequired label={"Break Start"} onChange={(inpt) => timeSet(inpt, day, "breakStart")} value={week[day].breakStart.hour != 0 ? week[day].breakStart : ""}
                                 hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
-                                <TimeInput isRequired label={"Break End"} onChange={(inpt) => timeSet(inpt, day, "breakEnd")} value={week[day].breakEnd.hour != 0 ? week[day].breakEnd: ""}
+                                <TimeInput isRequired label={"Break End"} onChange={(inpt) => timeSet(inpt, day, "breakEnd")} value={week[day].breakEnd.hour != 0 ? week[day].breakEnd : ""}
                                 hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
                             </>
                             : ""
@@ -49,6 +49,7 @@ const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {
 }
 
 const Calendar = () => {
+
     const [week, setWeek] = useState({
         monday: {
             day: "",
@@ -210,26 +211,58 @@ const Calendar = () => {
     });
 
     useEffect(() => {
-        let currentDate = today(getLocalTimeZone())
-        CalendarHandle(currentDate)
-    })
+        const savedNotification = JSON.parse(sessionStorage.getItem('activeNotification'));
 
-    const CalendarHandle = (input) => {
-        let weekOf = startOfWeek(input, "en-US");
-        if (weekOf.day == input.day){
-            weekOf = weekOf.add({days: -6});
-        }
+        let currentDate = DateTime.local();
+        CalendarHandle(currentDate, savedNotification);
+    }, []);
+
+    const checkPageReload = () => {
+        const pageReloaded = sessionStorage.getItem('pageReloaded');
+        console.log(sessionStorage)
+    
+        if (!pageReloaded) {
+            sessionStorage.setItem('pageReloaded', 'true');
+        } 
         else {
-            weekOf = weekOf.add({days: 1});
+            sessionStorage.removeItem('pageReloaded');
+            reload();
         }
-        const key = Object.keys(week)
+    };
+        
+    const reload = () => {
+        sessionStorage.removeItem('activeNotification')
+    };
+        
+    window.onload = checkPageReload;
+
+    const CalendarHandle = (input, notification) => {
+        let weekOf;
+      
+        if (input && !(input instanceof DateTime)) {
+          input = DateTime.fromISO(input);
+        }
+      
+        if (notification) {
+          weekOf = DateTime.fromObject({
+            day: notification.day,
+            month: notification.month,
+            year: notification.year
+          }).startOf('week');
+        } else {
+          weekOf = input.startOf('week');
+        }
+      
+        const key = Object.keys(week);
+      
         for (let i = 0; i < key.length; i++) {
-            week[key[i]].day = weekOf.month + "/" + weekOf.day;
-            document.getElementById(key[i]).innerHTML = week[key[i]].day + "";
-            weekOf = weekOf.add({days: 1});
+          week[key[i]].day = weekOf.toFormat('M/d');
+          document.getElementById(key[i]).innerHTML = week[key[i]].day + "";
+          weekOf = weekOf.plus({ days: 1 });
         }
+      
         setWeek(week);
-    }
+      };
 
     const breakHandle = (day) => {
         setWeek(week => ({
@@ -252,12 +285,12 @@ const Calendar = () => {
 
     const saveHandle = (day) => {
         let end = (week[day].endTime.hour + (week[day].endTime.minute / 60));
-        let start = (week[day].startTime.hour + (week[day].startTime.minute / 60))
+        let start = (week[day].startTime.hour + (week[day].startTime.minute / 60));
         if(!week[day].saved){
             if(start > end){
-                week[day].totalHours = (end+12 - start)
+                week[day].totalHours = (end + 12 - start);
             } else{
-                week[day].totalHours = (end - start)
+                week[day].totalHours = (end - start);
             }
         }
         setWeek(week => ({
