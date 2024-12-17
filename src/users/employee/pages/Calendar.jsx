@@ -4,7 +4,7 @@ import {
     TableHeader, TableBody, TableRow, TableColumn, TableCell,
     Textarea, DatePicker, Checkbox, TimeInput, Popover, PopoverTrigger, PopoverContent
 } from "@nextui-org/react";
-import { getDayOfWeek, getLocalTimeZone, today, startOfWeek } from "@internationalized/date";
+import { getLocalTimeZone, today, startOfWeek } from "@internationalized/date";
 
 const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {
 
@@ -23,15 +23,15 @@ const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {
                         </h4>
                         <div className="flex w-full flex-col" style={{gap: "20px", width: "90%", display: "flex", alignItems:"center"}}>
                             <TimeInput isRequired label={"Start Time"} onChange={(inpt) => timeSet(inpt, day, "startTime")} value={week[day].startTime.hour != 0 ? week[day].startTime : ""} 
-                                isDisabled={week[day].saved}/>
+                                hourCycle={24} granularity="minute" isDisabled={week[day].saved}/>
                             <Checkbox onClick={() => breakHandle(day)} isSelected={week[day].breakTaken}
-                                isDisabled={week[day].saved}>Meal Break?</Checkbox>
+                                hourCycle={24} granularity="minute" isDisabled={week[day].saved}>Meal Break?</Checkbox>
                         {week[day].breakTaken ?
                             <>
                                 <TimeInput isRequired label={"Break Start"} onChange={(inpt) => timeSet(inpt, day, "breakStart")} value={week[day].breakStart.hour != 0 ? week[day].breakStart: ""}
-                                isDisabled={week[day].saved} />
+                                hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
                                 <TimeInput isRequired label={"Break End"} onChange={(inpt) => timeSet(inpt, day, "breakEnd")} value={week[day].breakEnd.hour != 0 ? week[day].breakEnd: ""}
-                                isDisabled={week[day].saved} />
+                                hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
                             </>
                             : ""
                         }
@@ -238,11 +238,15 @@ const Calendar = () => {
     }
 
     const timeSet = (inpt, day, timeType) => {
-        // if (inpt.hour == null) {
-        //     inpt.hour = week[day][timeType].hour;
-        // }
+        if(inpt.minute > 52){
+            inpt.hour += 1
+        }
+        if(inpt.hour >= 13){
+            inpt.hour -= 12
+        }
+        inpt.minute = ((((inpt.minute + 7.5) / 15 | 0) * 15) % 60)
         setWeek(week => ({
-            ...week, [day]: { ...week[day], [timeType]: { ...week[day][timeType], hour: inpt.hour, minute: ((((inpt.minute + 7.5) / 15 | 0) * 15) % 60) } }
+            ...week, [day]: { ...week[day], [timeType]: { ...week[day][timeType], hour: inpt.hour, minute: inpt.minute } }
         }));
     }
 
