@@ -39,7 +39,8 @@ const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {
                             <TimeInput isRequired label={"End Time"} onChange={(inpt) => timeSet(inpt, day, "endTime")} value={week[day].endTime.hour != 0 ? week[day].endTime : ""}
                                 isDisabled={week[day].saved}/>
                             {week[day].saved ? "Total Hours Worked: " + week[day].totalHours : ""}
-                            <Button style={{alignItems: "center", justifyContent: "center", width: "60%", padding: "20px", color:"white", background:"#1C6296"}} onClick={() => {saveHandle(day), setButtonColor("#1C6296")}}> { week[day].saved ? "Edit" : "Save"}</Button>
+                            <Button style={{alignItems: "center", justifyContent: "center", width: "60%", padding: "20px", color:"white", background:"#1C6296"}}
+                            onClick={() => {saveHandle(day), setButtonColor("#1C6296")}}> { week[day].saved ? "Edit" : "Save"}</Button>
                         </div>
                     </div>  
                 </PopoverContent>
@@ -206,7 +207,8 @@ const Calendar = () => {
             totalHours: 0,
             breakTaken: false,
             saved: false
-        }
+        },
+        shiftNote: ""
     });
 
     useEffect(() => {
@@ -224,9 +226,13 @@ const Calendar = () => {
         }
         const key = Object.keys(week)
         for (let i = 0; i < key.length; i++) {
-            week[key[i]].day = weekOf.month + "/" + weekOf.day;
-            document.getElementById(key[i]).innerHTML = week[key[i]].day + "";
-            weekOf = weekOf.add({days: 1});
+            if(key[i] != "shiftNote"){
+                week[key[i]].day = weekOf.month + "/" + weekOf.day;
+                document.getElementById(key[i]).innerHTML = week[key[i]].day + "";
+                weekOf = weekOf.add({days: 1});
+                {/* THIS WILL BE WHERE API CONNECTION TO POPULATE DATA WILL BE ADDED */}
+            }
+            
         }
         setWeek(week);
     }
@@ -263,6 +269,16 @@ const Calendar = () => {
         setWeek(week => ({
             ...week, [day]: { ...week[day], saved: !(week[day].saved) }
         }));
+    }
+
+    const noteHandle = (inpt) => {
+        setWeek(week => ({
+            ...week, shiftNote: inpt
+        }));
+    }
+
+    const submissionHandle = () => {
+        console.log("Week submitted", week)
     }
 
     return (
@@ -320,13 +336,14 @@ const Calendar = () => {
                                         <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"sunday"} saveHandle={saveHandle} />
                                     </TableCell>
                                     <TableCell>
-                                        <Textarea></Textarea>
+                                        <Textarea onChange={(inpt) => noteHandle(inpt)}></Textarea>
                                     </TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>
                     </CardBody>
                 </Card>
+                <Button onClick={submissionHandle}>SUBMIT</Button>
             </div>
         </>
     );
