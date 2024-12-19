@@ -232,7 +232,6 @@ const Calendar = () => {
                 weekOf = weekOf.add({days: 1});
                 {/* THIS WILL BE WHERE API CONNECTION TO POPULATE DATA WILL BE ADDED */}
             }
-            
         }
         setWeek(week);
     }
