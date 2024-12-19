@@ -298,6 +298,15 @@ const Calendar = () => {
         }));
     }
 
+    const noteHandle = (inpt) => {
+        setWeek(week => ({
+            ...week, shiftNote: inpt
+        }));
+    }
+    const submissionHandle = () => {
+        console.log("Week submitted", week)
+    }
+
     return (
         <>
             <div className="weeklyWrapper">
@@ -353,13 +362,14 @@ const Calendar = () => {
                                         <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"sunday"} saveHandle={saveHandle} />
                                     </TableCell>
                                     <TableCell>
-                                        <Textarea></Textarea>
+                                        <Textarea onChange={(inpt) => noteHandle(inpt)}></Textarea>
                                     </TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>
                     </CardBody>
                 </Card>
+                <Button onClick={submissionHandle}>Submit</Button>
             </div>
         </>
     );
