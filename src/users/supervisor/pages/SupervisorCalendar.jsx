@@ -23,21 +23,21 @@ const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {
                         </h4>
                         <div className="flex w-full flex-col" style={{gap: "20px", width: "90%", display: "flex", alignItems:"center"}}>
                             <TimeInput isRequired label={"Start Time"} onChange={(inpt) => timeSet(inpt, day, "startTime")} value={week[day].startTime.hour != 0 ? week[day].startTime : ""} 
-                                isDisabled={week[day].saved}/>
+                                isDisabled={week[day].saved} hourCycle={24} granularity="minute"/>
                             <Checkbox onClick={() => breakHandle(day)} isSelected={week[day].breakTaken}
                                 isDisabled={week[day].saved}>Meal Break?</Checkbox>
                         {week[day].breakTaken ?
                             <>
                                 <TimeInput isRequired label={"Break Start"} onChange={(inpt) => timeSet(inpt, day, "breakStart")} value={week[day].breakStart.hour != 0 ? week[day].breakStart: ""}
-                                isDisabled={week[day].saved} />
+                                isDisabled={week[day].saved} hourCycle={24} granularity="minute"/>
                                 <TimeInput isRequired label={"Break End"} onChange={(inpt) => timeSet(inpt, day, "breakEnd")} value={week[day].breakEnd.hour != 0 ? week[day].breakEnd: ""}
-                                isDisabled={week[day].saved} />
+                                isDisabled={week[day].saved} hourCycle={24} granularity="minute"/>
                             </>
                             : ""
                         }
                             
                             <TimeInput isRequired label={"End Time"} onChange={(inpt) => timeSet(inpt, day, "endTime")} value={week[day].endTime.hour != 0 ? week[day].endTime : ""}
-                                isDisabled={week[day].saved}/>
+                                isDisabled={week[day].saved} hourCycle={24} granularity="minute"/>
                             {week[day].saved ? "Total Hours Worked: " + week[day].totalHours : ""}
                             <Button style={{alignItems: "center", justifyContent: "center", width: "60%", padding: "20px", color:"white", background:"#1C6296"}} onClick={() => {saveHandle(day), setButtonColor("#1C6296")}}> { week[day].saved ? "Edit" : "Save"}</Button>
                         </div>
