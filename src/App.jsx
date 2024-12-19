@@ -9,10 +9,12 @@ import Dashboard from "./users/employee/pages/Dashboard.jsx";
 import Calendar from "./users/employee/pages/Calendar.jsx";
 import SupervisorDashboard from "./users/supervisor/pages/SupervisorDashboard.jsx";
 import SupervisorCalendar from "./users/supervisor/pages/SupervisorCalendar.jsx";
+import SupervisorCalendarListView from "./users/supervisor/pages/SupervisorCalendar.jsx";
 import CoordinatorDashboard from "./users/coordinator/pages/CoordinatorDashboard.jsx"
 import CoordinatorCalendar from "./users/coordinator/pages/CoordinatorCalendar.jsx"
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import Thingy from "./users/supervisor/pages/Thingy.jsx"
 
 import { Routes, Route } from "react-router-dom";
 import React, { useState } from "react";
@@ -40,6 +42,7 @@ const getDashboard = (role) => {
   }
 }
 
+
 const App = () => {
 
   const [user, setUser] = useState({
@@ -60,6 +63,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={getDashboard(user.role)} />
           <Route path="calendar" element={getCalendar(user.role)}/>
+          <Route path="employee-list" element={<Thingy/>}/>
           <Route path="sign-in" element={<SignIn />} />
           <Route path="sign-up" element={<SignUp />} />
         </Routes>

@@ -4,6 +4,9 @@ import {
     TableHeader, TableBody, TableRow, TableColumn, TableCell,
     Textarea, DatePicker, Checkbox, TimeInput, Popover, PopoverTrigger, PopoverContent
 } from "@nextui-org/react";
+
+import { Link } from "react-router-dom";
+
 import { getDayOfWeek, getLocalTimeZone, today } from "@internationalized/date";
 
 const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {
@@ -283,7 +286,7 @@ const SupervisorCalendar = () => {
                                 <TableColumn>Thursday <div id={"thursday"}></div></TableColumn>
                                 <TableColumn>Friday <div id={"friday"}></div></TableColumn>
                                 <TableColumn>Saturday <div id={"saturday"}></div></TableColumn>
-                                <TableColumn>Sunday <div id={"sunday"}></div></TableColumn>
+                                <TableColumn>dawdawdawdawd <div id={"sunday"}></div></TableColumn>
                                 <TableColumn>Shift Note</TableColumn>
                             </TableHeader>
                             <TableBody>
@@ -318,6 +321,10 @@ const SupervisorCalendar = () => {
                         </Table>
                     </CardBody>
                 </Card>
+                
+                <Link to="/employee-list">
+                    <button>Supervisor List View</button>
+                </Link>
             </div>
         </>
     );

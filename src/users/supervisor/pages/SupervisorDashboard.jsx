@@ -3,6 +3,8 @@ import { Edit, Forward, Success, Denied, Seperator } from "/src/assets/icons/das
 import { Tooltip } from "@nextui-org/react";
 import { announcements } from "../../../assets/data/announcement-data";
 
+import { Link } from "react-router-dom";
+
 const Widget = ({ date, content }) => {
   const [maxChars, setMaxChars] = useState(25);
 
