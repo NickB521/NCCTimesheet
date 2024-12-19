@@ -25,7 +25,7 @@ const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {
                             <TimeInput isRequired label={"Start Time"} onChange={(inpt) => timeSet(inpt, day, "startTime")} value={week[day].startTime.hour != 0 ? week[day].startTime : ""} 
                                 hourCycle={24} granularity="minute" isDisabled={week[day].saved}/>
                             <Checkbox onClick={() => breakHandle(day)} isSelected={week[day].breakTaken}
-                                hourCycle={24} granularity="minute" isDisabled={week[day].saved}>Meal Break?</Checkbox>
+                                isDisabled={week[day].saved}>Meal Break?</Checkbox>
                         {week[day].breakTaken ?
                             <>
                                 <TimeInput isRequired label={"Break Start"} onChange={(inpt) => timeSet(inpt, day, "breakStart")} value={week[day].breakStart.hour != 0 ? week[day].breakStart : ""}
@@ -210,31 +210,44 @@ const Calendar = () => {
         }
     });
 
+    const [isReady, setIsReady] = useState(false);
+
     useEffect(() => {
         const savedNotification = JSON.parse(sessionStorage.getItem('activeNotification'));
 
         let currentDate = DateTime.local();
         CalendarHandle(currentDate, savedNotification);
+
+        const handlePageLoad = () => {
+            const pageReloaded = sessionStorage.getItem('pageReloaded');
+            const currentPath = window.location.pathname;
+
+            if (!pageReloaded) {
+                sessionStorage.setItem('pageReloaded', 'true');
+                sessionStorage.setItem('lastPath', currentPath);
+            } 
+            else {
+                sessionStorage.setItem('lastPath', currentPath);
+            }
+
+            setIsReady(true);
+        };
+
+        handlePageLoad();
     }, []);
 
-    const checkPageReload = () => {
-        const pageReloaded = sessionStorage.getItem('pageReloaded');
-        console.log(sessionStorage)
-    
-        if (!pageReloaded) {
-            sessionStorage.setItem('pageReloaded', 'true');
-        } 
-        else {
-            sessionStorage.removeItem('pageReloaded');
-            reload();
+    useEffect(() => {
+        if (isReady) {
+            const savedPath = sessionStorage.getItem('lastPath');
+            const pageReloaded = sessionStorage.getItem('pageReloaded');
+            const currentPath = window.location.pathname;
+
+            if (pageReloaded && savedPath === currentPath) {
+                sessionStorage.removeItem('pageReloaded');
+                sessionStorage.removeItem('activeNotification');
+            }
         }
-    };
-        
-    const reload = () => {
-        sessionStorage.removeItem('activeNotification')
-    };
-        
-    window.onload = checkPageReload;
+    }, [isReady]);
 
     const CalendarHandle = (input, notification) => {
         let weekOf;
