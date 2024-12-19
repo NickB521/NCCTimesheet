@@ -29,15 +29,15 @@ const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {
                         {week[day].breakTaken ?
                             <>
                                 <TimeInput isRequired label={"Break Start"} onChange={(inpt) => timeSet(inpt, day, "breakStart")} value={week[day].breakStart.hour != 0 ? week[day].breakStart: ""}
-                                hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
+                                    hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
                                 <TimeInput isRequired label={"Break End"} onChange={(inpt) => timeSet(inpt, day, "breakEnd")} value={week[day].breakEnd.hour != 0 ? week[day].breakEnd: ""}
-                                hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
+                                    hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
                             </>
                             : ""
                         }
                             
                             <TimeInput isRequired label={"End Time"} onChange={(inpt) => timeSet(inpt, day, "endTime")} value={week[day].endTime.hour != 0 ? week[day].endTime : ""}
-                                isDisabled={week[day].saved}/>
+                               hourCycle={24} granularity="minute" isDisabled={week[day].saved}/>
                             {week[day].saved ? "Total Hours Worked: " + week[day].totalHours : ""}
                             <Button style={{alignItems: "center", justifyContent: "center", width: "60%", padding: "20px", color:"white", background:"#1C6296"}}
                             onClick={() => {saveHandle(day), setButtonColor("#1C6296")}}> { week[day].saved ? "Edit" : "Save"}</Button>
