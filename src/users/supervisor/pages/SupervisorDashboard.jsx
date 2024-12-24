@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Edit, Forward, Success, Denied, Seperator } from "/src/assets/icons/dashboard";
 import { Tooltip } from "@nextui-org/react";
 import { announcements } from "../../../assets/data/announcement-data";
+import { timesheets } from "../../../assets/data/timesheets-data";
+import { resubmitted } from "../../../assets/data/timesheets-data";
 
 const Widget = ({ date, content }) => {
   const [maxChars, setMaxChars] = useState(25);
@@ -80,24 +82,21 @@ const Widget = ({ date, content }) => {
   );
 };
 
-const TimesheetCard = ({ date, hours, icon, status }) => (
+const TimesheetCard = ({ name, hours, newHours }) => (
   <div id="card-row">
     <Seperator />
     <div className="flex-1 text-white" id="card-row-content" style={{ display: "flex" }}>
       <div className="flex-1 text-white">
-        <p className="font-semibold">{date}</p>
-        <p>{hours} Hours</p>
+        <p className="font-semibold">{name}</p>
+        <p>
+          {newHours ? `${hours} hours -> ${newHours} hours` : `${hours} Hours`}
+        </p>
       </div>
       <button
         className="text-white"
         style={{ display: "flex", justifyContent: "Right", alignItems: "center", transform: "rotate(90deg)" }}
       >
         <Forward />
-      </button>
-    </div>
-    <div className="flex space-x-2">
-      <button className={`text-${status}`} style={{ marginLeft: "10px" }}>
-        {icon}
       </button>
     </div>
   </div>
@@ -154,78 +153,65 @@ const SupervisorDashboard = () => {
   const [editPolicies, setEditPolicies] = useState(true);
   const [submitText, setSubmitText] = useState("Edit");
   const [worksitePolicies, setWorksitePolicies] = useState("");
+  const [loopCount, setLoopCount] = useState(0);
 
-  const addAnnouncementRow = () => {
-  }
+  const updateLoopCount = () => {
+    const screenHeight = window.innerHeight;
+
+    if (screenHeight < 900) {
+      setLoopCount(1);
+    } else if (screenHeight < 1175) {
+      setLoopCount(2);
+    } else {
+      setLoopCount(3);
+    }
+  };
+
+  const getGreeting = () => {
+    const currentHour = new Date().getHours();
+  
+    if (currentHour >= 5 && currentHour < 12) {
+      return "Morning";
+    } else if (currentHour >= 12 && currentHour < 18) {
+      return "Afternoon";
+    } else if (currentHour >= 18 && currentHour < 22) {
+      return "Evening";
+    } else {
+      return "Night";
+    }
+  };
 
   useEffect(() => {
-    const currentHour = new Date().getHours();
-    if (currentHour >= 5 && currentHour < 12) {
-        setGreeting("Morning");
-    } else if (currentHour >= 12 && currentHour < 18) {
-        setGreeting("Afternoon");
-    } else if (currentHour >= 18 && currentHour < 22) {
-        setGreeting("Evening");
-    } else {
-        setGreeting("Night");
-    }
+    setGreeting(getGreeting());
+    updateLoopCount();
+
+    window.addEventListener("resize", updateLoopCount);
+    return () => window.removeEventListener("resize", updateLoopCount);
   }, []);
 
   return (
     <div id="dashboard" >
       <div id="dashboard-header" className="bg-red-100">
         <div id="dashboard-header-content">
-          <p className="text-5xl" style={{fontSize:"48px"}}>Supervisor Good {greeting}!</p>
+          <p className="text-5xl" style={{fontSize:"48px"}}>Good {greeting} Supervisor!</p>
           <p className="text-2xl" style={{fontSize:"32px"}}>name</p>
         </div>
       </div>
       <div id="dashboard-body">
         <div id="main-card">
           <h1 style={{fontSize: "36px", fontWeight: "600", padding: "15px 0px 10px"}}>Timesheets</h1>
-          <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Recent Timesheets</h1>
-          <TimesheetCard
-            date="2023-11-19"
-            hours="40"
-            status="default"
-            icon={<Edit/>}
-          />
-          <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Past Timesheets</h1>
-          <TimesheetCard
-            date="2023-11-12"
-            hours="40"
-            status="danger"
-            icon={<Denied/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
+          <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Submitted Timesheets</h1>
+
+          {timesheets.slice(0, loopCount).map((item, index) => (
+            <TimesheetCard key={index} name={item.name} hours={item.hours}/>
+          ))}
+              
+          <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Resubmitted Timesheets</h1>
+
+          {resubmitted.slice(0, loopCount).map((item, index) => (
+            <TimesheetCard key={index} name={item.name} hours={item.hours} newHours={item.newHours}/>
+          ))}
+
           <button id="timesheet-button">View All Timesheets</button>
         </div>
         <div id="side-cards">

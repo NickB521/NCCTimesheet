@@ -16,9 +16,8 @@
 
 html {
   font-family: "Inter", serif;
-  overflow-x: hidden;
-  background: var(--background);
   overflow: hidden;
+  background: var(--background);
 }
 
 body {
