@@ -156,21 +156,48 @@ const SupervisorDashboard = () => {
   const [editPolicies, setEditPolicies] = useState(true);
   const [submitText, setSubmitText] = useState("Edit");
   const [worksitePolicies, setWorksitePolicies] = useState("");
+  const [loopCount, setLoopCount] = useState(0);
 
-  const addAnnouncementRow = () => {
-  }
+  const updateLoopCount = () => {
+    const screenHeight = window.innerHeight;
+
+    if (screenHeight < 800) {
+      setLoopCount(1);
+    } else if (screenHeight < 1000) {
+      setLoopCount(2);
+    } else if (screenHeight < 1200) {
+      setLoopCount(2);
+    } else if (screenHeight < 1400) {
+      setLoopCount(3);
+    } else if (screenHeight < 1600) {
+      setLoopCount(3);
+    } else if (screenHeight < 1800) {
+      setLoopCount(3);
+    } else {
+      setLoopCount(3);
+    }
+  };
+
+  const getGreeting = () => {
+    const currentHour = new Date().getHours();
+  
+    if (currentHour >= 5 && currentHour < 12) {
+      return "Morning";
+    } else if (currentHour >= 12 && currentHour < 18) {
+      return "Afternoon";
+    } else if (currentHour >= 18 && currentHour < 22) {
+      return "Evening";
+    } else {
+      return "Night";
+    }
+  };
 
   useEffect(() => {
-    const currentHour = new Date().getHours();
-    if (currentHour >= 5 && currentHour < 12) {
-        setGreeting("Morning");
-    } else if (currentHour >= 12 && currentHour < 18) {
-        setGreeting("Afternoon");
-    } else if (currentHour >= 18 && currentHour < 22) {
-        setGreeting("Evening");
-    } else {
-        setGreeting("Night");
-    }
+    setGreeting(getGreeting());
+    updateLoopCount();
+
+    window.addEventListener("resize", updateLoopCount);
+    return () => window.removeEventListener("resize", updateLoopCount);
   }, []);
 
   return (
@@ -186,9 +213,9 @@ const SupervisorDashboard = () => {
           <h1 style={{fontSize: "36px", fontWeight: "600", padding: "15px 0px 10px"}}>Timesheets</h1>
           <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Submitted Timesheets</h1>
 
-          {timesheets.map((item, index) => (
-                  <Widget key={index} date={item.date} content={item.content} />
-              ))}
+          {timesheets.slice(0, loopCount).map((item, index) => (
+            <Widget key={index} date={item.date} content={item.content} isTimeSheet={true} />
+          ))}
               
 
           <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Resubmitted Timesheets</h1>

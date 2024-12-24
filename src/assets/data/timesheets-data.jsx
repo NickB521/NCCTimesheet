@@ -6,6 +6,10 @@ export const timesheets = [
     {
         date: "{Will Smith}",
         content: "40 Hours"
+    },
+    {
+        date: "{Will Smith}",
+        content: "40 Hours"
     }
     
 ]
