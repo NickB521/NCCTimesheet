@@ -39,7 +39,8 @@ const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {
                             <TimeInput isRequired label={"End Time"} onChange={(inpt) => timeSet(inpt, day, "endTime")} value={week[day].endTime.hour != 0 ? week[day].endTime : ""}
                                 isDisabled={week[day].saved} hourCycle={24} granularity="minute"/>
                             {week[day].saved ? "Total Hours Worked: " + week[day].totalHours : ""}
-                            <Button style={{alignItems: "center", justifyContent: "center", width: "60%", padding: "20px", color:"white", background:"#1C6296"}} onClick={() => {saveHandle(day), setButtonColor("#1C6296")}}> { week[day].saved ? "Edit" : "Save"}</Button>
+                            <Button style={{alignItems: "center", justifyContent: "center", width: "60%", padding: "20px", color:"white", background:"#1C6296"}}
+                            onClick={() => {saveHandle(day), setButtonColor("#1C6296")}}> { week[day].saved ? "Edit" : "Save"}</Button>
                         </div>
                     </div>  
                 </PopoverContent>
@@ -207,7 +208,8 @@ const Calendar = () => {
             totalHours: 0,
             breakTaken: false,
             saved: false
-        }
+        },
+        shiftNote: ""
     });
 
     const [isReady, setIsReady] = useState(false);
@@ -316,6 +318,7 @@ const Calendar = () => {
             ...week, shiftNote: inpt
         }));
     }
+    
     const submissionHandle = () => {
         console.log("Week submitted", week)
     }
