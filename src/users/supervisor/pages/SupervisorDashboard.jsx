@@ -3,7 +3,7 @@ import { Edit, Forward, Success, Denied, Seperator } from "/src/assets/icons/das
 import { Tooltip } from "@nextui-org/react";
 import { announcements } from "../../../assets/data/announcement-data";
 import { timesheets } from "../../../assets/data/timesheets-data";
-import { resubmitted } from "../../../assets/data/resubmittedtimesheets-data";
+import { resubmitted } from "../../../assets/data/timesheets-data";
 
 const Widget = ({ date, content }) => {
   const [maxChars, setMaxChars] = useState(25);
@@ -82,24 +82,21 @@ const Widget = ({ date, content }) => {
   );
 };
 
-const TimesheetCard = ({ date, hours, icon, status }) => (
+const TimesheetCard = ({ name, hours, newHours }) => (
   <div id="card-row">
     <Seperator />
     <div className="flex-1 text-white" id="card-row-content" style={{ display: "flex" }}>
       <div className="flex-1 text-white">
-        <p className="font-semibold">{date}</p>
-        <p>{hours} Hours</p>
+        <p className="font-semibold">{name}</p>
+        <p>
+          {newHours ? `${hours} hours -> ${newHours} hours` : `${hours} Hours`}
+        </p>
       </div>
       <button
         className="text-white"
         style={{ display: "flex", justifyContent: "Right", alignItems: "center", transform: "rotate(90deg)" }}
       >
         <Forward />
-      </button>
-    </div>
-    <div className="flex space-x-2">
-      <button className={`text-${status}`} style={{ marginLeft: "10px" }}>
-        {icon}
       </button>
     </div>
   </div>
@@ -161,18 +158,10 @@ const SupervisorDashboard = () => {
   const updateLoopCount = () => {
     const screenHeight = window.innerHeight;
 
-    if (screenHeight < 800) {
+    if (screenHeight < 900) {
       setLoopCount(1);
-    } else if (screenHeight < 1000) {
+    } else if (screenHeight < 1175) {
       setLoopCount(2);
-    } else if (screenHeight < 1200) {
-      setLoopCount(2);
-    } else if (screenHeight < 1400) {
-      setLoopCount(3);
-    } else if (screenHeight < 1600) {
-      setLoopCount(3);
-    } else if (screenHeight < 1800) {
-      setLoopCount(3);
     } else {
       setLoopCount(3);
     }
@@ -214,15 +203,14 @@ const SupervisorDashboard = () => {
           <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Submitted Timesheets</h1>
 
           {timesheets.slice(0, loopCount).map((item, index) => (
-            <Widget key={index} date={item.date} content={item.content} isTimeSheet={true} />
+            <TimesheetCard key={index} name={item.name} hours={item.hours}/>
           ))}
               
-
           <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Resubmitted Timesheets</h1>
 
-          {resubmitted.map((item, index) => (
-                  <Widget key={index} date={item.date} content={item.content} />
-              ))}
+          {resubmitted.slice(0, loopCount).map((item, index) => (
+            <TimesheetCard key={index} name={item.name} hours={item.hours} newHours={item.newHours}/>
+          ))}
 
           <button id="timesheet-button">View All Timesheets</button>
         </div>
