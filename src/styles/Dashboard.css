@@ -7,7 +7,7 @@
 #dashboard-header {
     display: flex;
     align-items: center;
-    height: 20%;
+    min-height: 20%;
     width: 100%;
     padding-left: 70px;
 }
@@ -21,10 +21,9 @@
 
 #dashboard-body {
     display: flex;
-    height: 100%;
+    height: auto;
     width: 88%;
     gap: 20px;
-    height: auto;
 }
 
 #main-card {
@@ -54,11 +53,13 @@
     background-color: var(--light-blue);
     box-shadow: 2px 4px 4px 0px var(--light-gray);
     border-radius: 10px;
+    overflow-y: auto;
 }
 
 #side-cards {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 35vh 35vh; 
     gap: 20px;
     height: 100%;
     width: 100%;
@@ -73,6 +74,7 @@
     flex-direction: column;
     align-items: center;
     gap: 2px;
+    overflow-y: auto;
 }
 
 .side-card h1{
@@ -101,10 +103,50 @@
 }
 
 #timesheet-button{
-    margin-top: 10px;
+    margin-top: 20px;
     padding: 10px 20px;
     border-radius: 10px;
     background: var(--light-blue);
     color: white;
     font-weight: 600;
+}
+
+#worksite-policies{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 80%;
+    height: 100%;
+}
+
+textarea{
+    overflow-x: visible;
+    width: 100%;
+    height: 90% !important;
+    background-color: var(--background);
+    border-radius: 10px;
+    padding: 10px !important;
+    font-size: 10px;
+}
+
+#textarea-button{
+    background-color: var(--light-blue);
+    color: white;
+    border-radius: 10px;
+    padding: 10px 20px;
+    margin-top: 10px;
+}
+
+#announcement-content{
+    width: 90%;
+    max-height: 70%;
+    overflow: auto;
+}
+
+#announcement-button{
+    background-color: var(--light-blue);
+    color: white;
+    border-radius: 10px;
+    padding: 10px 20px;
+    margin-top: 10px;
 }
