@@ -14,7 +14,7 @@ import CoordinatorDashboard from "./users/coordinator/pages/CoordinatorDashboard
 import CoordinatorCalendar from "./users/coordinator/pages/CoordinatorCalendar.jsx"
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import Thingy from "./users/supervisor/pages/Thingy.jsx"
+import SupervisorTable from "./users/supervisor/pages/SupervisorTable.jsx"
 
 import { Routes, Route } from "react-router-dom";
 import React, { useState } from "react";
@@ -63,7 +63,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={getDashboard(user.role)} />
           <Route path="calendar" element={getCalendar(user.role)}/>
-          <Route path="employee-list" element={<Thingy/>}/>
+          <Route path="employee-list" element={<SupervisorTable />}/>
           <Route path="sign-in" element={<SignIn />} />
           <Route path="sign-up" element={<SignUp />} />
         </Routes>
