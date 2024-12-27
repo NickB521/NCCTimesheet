@@ -9,7 +9,6 @@ import Dashboard from "./users/employee/pages/Dashboard.jsx";
 import Calendar from "./users/employee/pages/Calendar.jsx";
 import SupervisorDashboard from "./users/supervisor/pages/SupervisorDashboard.jsx";
 import SupervisorCalendar from "./users/supervisor/pages/SupervisorCalendar.jsx";
-import SupervisorCalendarListView from "./users/supervisor/pages/SupervisorCalendar.jsx";
 import CoordinatorDashboard from "./users/coordinator/pages/CoordinatorDashboard.jsx"
 import CoordinatorCalendar from "./users/coordinator/pages/CoordinatorCalendar.jsx"
 import SignIn from "./pages/SignIn";
@@ -58,7 +57,9 @@ const App = () => {
     <>
       <Header />
       <div id="content-wrapper-wrapper">
-        <Navigation />
+        <Navigation 
+        role={user.role}
+        />
         {/* <button onClick={setUser(user => ({...user, temp: !(user.temp)}))}></button> */}
         <Routes>
           <Route path="/" element={getDashboard(user.role)} />
