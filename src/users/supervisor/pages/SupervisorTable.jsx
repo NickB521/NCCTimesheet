@@ -2,18 +2,28 @@ import React, { useState, useEffect } from "react";
 import {
     Button, Card, CardHeader, CardBody, Table,
     TableHeader, TableBody, TableRow, TableColumn, TableCell,
-    Textarea, DatePicker, Checkbox, TimeInput, Popover, PopoverTrigger, PopoverContent
+    DatePicker, Pagination, Input
 } from "@nextui-org/react";
 
-import { Link } from "react-router-dom";
 
-
-import { getDayOfWeek, getLocalTimeZone, today } from "@internationalized/date";
+import { getDayOfWeek } from "@internationalized/date";
 
 const SupervisorTable = () => {
     const[employeeList, setEmployeeList] = useState([{id:1, name: "bob", workedHours: 23.0, breakTime: 123, totalTime: 123, sender: "bob", information: "forwarded"}]
     )
+    const [filteredEmployeeList, setFilteredEmployeeList] = useState(employeeList);
+    const [searchQuery, setSearchQuery] = useState("");
     const[week, setWeek] = useState()
+    const[currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 15;
+    const totalPages = Math.ceil(employeeList.length/ itemsPerPage);
+    const indexLast = currentPage * itemsPerPage;
+    const indexFirst= indexLast - itemsPerPage;
+    const currentItems = filteredEmployeeList.slice(indexFirst, indexLast);
+
+    const handlePageChange = (event, value) =>{
+        setCurrentPage(value);
+    }
 
     const CalendarHandle = (input) => {
             const key = Object.keys(week)
@@ -25,7 +35,16 @@ const SupervisorTable = () => {
             }
             input.day -= 7
             setWeek(week);
+            //need to figure out logic for sending week data
+            fetchData();
         }
+
+    const handleSearch = (query) => {
+        setSearchQuery(query);
+        const filteredList = employeeList.filter((employee) =>
+          employee.name.toLowerCase().includes(query.toLowerCase()));
+        setFilteredEmployeeList(filteredList); 
+        };
     
     const fetchData = () => {
         
@@ -36,16 +55,28 @@ const SupervisorTable = () => {
             <div id= "supervisor-table" className="weeklyWrapper" > 
                 <Card className="headerCard">
                     <CardHeader>
-                        List View - 
+                        List View 
                     </CardHeader>
                 </Card>
                 <Card className="tableCard">
                     <CardHeader>
-                        <div className="tableCardHead">
-                            <CardBody>
-                                <DatePicker aria-label="workWeekSelectTable" id="workWeekSelectTable" onChange={CalendarHandle} />
-                                 <div id={"errorCode"}></div>
-                            </CardBody>
+                        <div className="tableCardHead" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                            <div className="tableCardHead">
+                                <CardBody>
+                                    <DatePicker aria-label="workWeekSelectTable" id="workWeekSelectTable" onChange={CalendarHandle} />
+                                    <div id={"errorCode"}></div>
+                                </CardBody>
+                            </div>
+                            <div>
+                                <Input
+                                clearable
+                                bordered
+                                placeholder="Search..."
+                                value={searchQuery}
+                                onChange={(e) => handleSearch(e.target.value)}
+                                css={{ width: "250px"}}
+                                />
+                            </div>
                         </div>
                     </CardHeader>
                     <CardBody>
@@ -59,14 +90,14 @@ const SupervisorTable = () => {
                                 <TableColumn>Sender</TableColumn>
                                 <TableColumn>Information</TableColumn>
                             </TableHeader>
-                            <TableBody>
-                                {employeeList.map((row, index) =>
+                            <TableBody >
+                                {currentItems.map((row, index) =>
                                     <TableRow id={row.id}>
                                         <TableCell>{row.name}</TableCell>
                                         <TableCell>{row.workedHours}</TableCell>
                                         <TableCell>{row.breakTime}</TableCell>
                                         <TableCell>{row.totalTime}</TableCell>
-                                        <TableCell><button>{row.name} View</button></TableCell>
+                                        <TableCell><Button style={{width: "30%", color: "white", background:"black"}}>{row.name} View</Button></TableCell>
                                         <TableCell>{row.sender}</TableCell>
                                         <TableCell>{row.information}</TableCell>
                                     </TableRow>
@@ -75,6 +106,23 @@ const SupervisorTable = () => {
                         </Table>
                     </CardBody>
                 </Card>
+                <div
+                    style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "16px",
+                    marginBottom: "16px",
+                    }}
+                >
+                    <Pagination
+                        color="default"
+                        variant="flat"
+                        showControls
+                        total={totalPages}
+                        initialPage={currentPage}
+                        onChange={(page) => handlePageChange(page)}
+                    />
+                </div>
             </div>
     )
 }

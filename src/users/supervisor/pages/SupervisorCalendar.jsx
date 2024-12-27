@@ -286,7 +286,7 @@ const SupervisorCalendar = () => {
                                 <TableColumn>Thursday <div id={"thursday"}></div></TableColumn>
                                 <TableColumn>Friday <div id={"friday"}></div></TableColumn>
                                 <TableColumn>Saturday <div id={"saturday"}></div></TableColumn>
-                                <TableColumn>dawdawdawdawd <div id={"sunday"}></div></TableColumn>
+                                <TableColumn>Sunday <div id={"sunday"}></div></TableColumn>
                                 <TableColumn>Shift Note</TableColumn>
                             </TableHeader>
                             <TableBody>
