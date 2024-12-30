@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Edit, Forward, Success, Denied, Seperator } from "/src/assets/icons/dashboard";
+import { Forward, Seperator } from "/src/assets/icons/dashboard";
 import { Tooltip } from "@nextui-org/react";
-import { announcements } from "../../../assets/data/announcement-data";
+import {announcements as initialAnnouncements} from "../../../assets/data/announcement-data";
 import { timesheets } from "../../../assets/data/timesheets-data";
 import { resubmitted } from "../../../assets/data/timesheets-data";
 
@@ -72,9 +72,6 @@ const TimesheetCard = ({ name, hours, newHours }) => (
       <button className="text-white" style={{ display: "flex", justifyContent: "Right", alignItems: "center", transform: "rotate(90deg)" }}>
         <Forward />
       </button>
-    </div>
-    <div className="flex space-x-2">
-      <button className={`text-${status}`} style={{ marginLeft: "10px" }}>{icon}</button>
     </div>
   </div>
 );
