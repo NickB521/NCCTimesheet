@@ -79,6 +79,18 @@ const Widget = ({ date, content }) => {
   );
 };
 
+const setActiveNotification = (item) => {
+
+  const notificationItems = {
+      day: item.day,
+      month: item.month,
+      year: item.year,
+  }
+
+  sessionStorage.setItem('activeNotification', JSON.stringify(notificationItems));
+  console.log(sessionStorage.getItem('activeNotification'));
+};
+
 const TimesheetCard = ({ date, hours, icon, status }) => (
   <div id="card-row">
     <Seperator />
@@ -95,9 +107,17 @@ const TimesheetCard = ({ date, hours, icon, status }) => (
       </button>
     </div>
     <div className="flex space-x-2">
-      <button className={`text-${status}`} style={{ marginLeft: "10px" }}>
-        {icon}
-      </button>
+      <Link 
+        to="/calendar" 
+        onClick={() => {
+            setActiveNotification(item);
+            window.location.reload();
+        }}
+      >
+        <button className={`text-${status}`} style={{ marginLeft: "10px" }}>
+          {icon}
+        </button>
+      </Link>
     </div>
   </div>
 );
