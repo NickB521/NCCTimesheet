@@ -1,61 +1,26 @@
 import React, { useState } from "react";
-import { User, Eye, EyeClosed, Lock } from "../assets/icons/sign-in";
-import { Input } from "@nextui-org/react";
+import { Email, Lock } from "../assets/icons/sign-in";
 import { useNavigate } from "react-router-dom";
-
-const SignInput = ({ type, placeholder, startContent, endContent, isPassword, setInfo }) => {
-    const [isVisible, setIsVisible] = useState(false);
-
-    const toggleVisibility = () => {
-        setIsVisible(!isVisible);
-    };
-
-    const inputType = isPassword ? (isVisible ? "text" : "password") : type;
-
-    return (
-        <div className="sign-in-input flex w-full flex-wrap md:flex-nowrap gap-4">
-            <Input
-                onChange={(inp) => setInfo(inp)}
-                radius="full"
-                placeholder={placeholder}
-                type={inputType}
-                startContent={startContent}
-                endContent={
-                    isPassword ? (
-                        <button
-                            className="focus:outline-none"
-                            type="button"
-                            onClick={toggleVisibility}
-                        >
-                            {isVisible ? (
-                                <Eye className="text-2xl text-default-400 pointer-events-none" />
-                            ) : (
-                                <EyeClosed className="text-2xl text-default-400 pointer-events-none" />
-                            )}
-                        </button>
-                    ) : (
-                        endContent
-                    )
-                }
-            />
-        </div>
-    );
-};
-
+import SignInput from "../components/SignInput";
 
 
 const SignIn = () => {
     
     const [pass, setPass] = useState("");
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
 
     const navigate = useNavigate();
 
+    //this checks if all needed information is filled out and validates if email is a email
+    //THIS NEEDS TO BE ADJUSTED TO THE API CALLS FOR VALIDATION!!!!!!!!!
     const LogIn = () => {
-        console.log(pass, username);
-        navigate("/");
+        if(email && pass && (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email))){
+            navigate("/");
+        }
+        
     }
     
+    //navigates the user to the sign-up page
     const SignUp = () => {
         navigate("/sign-up");
     }
@@ -67,16 +32,16 @@ const SignIn = () => {
                     <div id="sign-in-title">Sign In</div>
                     
                     <SignInput
-                        type="text"
-                        placeholder="Username"
-                        startContent={<User />}
-                        setInfo={setUsername}
+                        placeholder="Email"
+                        startContent={<Email />}
+                        info={email}
+                        setInfo={setEmail}
                     />
 
                     <SignInput
-                        isPassword={true}
                         placeholder="Password"
                         startContent={<Lock />}
+                        info={pass}
                         setInfo={setPass}
                     />
 

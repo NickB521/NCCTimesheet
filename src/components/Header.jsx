@@ -14,11 +14,11 @@ import { items, items2 } from "../assets/data/notification-data";
 
 const Header = () => {
     const [notificationCount, setNotificationCount] = useState(items.length);
+    const location = useLocation();
 
     const getPageName = () => {
-        let name = useLocation().pathname;
+        let name = location.pathname;
         if (name == "/") return "Dashboard";
-
         return name
             .substring(1)
             .replace(/(^|\-)([a-z])/g, (_, separator, letter) => separator + letter.toUpperCase())
@@ -27,7 +27,7 @@ const Header = () => {
 
     const FAQ = () => {
         return (
-            (useLocation().pathname == '/sign-in' || useLocation().pathname == '/sign-up')
+            (location.pathname == '/sign-in' || location.pathname == '/sign-up')
             ? <></>
             : <Popover placement="bottom" showArrow={true} style={{marginTop: "10px"}}>
                 <PopoverTrigger>
@@ -48,7 +48,7 @@ const Header = () => {
 
     const Notification = () => {
         return(
-            (useLocation().pathname == '/sign-in' || useLocation().pathname == '/sign-up')
+            (location.pathname == '/sign-in' || location.pathname == '/sign-up')
             ? <></>
             : <>
                 <Popover placement="bottom" showArrow={ true } style={{marginTop: "10px"}}>
@@ -81,6 +81,18 @@ const Header = () => {
         );
     }
 
+    const setActiveNotification = (item) => {
+
+        const notificationItems = {
+            day: item.day,
+            month: item.month,
+            year: item.year,
+        }
+
+        sessionStorage.setItem('activeNotification', JSON.stringify(notificationItems));
+        console.log(sessionStorage.getItem('activeNotification'));
+    };
+
     const NotificationListItems = ({ list }) => {
         return (
             <ScrollShadow size={100} id="scroll-bar">
@@ -102,17 +114,27 @@ const Header = () => {
                                 </div>
                             }
                         >
-                            <div className="px-1 py-1 cursor-pointer">
-                                <li id="notification-list-item-fix" className={`text-${item.color} flex p3`}>
-                                    <div>{item.icon}</div>
-                                    <div>
-                                        <p className="text-small font-bold text-current">{item.label}</p>
-                                        <p className="text-tiny text-current">
-                                            {item.description.length > 12 ? `${item.description.substring(0, 12)}...` : item.description}
-                                        </p>
-                                    </div>
-                                </li>
-                            </div>
+                            <Link 
+                                to="/calendar" 
+                                onClick={() => {
+                                    setActiveNotification(item);
+                                    if (window.location.pathname === "/calendar") {
+                                        window.location.reload();
+                                    }
+                                }}
+                            >
+                                <div className="px-1 py-1 cursor-pointer">
+                                    <li id="notification-list-item-fix" className={`text-${item.color} flex p3`}>
+                                        <div>{item.icon}</div>
+                                        <div>
+                                            <p className="text-small font-bold text-current">{item.label}</p>
+                                            <p className="text-tiny text-current">
+                                                {item.description.length > 12 ? `${item.description.substring(0, 12)}...` : item.description}
+                                            </p>
+                                        </div>
+                                    </li>
+                                </div>
+                            </Link>
                         </Tooltip>
                     ))}
                 </ul>
@@ -122,7 +144,7 @@ const Header = () => {
 
     const Profile = () => {
         return(
-            (useLocation().pathname == '/sign-in' || useLocation().pathname == '/sign-up')
+            (location.pathname == '/sign-in' || location.pathname == '/sign-up')
             ? <></>
             : <>
                 <Dropdown id="Dropdown">
@@ -154,7 +176,7 @@ const Header = () => {
         <div id="header">
             <div id="header-title">
                 <img src="src/assets/logo.png" id="logo" />
-                { (useLocation().pathname == '/sign-in' || useLocation().pathname == '/sign-up')
+                { (location.pathname == '/sign-in' || location.pathname == '/sign-up')
                 ? <></>
                 : <p>{ getPageName() }</p> }
             </div>
@@ -163,7 +185,7 @@ const Header = () => {
                 <div id="utilities">
                     <Notification/>
                     <FAQ />
-                    { (useLocation().pathname == '/sign-in' || useLocation().pathname == '/sign-up')
+                    { (location.pathname == '/sign-in' || location.pathname == '/sign-up')
                     ? <></>
                     : <Seperator id="barrier"/> }
                 </div>

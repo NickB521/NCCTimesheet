@@ -56,7 +56,6 @@ const App = () => {
       <Header />
       <div id="content-wrapper-wrapper">
         <Navigation />
-        {/* <button onClick={setUser(user => ({...user, temp: !(user.temp)}))}></button> */}
         <Routes>
           <Route path="/" element={getDashboard(user.role)} />
           <Route path="calendar" element={getCalendar(user.role)}/>

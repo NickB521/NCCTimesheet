@@ -6,14 +6,20 @@ export const items = [
       label: "Holiday",
       icon: <DefaultText/>,
       className: "text-default",
-      description: "Day off coming up 11/28"
+      description: "Day off coming up 11/28",
+      day: "29",
+      month: "11",
+      year: "2024"
     },
     {
       color: "warning",
       label: "Alert",
       icon: <Warning/>,
       className: "text-warning",
-      description: "Week of 11/17 is due in 1 day"
+      description: "Week of 11/17 is due in 1 day",
+      day: "18",
+      month: "11",
+      year: "2024"
     },
     {
       color: "danger",

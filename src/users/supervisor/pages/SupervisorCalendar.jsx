@@ -4,7 +4,7 @@ import {
     TableHeader, TableBody, TableRow, TableColumn, TableCell,
     Textarea, DatePicker, Checkbox, TimeInput, Popover, PopoverTrigger, PopoverContent
 } from "@nextui-org/react";
-import { getDayOfWeek, getLocalTimeZone, today } from "@internationalized/date";
+import { DateTime } from 'luxon';  
 
 const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {
 
@@ -23,21 +23,21 @@ const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {
                         </h4>
                         <div className="flex w-full flex-col" style={{gap: "20px", width: "90%", display: "flex", alignItems:"center"}}>
                             <TimeInput isRequired label={"Start Time"} onChange={(inpt) => timeSet(inpt, day, "startTime")} value={week[day].startTime.hour != 0 ? week[day].startTime : ""} 
-                                isDisabled={week[day].saved}/>
+                                hourCycle={24} granularity="minute" isDisabled={week[day].saved}/>
                             <Checkbox onClick={() => breakHandle(day)} isSelected={week[day].breakTaken}
                                 isDisabled={week[day].saved}>Meal Break?</Checkbox>
                         {week[day].breakTaken ?
                             <>
-                                <TimeInput isRequired label={"Break Start"} onChange={(inpt) => timeSet(inpt, day, "breakStart")} value={week[day].breakStart.hour != 0 ? week[day].breakStart: ""}
-                                isDisabled={week[day].saved} />
-                                <TimeInput isRequired label={"Break End"} onChange={(inpt) => timeSet(inpt, day, "breakEnd")} value={week[day].breakEnd.hour != 0 ? week[day].breakEnd: ""}
-                                isDisabled={week[day].saved} />
+                                <TimeInput isRequired label={"Break Start"} onChange={(inpt) => timeSet(inpt, day, "breakStart")} value={week[day].breakStart.hour != 0 ? week[day].breakStart : ""}
+                                hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
+                                <TimeInput isRequired label={"Break End"} onChange={(inpt) => timeSet(inpt, day, "breakEnd")} value={week[day].breakEnd.hour != 0 ? week[day].breakEnd : ""}
+                                hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
                             </>
                             : ""
                         }
                             
                             <TimeInput isRequired label={"End Time"} onChange={(inpt) => timeSet(inpt, day, "endTime")} value={week[day].endTime.hour != 0 ? week[day].endTime : ""}
-                                isDisabled={week[day].saved}/>
+                                isDisabled={week[day].saved} hourCycle={24} granularity="minute"/>
                             {week[day].saved ? "Total Hours Worked: " + week[day].totalHours : ""}
                             <Button style={{alignItems: "center", justifyContent: "center", width: "60%", padding: "20px", color:"white", background:"#1C6296"}} onClick={() => {saveHandle(day), setButtonColor("#1C6296")}}> { week[day].saved ? "Edit" : "Save"}</Button>
                         </div>
@@ -48,7 +48,8 @@ const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {
     );
 }
 
-const SupervisorCalendar = () => {
+const Calendar = () => {
+
     const [week, setWeek] = useState({
         monday: {
             day: "",
@@ -209,22 +210,72 @@ const SupervisorCalendar = () => {
         }
     });
 
-    useEffect(() => {
-        let currentDate = today(getLocalTimeZone())
-        CalendarHandle(currentDate)
-    })
+    const [isReady, setIsReady] = useState(false);
 
-    const CalendarHandle = (input) => {
-        const key = Object.keys(week)
-        input.day -= (getDayOfWeek(input, "en-US") - 1)
-        for (let i = 0; i < key.length; i++) {
-            week[key[i]].day = input.month + "/" + input.day
-            document.getElementById(key[i]).innerHTML = week[key[i]].day + ""
-            input.day += 1
+    useEffect(() => {
+        const savedNotification = JSON.parse(sessionStorage.getItem('activeNotification'));
+
+        let currentDate = DateTime.local();
+        CalendarHandle(currentDate, savedNotification);
+
+        const handlePageLoad = () => {
+            const pageReloaded = sessionStorage.getItem('pageReloaded');
+            const currentPath = window.location.pathname;
+
+            if (!pageReloaded) {
+                sessionStorage.setItem('pageReloaded', 'true');
+                sessionStorage.setItem('lastPath', currentPath);
+            } 
+            else {
+                sessionStorage.setItem('lastPath', currentPath);
+            }
+
+            setIsReady(true);
+        };
+
+        handlePageLoad();
+    }, []);
+
+    useEffect(() => {
+        if (isReady) {
+            const savedPath = sessionStorage.getItem('lastPath');
+            const pageReloaded = sessionStorage.getItem('pageReloaded');
+            const currentPath = window.location.pathname;
+
+            if (pageReloaded && savedPath === currentPath) {
+                sessionStorage.removeItem('pageReloaded');
+                sessionStorage.removeItem('activeNotification');
+            }
         }
-        input.day -= 7
+    }, [isReady]);
+
+    const CalendarHandle = (input, notification) => {
+        let weekOf;
+      
+        if (input && !(input instanceof DateTime)) {
+          input = DateTime.fromISO(input);
+        }
+      
+        if (notification) {
+          weekOf = DateTime.fromObject({
+            day: notification.day,
+            month: notification.month,
+            year: notification.year
+          }).startOf('week');
+        } else {
+          weekOf = input.startOf('week');
+        }
+      
+        const key = Object.keys(week);
+      
+        for (let i = 0; i < key.length; i++) {
+          week[key[i]].day = weekOf.toFormat('M/d');
+          document.getElementById(key[i]).innerHTML = week[key[i]].day + "";
+          weekOf = weekOf.plus({ days: 1 });
+        }
+      
         setWeek(week);
-    }
+      };
 
     const breakHandle = (day) => {
         setWeek(week => ({
@@ -233,22 +284,26 @@ const SupervisorCalendar = () => {
     }
 
     const timeSet = (inpt, day, timeType) => {
-        // if (inpt.hour == null) {
-        //     inpt.hour = week[day][timeType].hour;
-        // }
+        if(inpt.minute > 52){
+            inpt.hour += 1
+        }
+        if(inpt.hour >= 13){
+            inpt.hour -= 12
+        }
+        inpt.minute = ((((inpt.minute + 7.5) / 15 | 0) * 15) % 60)
         setWeek(week => ({
-            ...week, [day]: { ...week[day], [timeType]: { ...week[day][timeType], hour: inpt.hour, minute: ((((inpt.minute + 7.5) / 15 | 0) * 15) % 60) } }
+            ...week, [day]: { ...week[day], [timeType]: { ...week[day][timeType], hour: inpt.hour, minute: inpt.minute } }
         }));
     }
 
     const saveHandle = (day) => {
         let end = (week[day].endTime.hour + (week[day].endTime.minute / 60));
-        let start = (week[day].startTime.hour + (week[day].startTime.minute / 60))
+        let start = (week[day].startTime.hour + (week[day].startTime.minute / 60));
         if(!week[day].saved){
             if(start > end){
-                week[day].totalHours = (end+12 - start)
+                week[day].totalHours = (end + 12 - start);
             } else{
-                week[day].totalHours = (end - start)
+                week[day].totalHours = (end - start);
             }
         }
         setWeek(week => ({
@@ -256,12 +311,21 @@ const SupervisorCalendar = () => {
         }));
     }
 
+    const noteHandle = (inpt) => {
+        setWeek(week => ({
+            ...week, shiftNote: inpt
+        }));
+    }
+    const submissionHandle = () => {
+        console.log("Week submitted", week)
+    }
+
     return (
         <>
             <div className="weeklyWrapper">
                 <Card className="headerCard">
                     <CardHeader>
-                        Supervisor Week View
+                        Week View
                     </CardHeader>
                 </Card>
                 <Card className="tableCard">
@@ -311,16 +375,17 @@ const SupervisorCalendar = () => {
                                         <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"sunday"} saveHandle={saveHandle} />
                                     </TableCell>
                                     <TableCell>
-                                        <Textarea></Textarea>
+                                        <Textarea onChange={(inpt) => noteHandle(inpt)}></Textarea>
                                     </TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>
                     </CardBody>
                 </Card>
+                <Button onClick={submissionHandle}>Submit</Button>
             </div>
         </>
     );
 }
 
-export default SupervisorCalendar;
+export default Calendar;
