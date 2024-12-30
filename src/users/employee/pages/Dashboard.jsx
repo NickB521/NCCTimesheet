@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Edit, Forward, Success, Denied, Seperator } from "/src/assets/icons/dashboard";
 import { Tooltip } from "@nextui-org/react";
+import { Link } from "react-router-dom";
+
 
 const Widget = ({ date, content }) => {
   const [maxChars, setMaxChars] = useState(25);
