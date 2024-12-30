@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Edit, Forward, Success, Denied, Seperator } from "/src/assets/icons/dashboard";
+import { Forward, Seperator } from "/src/assets/icons/dashboard";
 import { Tooltip } from "@nextui-org/react";
 import { announcements } from "../../../assets/data/announcement-data";
 import { timesheets } from "../../../assets/data/timesheets-data";
 import { resubmitted } from "../../../assets/data/timesheets-data";
+import { Link } from "react-router-dom";
 
 const Widget = ({ date, content }) => {
   const [maxChars, setMaxChars] = useState(25);
@@ -82,7 +83,19 @@ const Widget = ({ date, content }) => {
   );
 };
 
-const TimesheetCard = ({ name, hours, newHours }) => (
+const setActiveNotification = (item) => {
+
+  const notificationItems = {
+      day: item.day,
+      month: item.month,
+      year: item.year,
+  }
+
+  sessionStorage.setItem('activeNotification', JSON.stringify(notificationItems));
+  console.log(sessionStorage.getItem('activeNotification'));
+};
+
+const TimesheetCard = ({ name, hours, newHours, item }) => (
   <div id="card-row">
     <Seperator />
     <div className="flex-1 text-white" id="card-row-content" style={{ display: "flex" }}>
@@ -92,12 +105,20 @@ const TimesheetCard = ({ name, hours, newHours }) => (
           {newHours ? `${hours} hours -> ${newHours} hours` : `${hours} Hours`}
         </p>
       </div>
-      <button
-        className="text-white"
-        style={{ display: "flex", justifyContent: "Right", alignItems: "center", transform: "rotate(90deg)" }}
+      <Link 
+        to="/calendar" 
+        onClick={() => {
+            setActiveNotification(item);
+        }}
+        style={{ display: "flex", justifyContent: "Right", alignItems: "center"}}
       >
-        <Forward />
-      </button>
+        <button
+          className="text-white"
+          style={{ transform: "rotate(90deg)" }}
+        >
+          <Forward />
+        </button>
+      </Link>
     </div>
   </div>
 );
@@ -203,13 +224,13 @@ const SupervisorDashboard = () => {
           <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Submitted Timesheets</h1>
 
           {timesheets.slice(0, loopCount).map((item, index) => (
-            <TimesheetCard key={index} name={item.name} hours={item.hours}/>
+            <TimesheetCard key={index} name={item.name} hours={item.hours} item={item}/>
           ))}
               
           <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Resubmitted Timesheets</h1>
 
           {resubmitted.slice(0, loopCount).map((item, index) => (
-            <TimesheetCard key={index} name={item.name} hours={item.hours} newHours={item.newHours}/>
+            <TimesheetCard key={index} name={item.name} hours={item.hours} newHours={item.newHours} item={item}/>
           ))}
 
           <button id="timesheet-button">View All Timesheets</button>
