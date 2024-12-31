@@ -5,12 +5,12 @@ import {
     DatePicker, Pagination, Input
 } from "@nextui-org/react";
 
-
+import { Link } from "react-router-dom";
 import { getDayOfWeek } from "@internationalized/date";
+import { employeeData } from "../../../assets/data/supervisortable-data";
 
 const SupervisorTable = () => {
-    const[employeeList, setEmployeeList] = useState([{id:1, name: "bob", workedHours: 23.0, breakTime: 123, totalTime: 123, sender: "bob", information: "forwarded"}]
-    )
+    const[employeeList, setEmployeeList] = useState(employeeData)
     const [filteredEmployeeList, setFilteredEmployeeList] = useState(employeeList);
     const [searchQuery, setSearchQuery] = useState("");
     const[week, setWeek] = useState()
@@ -21,7 +21,7 @@ const SupervisorTable = () => {
     const indexFirst= indexLast - itemsPerPage;
     const currentItems = filteredEmployeeList.slice(indexFirst, indexLast);
 
-    const handlePageChange = (event, value) =>{
+    const handlePageChange = (value) =>{
         setCurrentPage(value);
     }
 
@@ -91,13 +91,15 @@ const SupervisorTable = () => {
                                 <TableColumn>Information</TableColumn>
                             </TableHeader>
                             <TableBody >
-                                {currentItems.map((row, index) =>
+                                {
+                                //for the link it needs to be changed later on to represent specific endpoint fo reach user so the id of the user like: /Calendar/{userId}
+                                currentItems.map((row, index) =>
                                     <TableRow id={row.id}>
                                         <TableCell>{row.name}</TableCell>
                                         <TableCell>{row.workedHours}</TableCell>
                                         <TableCell>{row.breakTime}</TableCell>
                                         <TableCell>{row.totalTime}</TableCell>
-                                        <TableCell><Button style={{width: "30%", color: "white", background:"black"}}>{row.name} View</Button></TableCell>
+                                        <TableCell><Link to="/Calendar"><Button style={{width: "30%", color: "white", background:"black"}}>{row.name} View</Button></Link></TableCell>
                                         <TableCell>{row.sender}</TableCell>
                                         <TableCell>{row.information}</TableCell>
                                     </TableRow>
@@ -120,7 +122,7 @@ const SupervisorTable = () => {
                         showControls
                         total={totalPages}
                         initialPage={currentPage}
-                        onChange={(page) => handlePageChange(page)}
+                        onChange={handlePageChange}
                     />
                 </div>
             </div>
