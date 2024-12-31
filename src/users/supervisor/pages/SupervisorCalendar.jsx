@@ -321,10 +321,6 @@ const SupervisorCalendar = () => {
                         </Table>
                     </CardBody>
                 </Card>
-                
-                <Link to="/employee-list">
-                    <button>Supervisor List View</button>
-                </Link>
             </div>
         </>
     );

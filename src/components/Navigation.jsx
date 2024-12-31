@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 
-import { Dashboard, Calendar, Pointer } from "../assets/icons/navigation";
+import { Dashboard, Calendar, Pointer, Requests } from "../assets/icons/navigation";
 import { DropdownIcon } from "../assets/icons";
 
 import { useLocation, Link } from "react-router-dom";
 
-const Navigation = () => {
+const Navigation = (props) => {
     console.log(useLocation().pathname)
     const [expanded, setExpanded] = useState(false);
 
@@ -48,6 +48,13 @@ const Navigation = () => {
                     icon={ <Calendar alt="" color={ "#292F36" } /> } 
                     page={ "/calendar" } 
                 />
+                {(props.role == "Supervisor") ?
+                    <NavigationButton 
+                    name={ 'Requests' } 
+                    icon={ <Requests alt="" color={ "#292F36" } /> } 
+                    page={ "/employee-list" } 
+                    />
+                : <></>}
             </div>
 
             <div id="dropdown-container" className="cursor-pointer">
