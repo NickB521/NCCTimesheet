@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Edit, Forward, Success, Denied, Seperator } from "/src/assets/icons/dashboard";
+import { employee, pastemployee } from "../../../assets/data/employee-data";
 import { Tooltip } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 
@@ -198,49 +199,17 @@ const Dashboard = () => {
         <div id="main-card">
           <h1 style={{fontSize: "36px", fontWeight: "600", padding: "15px 0px 10px"}}>Timesheets</h1>
           <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Recent Timesheets</h1>
-          <TimesheetCard
-            date="2023-11-19"
-            hours="40"
-            status="default"
-            icon={<Edit/>}
-          />
+        
+          {employee.slice(0, loopCount).map((item, index) => (
+            <TimesheetCard key={index} name={item.name} hours={item.hours} item={item}/>
+          ))}
+
           <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Past Timesheets</h1>
-          <TimesheetCard
-            date="2023-11-12"
-            hours="40"
-            status="danger"
-            icon={<Denied/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
+         
+          {pastemployee.slice(0, loopCount).map((item, index) => (
+            <TimesheetCard key={index} name={item.name} hours={item.hours} item={item}/>
+          ))}
+
           <button id="timesheet-button">View All Timesheets</button>
         </div>
         <div id="side-cards">
