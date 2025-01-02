@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Forward, Seperator } from "/src/assets/icons/dashboard";
 import { Tooltip } from "@nextui-org/react";
 import {announcements as initialAnnouncements} from "../../../assets/data/announcement-data";
+import {holidays as initialHolidays} from "../../../assets/data/holiday-data";
 import { timesheets } from "../../../assets/data/timesheets-data";
 import { resubmitted } from "../../../assets/data/timesheets-data";
 import { Link } from "react-router-dom";
@@ -112,6 +113,41 @@ const EmailCard = ({ name, email }) => {
   );
 };
 
+const HolidayWindow = ({
+  isOpen,
+  onClose,
+  onSubmit,
+  value,
+  onChange,
+  onDelete,
+  isEditing
+}) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="dashboard-edit-window">
+      <div className="dashboard-edit-window-content">
+        <h1 style={{ fontSize: "24px", fontWeight: "600", padding: "10px 0px" }}>
+          {isEditing ? "Edit Holiday" : "New Holiday"}
+        </h1>
+        <textarea
+          value={value}
+          onChange={onChange}
+          placeholder="Enter holiday details..."
+          style={{ width: "100%", height: "80%", color: "black" }}
+        />
+        <div className="dashboard-edit-button-div">
+          <button onClick={onClose} id="cancel">Cancel</button>
+          {isEditing && (
+            <button onClick={onDelete} id="delete">Delete</button>
+          )}
+          <button onClick={onSubmit}>Submit</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const AnnouncementWindow = ({ 
   isOpen, 
   onClose, 
@@ -124,8 +160,8 @@ const AnnouncementWindow = ({
   if (!isOpen) return null;
 
   return (
-    <div id="announcement-window">
-      <div id="announcement-window-content">
+    <div className="dashboard-edit-window">
+      <div className="dashboard-edit-window-content">
         <h1 style={{ fontSize: "24px", fontWeight: "600", padding: "10px 0px" }}>
           {isEditing ? "Edit Announcement" : "New Announcement"}
         </h1>
@@ -135,7 +171,7 @@ const AnnouncementWindow = ({
           placeholder="Enter announcement content..."
           style={{ width: "100%", height: "80%", color: "black" }}
         />
-        <div id="announcement-button-div">
+        <div className="dashboard-edit-button-div">
           <button onClick={onClose} id="cancel">Cancel</button>
           {isEditing && (
             <button onClick={onDelete} id="delete">Delete</button>
@@ -157,18 +193,11 @@ const CoordinatorDashboard = () => {
   const [newAnnouncement, setNewAnnouncement] = useState("");
   const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
   const [loopCount, setLoopCount] = useState(0);
+  const [holidays, setHolidays] = useState(initialHolidays);
+  const [isHolidayWindowOpen, setIsHolidayWindowOpen] = useState(false);
+  const [newHoliday, setNewHoliday] = useState("");
+  const [selectedHoliday, setSelectedHoliday] = useState(null);
 
-  const updateLoopCount = () => {
-    const screenHeight = window.innerHeight;
-
-    if (screenHeight < 900) {
-      setLoopCount(1);
-    } else if (screenHeight < 1175) {
-      setLoopCount(2);
-    } else {
-      setLoopCount(3);
-    }
-  };
 
   const getGreeting = () => {
     const currentHour = new Date().getHours();
@@ -191,6 +220,57 @@ const CoordinatorDashboard = () => {
     window.addEventListener("resize", updateLoopCount);
     return () => window.removeEventListener("resize", updateLoopCount);
   }, []);
+
+  const handleHolidayClick = (index) => {
+    setSelectedHoliday(index);
+    setNewHoliday(holidays[index].content);
+    setIsHolidayWindowOpen(true);
+  };
+
+  const handleCreateHoliday = () => {
+    setSelectedHoliday(null);
+    setNewHoliday("");
+    setIsHolidayWindowOpen(true);
+  };
+
+  const handleSubmitHoliday = () => {
+    if (newHoliday.trim()) {
+      if (selectedHoliday !== null) {
+        const updatedHolidays = holidays.map((holiday, index) =>
+          index === selectedHoliday
+            ? { ...holiday, content: newHoliday }
+            : holiday
+        );
+        setHolidays(updatedHolidays);
+      } else {
+        const newDate = new Date().toLocaleDateString();
+        setHolidays([...holidays, { date: newDate, content: newHoliday }]);
+      }
+      setNewHoliday("");
+      setSelectedHoliday(null);
+      setIsHolidayWindowOpen(false);
+    }
+  };
+
+  const handleDeleteHoliday = () => {
+    if (selectedHoliday !== null) {
+      setHolidays(holidays.filter((_, index) => index !== selectedHoliday));
+      setSelectedHoliday(null);
+      setIsHolidayWindowOpen(false);
+    }
+  };
+
+  const updateLoopCount = () => {
+    const screenHeight = window.innerHeight;
+
+    if (screenHeight < 900) {
+      setLoopCount(1);
+    } else if (screenHeight < 1175) {
+      setLoopCount(2);
+    } else {
+      setLoopCount(3);
+    }
+  };
 
   const handleAnnouncementClick = (index) => {
     setSelectedAnnouncement(index);
@@ -261,11 +341,18 @@ const CoordinatorDashboard = () => {
         <div id="side-cards">
           <div className="side-card">
             <h1>Upcoming Holidays</h1>
-            <Widget date="12/24-25/2024" content="Christmas" />
-            <Widget date="01/01/2025" content="New Year's Day" />
-            <Widget date="01/20/2025" content="Martin Luther King, Jr. Day" />
-            <Widget date="05/26/2025" content="Memorial Day" />
+            <div className="dashboard-edit-content" style={{cursor:"pointer"}} >
+              {holidays.map((item, index) => (
+                <div onClick={() => handleHolidayClick(index)} key={index}>
+                  <Widget date={item.date} content={item.content}/>
+                </div>
+              ))}
+            </div>
+            <button className="dashboard-edit-button" onClick={handleCreateHoliday}>
+              Add Holiday
+            </button>
           </div>
+
           <div className="side-card break-words" style={{ textAlign: "center"}}>
             <h1>Contact Information</h1>
             <div style={{width: "80%"}}>
@@ -300,14 +387,14 @@ const CoordinatorDashboard = () => {
           </div>
           <div className="side-card">
             <h1>Announcements</h1>
-            <div id="announcement-content" style={{cursor:"pointer"}} >
+            <div className="dashboard-edit-content" style={{cursor:"pointer"}} >
               {announcements.map((item, index) => (
                 <div onClick={() => handleAnnouncementClick(index)} key={index}>
                   <Widget date={item.date} content={item.content}/>
                 </div>
               ))}
             </div>
-            <button id="announcement-button" onClick={handleCreateAnnouncement}>
+            <button className="dashboard-edit-button" onClick={handleCreateAnnouncement}>
               Make Announcement
             </button>
           </div>
@@ -326,9 +413,20 @@ const CoordinatorDashboard = () => {
         onChange={(e) => setNewAnnouncement(e.target.value)}
         isEditing={selectedAnnouncement !== null}
       />
+      <HolidayWindow
+        isOpen={isHolidayWindowOpen}
+        onClose={() => {
+          setIsHolidayWindowOpen(false);
+          setSelectedHoliday(null);
+        }}
+        onSubmit={handleSubmitHoliday}
+        onDelete={handleDeleteHoliday}
+        value={newHoliday}
+        onChange={(e) => setNewHoliday(e.target.value)}
+        isEditing={selectedHoliday !== null}
+      />
     </div>
   );
 };
 
 export default CoordinatorDashboard;
-

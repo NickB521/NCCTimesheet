@@ -137,13 +137,13 @@ textarea{
     margin-top: 10px;
 }
 
-#announcement-content{
+.dashboard-edit-content{
     width: 90%;
     max-height: 70%;
     overflow: auto;
 }
 
-#announcement-button{
+.dashboard-edit-button {
     background-color: var(--light-blue);
     color: white;
     border-radius: 10px;
@@ -151,7 +151,7 @@ textarea{
     margin-top: 10px;
 }
 
-#announcement-window{
+.dashboard-edit-window {
     position: absolute;
     display: flex;
     top: 50%;
@@ -167,7 +167,7 @@ textarea{
     padding: 10px 20px;
 }
 
-#announcement-window-content{
+.dashboard-edit-window-content {
     display: flex;
     justify-content: space-evenly;
     flex-direction: column;
@@ -177,14 +177,14 @@ textarea{
     color: white;
 }
 
-#announcement-button-div{
+.dashboard-edit-button-div {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     padding: 15px 0px 5px;
 }
 
-#announcement-button-div > button{
+.dashboard-edit-button-div > button {
     padding: 10px 20px; 
     border-radius: 10px;
     background-color: var(--dark-blue);

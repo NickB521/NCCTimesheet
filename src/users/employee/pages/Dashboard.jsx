@@ -252,7 +252,7 @@ const Dashboard = () => {
           <div className="side-card break-words">
             <h1>Worksite Policies</h1>
             <div style={{width: "80%"}}>
-              <h2 style={{fontSize: "18px", fontWeight: "600", textAlign:"center"}}>Code Differently</h2>
+              <h2 style={{fontSize: "18px", fontWeight: "600", textAlign:"center", marginTop: "15px"}}>Code Differently</h2>
               <div style={{paddingTop: "20px"}}>
                 <ol style={{listStyleType:"numbered"}}>
                   <li>Have a working computer</li>
