@@ -124,8 +124,8 @@ const AnnouncementWindow = ({
   if (!isOpen) return null;
 
   return (
-    <div id="announcement-window">
-      <div id="announcement-window-content">
+    <div className="dashboard-edit-window">
+      <div className="dashboard-edit-window-content">
         <h1 style={{ fontSize: "24px", fontWeight: "600", padding: "10px 0px" }}>
           {isEditing ? "Edit Announcement" : "New Announcement"}
         </h1>
@@ -135,7 +135,7 @@ const AnnouncementWindow = ({
           placeholder="Enter announcement content..."
           style={{ width: "100%", height: "80%", color: "black" }}
         />
-        <div id="announcement-button-div">
+        <div className="dashboard-edit-button-div">
           <button onClick={onClose} id="cancel">Cancel</button>
           {isEditing && (
             <button onClick={onDelete} id="delete">Delete</button>
@@ -267,7 +267,7 @@ const SupervisorDashboard = () => {
           </div>
           <div className="side-card">
             <div id="worksite-policies">
-              <h2 style={{ fontSize: "18px", fontWeight: "600", textAlign: "center" }}>Code Differently</h2>
+              <h2 style={{ fontSize: "18px", fontWeight: "600", textAlign: "center", marginTop: "15px" }}>Code Differently</h2>
               <div style={{ paddingTop: "20px", height: "80%" }}>
                 <textarea
                   disabled={editPolicies}
@@ -299,14 +299,14 @@ const SupervisorDashboard = () => {
           </div>
           <div className="side-card">
             <h1>Announcements</h1>
-            <div id="announcement-content" style={{cursor:"pointer"}} >
+            <div className="dashboard-edit-content" style={{cursor:"pointer"}} >
               {announcements.map((item, index) => (
                 <div onClick={() => handleAnnouncementClick(index)} key={index}>
                   <Widget date={item.date} content={item.content}/>
                 </div>
               ))}
             </div>
-            <button id="announcement-button" onClick={handleCreateAnnouncement}>
+            <button className="dashboard-edit-button" onClick={handleCreateAnnouncement}>
               Make Announcement
             </button>
           </div>
