@@ -2,7 +2,15 @@ export const employee = [
     {
         date: "2025-1-5" , 
         hours: 40
-    }
+    },
+    {
+        date: "2025-1-5" , 
+        hours: 40
+    },
+    {
+        date: "2025-1-5" , 
+        hours: 40
+    },
 ]
 
 export const pastemployee = [

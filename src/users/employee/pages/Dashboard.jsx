@@ -172,7 +172,6 @@ const EmailCard = ({ name, email }) => {
 
 const Dashboard = () => {
   const [greeting, setGreeting] = useState('');
-
   const [loopCount, setLoopCount] = useState(0);
 
   const updateLoopCount = () => {
@@ -189,7 +188,6 @@ const Dashboard = () => {
 
   const getGreeting = () => {
     const currentHour = new Date().getHours();
-  
     if (currentHour >= 5 && currentHour < 12) {
       return "Morning";
     } else if (currentHour >= 12 && currentHour < 18) {
