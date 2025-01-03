@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Edit, Forward, Success, Denied, Seperator } from "/src/assets/icons/dashboard";
+import { employee, pastemployee } from "../../../assets/data/employee-data";
 import { Tooltip } from "@nextui-org/react";
+import { Link } from "react-router-dom";
 
 const Widget = ({ date, content }) => {
   const [maxChars, setMaxChars] = useState(25);
@@ -170,18 +172,39 @@ const EmailCard = ({ name, email }) => {
 
 const Dashboard = () => {
   const [greeting, setGreeting] = useState('');
+  const [loopCount, setLoopCount] = useState(0);
 
-  useEffect(() => {
+  const updateLoopCount = () => {
+    const screenHeight = window.innerHeight;
+
+    if (screenHeight < 900) {
+      setLoopCount(1);
+    } else if (screenHeight < 1175) {
+      setLoopCount(2);
+    } else {
+      setLoopCount(3);
+    }
+  };
+
+  const getGreeting = () => {
     const currentHour = new Date().getHours();
     if (currentHour >= 5 && currentHour < 12) {
-        setGreeting("Morning");
+      return "Morning";
     } else if (currentHour >= 12 && currentHour < 18) {
-        setGreeting("Afternoon");
+      return "Afternoon";
     } else if (currentHour >= 18 && currentHour < 22) {
-        setGreeting("Evening");
+      return "Evening";
     } else {
-        setGreeting("Night");
+      return "Night";
     }
+  };
+
+  useEffect(() => {
+    setGreeting(getGreeting());
+    updateLoopCount();
+
+    window.addEventListener("resize", updateLoopCount);
+    return () => window.removeEventListener("resize", updateLoopCount);
   }, []);
 
   return (
@@ -196,49 +219,19 @@ const Dashboard = () => {
         <div id="main-card">
           <h1 style={{fontSize: "36px", fontWeight: "600", padding: "15px 0px 10px"}}>Timesheets</h1>
           <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Recent Timesheets</h1>
-          <TimesheetCard
-            date="2023-11-19"
-            hours="40"
-            status="default"
-            icon={<Edit/>}
-          />
+        
+          {employee.slice(0, loopCount).map((item, index) => (
+            <TimesheetCard key={index} date={item.date} hours={item.hours} item={item}/>
+          ))}
+
           <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Past Timesheets</h1>
-          <TimesheetCard
-            date="2023-11-12"
-            hours="40"
-            status="danger"
-            icon={<Denied/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
+         
+          {pastemployee.slice(0, loopCount).map((item, index) => (
+            <TimesheetCard key={index} date={item.date} hours={item.hours} item={item}/>
+          ))}
+
+          
+
           <button id="timesheet-button">View All Timesheets</button>
         </div>
         <div id="side-cards">
