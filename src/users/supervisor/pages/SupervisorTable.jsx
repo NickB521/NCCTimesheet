@@ -9,12 +9,13 @@ import { Link } from "react-router-dom";
 import { getDayOfWeek } from "@internationalized/date";
 import { employeeData } from "../../../assets/data/supervisortable-data";
 
+
 const SupervisorTable = () => {
-    const[employeeList, setEmployeeList] = useState(employeeData)
+    const [employeeList, setEmployeeList] = useState(employeeData)
     const [filteredEmployeeList, setFilteredEmployeeList] = useState(employeeList);
     const [searchQuery, setSearchQuery] = useState("");
-    const[week, setWeek] = useState()
-    const[currentPage, setCurrentPage] = useState(1);
+    const [week, setWeek] = useState()
+    const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 15;
     const totalPages = Math.ceil(employeeList.length/ itemsPerPage);
     const indexLast = currentPage * itemsPerPage;
@@ -99,7 +100,7 @@ const SupervisorTable = () => {
                                         <TableCell>{row.workedHours}</TableCell>
                                         <TableCell>{row.breakTime}</TableCell>
                                         <TableCell>{row.totalTime}</TableCell>
-                                        <TableCell><Link to="/Calendar"><Button style={{width: "30%", color: "white", background:"black"}}>{row.name} View</Button></Link></TableCell>
+                                        <TableCell><Link to="/Calendar"><Button style={{width: "30%", color: "white", background: "var(--gray)" }}>{row.name} View</Button></Link></TableCell>
                                         <TableCell>{row.sender}</TableCell>
                                         <TableCell>{row.information}</TableCell>
                                     </TableRow>
