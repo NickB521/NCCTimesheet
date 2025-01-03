@@ -1,45 +1,39 @@
 import React, { useState, useEffect } from "react";
-import { Edit, Forward, Success, Denied, Seperator } from "/src/assets/icons/dashboard";
+import { Forward, Seperator } from "/src/assets/icons/dashboard";
 import { Tooltip } from "@nextui-org/react";
+import {announcements as initialAnnouncements} from "../../../assets/data/announcement-data";
+import {holidays as initialHolidays} from "../../../assets/data/holiday-data";
+import { timesheets } from "../../../assets/data/timesheets-data";
+import { resubmitted } from "../../../assets/data/timesheets-data";
+import { Link } from "react-router-dom";
 
-const Widget = ({ date, content }) => {
-  const [maxChars, setMaxChars] = useState(25);
+const useResponsiveMaxChars = (defaultMax) => {
+  const [maxChars, setMaxChars] = useState(defaultMax);
 
   useEffect(() => {
     const updateMaxChars = () => {
       const screenWidth = window.innerWidth;
-
-      if (screenWidth < 950) {
-        setMaxChars(5);
-      } 
-      else if (screenWidth < 1100) {
-        setMaxChars(10);
-      } 
-      else if (screenWidth < 1350) {
-        setMaxChars(15);
-      } 
-      else if (screenWidth < 1600) {
-        setMaxChars(20);
-      } 
-      else if (screenWidth < 1850) {
-        setMaxChars(30);
-      } 
-      else if (screenWidth < 1970) {
-        setMaxChars(40);
-      } 
-      else {
-        setMaxChars(45);
-      }
+      if (screenWidth < 1000) setMaxChars(5);
+      else if (screenWidth < 1175) setMaxChars(10);
+      else if (screenWidth < 1275) setMaxChars(12);
+      else if (screenWidth < 1400) setMaxChars(15);
+      else if (screenWidth < 1700) setMaxChars(17);
+      else if (screenWidth < 1950) setMaxChars(25);
+      else if (screenWidth < 2250) setMaxChars(30);
+      else if (screenWidth < 2450) setMaxChars(35);
+      else setMaxChars(40);
     };
 
     updateMaxChars();
     window.addEventListener("resize", updateMaxChars);
-
-    return () => {
-      window.removeEventListener("resize", updateMaxChars);
-    };
+    return () => window.removeEventListener("resize", updateMaxChars);
   }, []);
 
+  return maxChars;
+};
+
+const Widget = ({ date, content }) => {
+  const maxChars = useResponsiveMaxChars(25);
   const isOverflowing = content.length > maxChars;
 
   return (
@@ -53,234 +47,386 @@ const Widget = ({ date, content }) => {
         closeDelay={0}
         content={
           <div className="px-1 py-2">
-            <div
-              className="text-small text-center"
-              style={{ paddingBottom: "5px", fontWeight: "600" }}
-            >
-              {date}
-            </div>
-            <div
-              className="text-tiny text-left break-words pt-5 rounded-md"
-              style={{ width: "125px" }}
-            >
-              {content}
-            </div>
+            <div className="text-small text-center" style={{ paddingBottom: "5px", fontWeight: "600" }}>{date}</div>
+            <div className="text-tiny text-left break-words pt-5 rounded-md" style={{ width: "125px" }}>{content}</div>
           </div>
         }
       >
         <div className="flex-1 text-white" id="card-row-content">
           <p className="font-semibold">{date}</p>
-          <p>
-            {isOverflowing ? `${content.substring(0, maxChars)}...` : content}
-          </p>
+          <p>{isOverflowing ? `${content.substring(0, maxChars)}...` : content}</p>
         </div>
       </Tooltip>
     </div>
   );
 };
 
-const TimesheetCard = ({ date, hours, icon, status }) => (
+const setActiveNotification = (item) => {
+
+  const notificationItems = {
+      day: item.day,
+      month: item.month,
+      year: item.year,
+  }
+
+  sessionStorage.setItem('activeNotification', JSON.stringify(notificationItems));
+  console.log(sessionStorage.getItem('activeNotification'));
+};
+
+const TimesheetCard = ({ name, hours, newHours, item }) => (
   <div id="card-row">
     <Seperator />
     <div className="flex-1 text-white" id="card-row-content" style={{ display: "flex" }}>
       <div className="flex-1 text-white">
-        <p className="font-semibold">{date}</p>
-        <p>{hours} Hours</p>
+        <p className="font-semibold">{name}</p>
+        <p>
+          {newHours ? `${hours} hours -> ${newHours} hours` : `${hours} Hours`}
+        </p>
       </div>
-      <button
-        className="text-white"
-        style={{ display: "flex", justifyContent: "Right", alignItems: "center", transform: "rotate(90deg)" }}
+      <Link 
+        to="/calendar" 
+        onClick={() => {
+            setActiveNotification(item);
+        }}
+        style={{ display: "flex", justifyContent: "Right", alignItems: "center"}}
       >
-        <Forward />
-      </button>
-    </div>
-    <div className="flex space-x-2">
-      <button className={`text-${status}`} style={{ marginLeft: "10px" }}>
-        {icon}
-      </button>
+        <button
+          className="text-white"
+          style={{ transform: "rotate(90deg)" }}
+        >
+          <Forward />
+        </button>
+      </Link>
     </div>
   </div>
 );
 
 const EmailCard = ({ name, email }) => {
-  let [maxChars, setMaxChars] = useState(100);
-  let screenWidth;
-
-  useEffect(() => {
-    const updateMaxChars = () => {
-      screenWidth = window.innerWidth;
-      if (screenWidth < 950) {
-        setMaxChars(5);
-      } 
-      else if (screenWidth < 1100) {
-        setMaxChars(10);
-      } 
-      else if (screenWidth < 1350) {
-        setMaxChars(15);
-      } 
-      else if (screenWidth < 1600) {
-        setMaxChars(20);
-      } 
-      else if (screenWidth < 1750) {
-        setMaxChars(30);
-      } 
-      else if (screenWidth < 1950) {
-        setMaxChars(40);
-      } 
-      else {
-        setMaxChars(50);
-      }
-    }
-
-    updateMaxChars();
-
-    window.addEventListener("resize", updateMaxChars);
-    return () => {
-      window.removeEventListener("resize", updateMaxChars);
-    };
-  }, []);
-  
-  return(
+  const maxChars = useResponsiveMaxChars(100);
+  return (
     <>
       <p>{name}</p>
-      <a href={`mailto:${email}`} className="break-words">{email.length > maxChars ? `${email.substring(0, maxChars)}...` : email}</a>
+      <a href={`mailto:${email}`} className="break-words">
+        {email.length > maxChars ? `${email.substring(0, maxChars)}...` : email}
+      </a>
     </>
-  )
-}
+  );
+};
+
+const HolidayWindow = ({
+  isOpen,
+  onClose,
+  onSubmit,
+  value,
+  onChange,
+  onDelete,
+  isEditing
+}) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="dashboard-edit-window">
+      <div className="dashboard-edit-window-content">
+        <h1 style={{ fontSize: "24px", fontWeight: "600", padding: "10px 0px" }}>
+          {isEditing ? "Edit Holiday" : "New Holiday"}
+        </h1>
+        <textarea
+          value={value}
+          onChange={onChange}
+          placeholder="Enter holiday details..."
+          style={{ width: "100%", height: "80%", color: "black" }}
+        />
+        <div className="dashboard-edit-button-div">
+          <button onClick={onClose} id="cancel">Cancel</button>
+          {isEditing && (
+            <button onClick={onDelete} id="delete">Delete</button>
+          )}
+          <button onClick={onSubmit}>Submit</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const AnnouncementWindow = ({ 
+  isOpen, 
+  onClose, 
+  onSubmit, 
+  value, 
+  onChange, 
+  onDelete, 
+  isEditing 
+}) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="dashboard-edit-window">
+      <div className="dashboard-edit-window-content">
+        <h1 style={{ fontSize: "24px", fontWeight: "600", padding: "10px 0px" }}>
+          {isEditing ? "Edit Announcement" : "New Announcement"}
+        </h1>
+        <textarea
+          value={value}
+          onChange={onChange}
+          placeholder="Enter announcement content..."
+          style={{ width: "100%", height: "80%", color: "black" }}
+        />
+        <div className="dashboard-edit-button-div">
+          <button onClick={onClose} id="cancel">Cancel</button>
+          {isEditing && (
+            <button onClick={onDelete} id="delete">Delete</button>
+          )}
+          <button onClick={onSubmit}>Submit</button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const CoordinatorDashboard = () => {
   const [greeting, setGreeting] = useState('');
+  const [editPolicies, setEditPolicies] = useState(true);
+  const [submitText, setSubmitText] = useState("Edit");
+  const [worksitePolicies, setWorksitePolicies] = useState("");
+  const [announcements, setAnnouncements] = useState(initialAnnouncements);
+  const [isAnnouncementWindowOpen, setIsAnnouncementWindowOpen] = useState(false);
+  const [newAnnouncement, setNewAnnouncement] = useState("");
+  const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
+  const [loopCount, setLoopCount] = useState(0);
+  const [holidays, setHolidays] = useState(initialHolidays);
+  const [isHolidayWindowOpen, setIsHolidayWindowOpen] = useState(false);
+  const [newHoliday, setNewHoliday] = useState("");
+  const [selectedHoliday, setSelectedHoliday] = useState(null);
+
+
+  const getGreeting = () => {
+    const currentHour = new Date().getHours();
+  
+    if (currentHour >= 5 && currentHour < 12) {
+      return "Morning";
+    } else if (currentHour >= 12 && currentHour < 18) {
+      return "Afternoon";
+    } else if (currentHour >= 18 && currentHour < 22) {
+      return "Evening";
+    } else {
+      return "Night";
+    }
+  };
 
   useEffect(() => {
-    const currentHour = new Date().getHours();
-    if (currentHour >= 5 && currentHour < 12) {
-        setGreeting("Morning");
-    } else if (currentHour >= 12 && currentHour < 18) {
-        setGreeting("Afternoon");
-    } else if (currentHour >= 18 && currentHour < 22) {
-        setGreeting("Evening");
-    } else {
-        setGreeting("Night");
-    }
+    setGreeting(getGreeting());
+    updateLoopCount();
+
+    window.addEventListener("resize", updateLoopCount);
+    return () => window.removeEventListener("resize", updateLoopCount);
   }, []);
 
+  const handleHolidayClick = (index) => {
+    setSelectedHoliday(index);
+    setNewHoliday(holidays[index].content);
+    setIsHolidayWindowOpen(true);
+  };
+
+  const handleCreateHoliday = () => {
+    setSelectedHoliday(null);
+    setNewHoliday("");
+    setIsHolidayWindowOpen(true);
+  };
+
+  const handleSubmitHoliday = () => {
+    if (newHoliday.trim()) {
+      if (selectedHoliday !== null) {
+        const updatedHolidays = holidays.map((holiday, index) =>
+          index === selectedHoliday
+            ? { ...holiday, content: newHoliday }
+            : holiday
+        );
+        setHolidays(updatedHolidays);
+      } else {
+        const newDate = new Date().toLocaleDateString();
+        setHolidays([...holidays, { date: newDate, content: newHoliday }]);
+      }
+      setNewHoliday("");
+      setSelectedHoliday(null);
+      setIsHolidayWindowOpen(false);
+    }
+  };
+
+  const handleDeleteHoliday = () => {
+    if (selectedHoliday !== null) {
+      setHolidays(holidays.filter((_, index) => index !== selectedHoliday));
+      setSelectedHoliday(null);
+      setIsHolidayWindowOpen(false);
+    }
+  };
+
+  const updateLoopCount = () => {
+    const screenHeight = window.innerHeight;
+
+    if (screenHeight < 900) {
+      setLoopCount(1);
+    } else if (screenHeight < 1175) {
+      setLoopCount(2);
+    } else {
+      setLoopCount(3);
+    }
+  };
+
+  const handleAnnouncementClick = (index) => {
+    setSelectedAnnouncement(index);
+    setNewAnnouncement(announcements[index].content);
+    setIsAnnouncementWindowOpen(true);
+  };
+
+  const handleCreateAnnouncement = () => {
+    setSelectedAnnouncement(null);
+    setNewAnnouncement("");
+    setIsAnnouncementWindowOpen(true);
+  };
+
+  const handleSubmitAnnouncement = () => {
+    if (newAnnouncement.trim()) {
+      if (selectedAnnouncement !== null) {
+        const updatedAnnouncements = announcements.map((announcement, index) =>
+          index === selectedAnnouncement
+            ? { ...announcement, content: newAnnouncement }
+            : announcement
+        );
+        setAnnouncements(updatedAnnouncements);
+      } else {
+        const newDate = new Date().toLocaleDateString();
+        setAnnouncements([...announcements, { date: newDate, content: newAnnouncement }]);
+      }
+      setNewAnnouncement("");
+      setSelectedAnnouncement(null);
+      setIsAnnouncementWindowOpen(false);
+    }
+  };
+
+  const handleDeleteAnnouncement = () => {
+    if (selectedAnnouncement !== null) {
+      setAnnouncements(
+        announcements.filter((_, index) => index !== selectedAnnouncement)
+      );
+      setSelectedAnnouncement(null);
+      setIsAnnouncementWindowOpen(false); 
+    }
+  };
+
   return (
-    <div id="dashboard" >
+    <div id="dashboard">
       <div id="dashboard-header" className="bg-red-100">
         <div id="dashboard-header-content">
-          <p className="text-5xl" style={{fontSize:"48px"}}>Coordnitator Good {greeting}!</p>
+          <p className="text-5xl" style={{fontSize:"48px"}}>Good {greeting} Coordinator!</p>
           <p className="text-2xl" style={{fontSize:"32px"}}>name</p>
         </div>
       </div>
       <div id="dashboard-body">
         <div id="main-card">
           <h1 style={{fontSize: "36px", fontWeight: "600", padding: "15px 0px 10px"}}>Timesheets</h1>
-          <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Recent Timesheets</h1>
-          <TimesheetCard
-            date="2023-11-19"
-            hours="40"
-            status="default"
-            icon={<Edit/>}
-          />
-          <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Past Timesheets</h1>
-          <TimesheetCard
-            date="2023-11-12"
-            hours="40"
-            status="danger"
-            icon={<Denied/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
-          <TimesheetCard
-            date="2023-11-05"
-            hours="35"
-            status="success"
-            icon={<Success/>}
-          />
+          <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Submitted Timesheets</h1>
+
+          {timesheets.slice(0, loopCount).map((item, index) => (
+            <TimesheetCard key={index} name={item.name} hours={item.hours} item={item}/>
+          ))}
+              
+          <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Resubmitted Timesheets</h1>
+
+          {resubmitted.slice(0, loopCount).map((item, index) => (
+            <TimesheetCard key={index} name={item.name} hours={item.hours} newHours={item.newHours} item={item}/>
+          ))}
           <button id="timesheet-button">View All Timesheets</button>
         </div>
+
         <div id="side-cards">
           <div className="side-card">
             <h1>Upcoming Holidays</h1>
-            <Widget date="12/24-25/2024" content="Christmas" />
-            <Widget date="01/01/2025" content="New Year's Day" />
-            <Widget date="01/20/2025" content="Martin Luther King, Jr. Day" />
-            <Widget date="05/26/2025" content="Memorial Day" />
-          </div>
-          <div className="side-card break-words">
-            <h1>Worksite Policies</h1>
-            <div style={{width: "80%"}}>
-              <h2 style={{fontSize: "18px", fontWeight: "600", textAlign:"center"}}>Code Differently</h2>
-              <div style={{paddingTop: "20px"}}>
-                <ol style={{listStyleType:"numbered"}}>
-                  <li>Have a working computer</li>
-                  <li>Have a working  camera and microphone</li>
-                  <li>Arrive a few minutes early</li>
-                  <li>Dress Code: Smart casual</li>
-                  <li>Meeting ID: 882 9530 8001</li>
-                  <li>Passcode: 951068</li>
-                </ol>
-              </div>
-              <div>
-                <p></p>
-                <p className="break-words"></p>
-              </div>
+            <div className="dashboard-edit-content" style={{cursor:"pointer"}} >
+              {holidays.map((item, index) => (
+                <div onClick={() => handleHolidayClick(index)} key={index}>
+                  <Widget date={item.date} content={item.content}/>
+                </div>
+              ))}
             </div>
+            <button className="dashboard-edit-button" onClick={handleCreateHoliday}>
+              Add Holiday
+            </button>
           </div>
-          <div className="side-card break-words" style={{textAlign: "center", gap:"20px"}}>
+
+          <div className="side-card break-words" style={{ textAlign: "center"}}>
             <h1>Contact Information</h1>
             <div style={{width: "80%"}}>
-              <h2 style={{fontSize: "18px", fontWeight: "600"}}>Worksite Supervisor(s)</h2>
-              <div style={{paddingTop: "20px"}}>
-                <EmailCard name="Jeff Lawrence" email="jeff@codedifferently.com"/>
+              <div style={{paddingBottom: "20px"}}>
+                <h2 style={{fontSize: "18px", fontWeight: "600"}}>Worksite 1</h2>
+                <div style={{paddingTop: "20px"}}>
+                  <EmailCard name="Jeff Lawrence" email="jeff@codedifferently.com"/>
+                </div>
+                <div>
+                  <EmailCard name="Nick Blackson" email="nicolas@codedifferently.com"/>
+                </div>
               </div>
-              <div>
-                <EmailCard name="Nick Blackson" email="nicolas@codedifferently.com"/>
+              <div style={{paddingBottom: "20px"}}>
+                <h2 style={{fontSize: "18px", fontWeight: "600", paddingTop: "20px", borderTop: "#ECC644 2px solid"}}>Worksite 2</h2>
+                <div style={{paddingTop: "20px"}}>
+                  <EmailCard name="Zanora Berry-El" email="Zanora.Berry-El@newcastlede.gov"/>
+                </div>
+                <div>
+                  <EmailCard name="Raymond Gravuer" email="Raymond.Gravuer@newcastlede.gov"/>
+                </div>
               </div>
-              <br />
-              <h2 style={{fontSize: "18px", fontWeight: "600", paddingTop: "20px", borderTop: "#ECC644 2px solid"}}>County Coordinators(s)</h2>
-              <div style={{paddingTop: "20px"}}>
-                <EmailCard name="Zanora Berry-El" email="Zanora.Berry-El@newcastlede.gov"/>
-              </div>
-              <div>
-                <EmailCard name="Raymond Gravuer" email="Raymond.Gravuer@newcastlede.gov"/>
+              <div style={{paddingBottom: "20px"}}>
+                <h2 style={{fontSize: "18px", fontWeight: "600", paddingTop: "20px", borderTop: "#ECC644 2px solid"}}>Worksite 3</h2>
+                <div style={{paddingTop: "20px"}}>
+                  <EmailCard name="Zanora Berry-El" email="Zanora.Berry-El@newcastlede.gov"/>
+                </div>
+                <div>
+                  <EmailCard name="Raymond Gravuer" email="Raymond.Gravuer@newcastlede.gov"/>
+                </div>
               </div>
             </div>
           </div>
           <div className="side-card">
             <h1>Announcements</h1>
-            <Widget date="06/02/2024" content="NCCVT - Mandatory PD Training, Zoom Link In Email" />
-            <Widget date="08/21/2024" content="Supervisor 1 - PD Days Wed/Thur" />
-            <Widget date="09/18/2024" content="Day Off Tomorrow" />
-            <Widget date="10/15/2024" content="Shift Availible For Pickup" />
+            <div className="dashboard-edit-content" style={{cursor:"pointer"}} >
+              {announcements.map((item, index) => (
+                <div onClick={() => handleAnnouncementClick(index)} key={index}>
+                  <Widget date={item.date} content={item.content}/>
+                </div>
+              ))}
+            </div>
+            <button className="dashboard-edit-button" onClick={handleCreateAnnouncement}>
+              Make Announcement
+            </button>
           </div>
         </div>
       </div>
+
+      <AnnouncementWindow
+        isOpen={isAnnouncementWindowOpen}
+        onClose={() => {
+          setIsAnnouncementWindowOpen(false);
+          setSelectedAnnouncement(null);
+        }}
+        onSubmit={handleSubmitAnnouncement}
+        onDelete={handleDeleteAnnouncement}
+        value={newAnnouncement}
+        onChange={(e) => setNewAnnouncement(e.target.value)}
+        isEditing={selectedAnnouncement !== null}
+      />
+      <HolidayWindow
+        isOpen={isHolidayWindowOpen}
+        onClose={() => {
+          setIsHolidayWindowOpen(false);
+          setSelectedHoliday(null);
+        }}
+        onSubmit={handleSubmitHoliday}
+        onDelete={handleDeleteHoliday}
+        value={newHoliday}
+        onChange={(e) => setNewHoliday(e.target.value)}
+        isEditing={selectedHoliday !== null}
+      />
     </div>
   );
-}
+};
 
 export default CoordinatorDashboard;
-
