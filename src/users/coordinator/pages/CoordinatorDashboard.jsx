@@ -185,9 +185,6 @@ const AnnouncementWindow = ({
 
 const CoordinatorDashboard = () => {
   const [greeting, setGreeting] = useState('');
-  const [editPolicies, setEditPolicies] = useState(true);
-  const [submitText, setSubmitText] = useState("Edit");
-  const [worksitePolicies, setWorksitePolicies] = useState("");
   const [announcements, setAnnouncements] = useState(initialAnnouncements);
   const [isAnnouncementWindowOpen, setIsAnnouncementWindowOpen] = useState(false);
   const [newAnnouncement, setNewAnnouncement] = useState("");

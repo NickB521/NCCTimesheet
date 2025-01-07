@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Edit, Forward, Success, Denied, Seperator } from "/src/assets/icons/dashboard";
+import { Forward, Seperator } from "/src/assets/icons/dashboard";
 import { employee, pastemployee } from "../../../assets/data/employee-data";
 import { Tooltip } from "@nextui-org/react";
 import { Link } from "react-router-dom";
+import {announcements} from "../../../assets/data/announcement-data";
+import {holidays} from "../../../assets/data/holiday-data";
 
 const Widget = ({ date, content }) => {
   const [maxChars, setMaxChars] = useState(25);
@@ -173,6 +175,7 @@ const EmailCard = ({ name, email }) => {
 const Dashboard = () => {
   const [greeting, setGreeting] = useState('');
   const [loopCount, setLoopCount] = useState(0);
+  const [worksitePolicies, setWorksitePolicies] = useState("text");
 
   const updateLoopCount = () => {
     const screenHeight = window.innerHeight;
@@ -235,30 +238,26 @@ const Dashboard = () => {
           <button id="timesheet-button">View All Timesheets</button>
         </div>
         <div id="side-cards">
-          <div className="side-card">
+        <div className="side-card">
             <h1>Upcoming Holidays</h1>
-            <Widget date="12/24-25/2024" content="Christmas" />
-            <Widget date="01/01/2025" content="New Year's Day" />
-            <Widget date="01/20/2025" content="Martin Luther King, Jr. Day" />
-            <Widget date="05/26/2025" content="Memorial Day" />
+            <div className="dashboard-edit-content" style={{cursor:"pointer"}} >
+              {holidays.map((item, index) => (
+                <div key={index}>
+                  <Widget date={item.date} content={item.content}/>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="side-card break-words">
-            <h1>Worksite Policies</h1>
-            <div style={{width: "80%"}}>
-              <h2 style={{fontSize: "18px", fontWeight: "600", textAlign:"center", marginTop: "15px"}}>Code Differently</h2>
-              <div style={{paddingTop: "20px"}}>
-                <ol style={{listStyleType:"numbered"}}>
-                  <li>Have a working computer</li>
-                  <li>Have a working  camera and microphone</li>
-                  <li>Arrive a few minutes early</li>
-                  <li>Dress Code: Smart casual</li>
-                  <li>Meeting ID: 882 9530 8001</li>
-                  <li>Passcode: 951068</li>
-                </ol>
-              </div>
-              <div>
-                <p></p>
-                <p className="break-words"></p>
+          <div className="side-card">
+            <div id="worksite-policies">
+              <h2 style={{ fontSize: "18px", fontWeight: "600", textAlign: "center", marginTop: "15px" }}>Code Differently</h2>
+              <div style={{ paddingTop: "20px", height: "80%" }}>
+                <textarea
+                  disabled
+                  placeholder="Enter your policies..."
+                  value={worksitePolicies}
+                  style={{ width: "100%", height: "90%" }}
+                />
               </div>
             </div>
           </div>
@@ -284,10 +283,13 @@ const Dashboard = () => {
           </div>
           <div className="side-card">
             <h1>Announcements</h1>
-            <Widget date="06/02/2024" content="NCCVT - Mandatory PD Training, Zoom Link In Email" />
-            <Widget date="08/21/2024" content="Supervisor 1 - PD Days Wed/Thur" />
-            <Widget date="09/18/2024" content="Day Off Tomorrow" />
-            <Widget date="10/15/2024" content="Shift Availible For Pickup" />
+            <div className="dashboard-edit-content" style={{cursor:"pointer"}} >
+              {announcements.map((item, index) => (
+                <div key={index}>
+                  <Widget date={item.date} content={item.content}/>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

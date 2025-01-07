@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Forward, Seperator } from "/src/assets/icons/dashboard";
 import { Tooltip } from "@nextui-org/react";
 import {announcements as initialAnnouncements} from "../../../assets/data/announcement-data";
+import {holidays} from "../../../assets/data/holiday-data";
 import { timesheets } from "../../../assets/data/timesheets-data";
 import { resubmitted } from "../../../assets/data/timesheets-data";
 import { Link } from "react-router-dom";
@@ -258,12 +259,15 @@ const SupervisorDashboard = () => {
         </div>
 
         <div id="side-cards">
-          <div className="side-card">
+        <div className="side-card">
             <h1>Upcoming Holidays</h1>
-            <Widget date="12/24-25/2024" content="Christmas" />
-            <Widget date="01/01/2025" content="New Year's Day" />
-            <Widget date="01/20/2025" content="Martin Luther King, Jr. Day" />
-            <Widget date="05/26/2025" content="Memorial Day" />
+            <div className="dashboard-edit-content" style={{cursor:"pointer"}} >
+              {holidays.map((item, index) => (
+                <div key={index}>
+                  <Widget date={item.date} content={item.content}/>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="side-card">
             <div id="worksite-policies">
@@ -286,8 +290,8 @@ const SupervisorDashboard = () => {
                   {submitText}
                 </button>
               </div>
+            </div>
           </div>
-        </div>
 
           <div className="side-card break-words" style={{ textAlign: "center", gap: "20px" }}>
             <h1>Contact Information</h1>
