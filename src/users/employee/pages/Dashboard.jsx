@@ -261,23 +261,29 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div className="side-card break-words" style={{textAlign: "center", gap:"20px"}}>
+          <div className="side-card break-words" style={{ textAlign: "center"}}>
             <h1>Contact Information</h1>
             <div style={{width: "80%"}}>
-              <h2 style={{fontSize: "18px", fontWeight: "600"}}>Worksite Supervisor(s)</h2>
-              <div style={{paddingTop: "20px"}}>
-                <EmailCard name="Jeff Lawrence" email="jeff@codedifferently.com"/>
+              <div style={{paddingBottom: "20px"}}>
+                <h2 style={{fontSize: "18px", fontWeight: "600"}}>Worksite Supervisor(s)</h2>
+                <div style={{paddingTop: "20px"}}>
+                  <EmailCard name="Jeff Lawrence" email="jeff@codedifferently.com"/>
+                </div>
+                <div>
+                  <EmailCard name="Nicolas Blackson" email="nicolas@codedifferently.com"/>
+                </div>
+                <div>
+                  <EmailCard name="Nicolas Blackson" email="nicolas@codedifferently.com"/>
+                </div>
               </div>
-              <div>
-                <EmailCard name="Nick Blackson" email="nicolas@codedifferently.com"/>
-              </div>
-              <br />
-              <h2 style={{fontSize: "18px", fontWeight: "600", paddingTop: "20px", borderTop: "#ECC644 2px solid"}}>County Coordinators(s)</h2>
-              <div style={{paddingTop: "20px"}}>
-                <EmailCard name="Zanora Berry-El" email="Zanora.Berry-El@newcastlede.gov"/>
-              </div>
-              <div>
-                <EmailCard name="Raymond Gravuer" email="Raymond.Gravuer@newcastlede.gov"/>
+              <div style={{paddingBottom: "20px"}}>
+                <h2 style={{fontSize: "18px", fontWeight: "600", paddingTop: "20px", borderTop: "#ECC644 2px solid"}}>County Coordinators(s)</h2>
+                <div style={{paddingTop: "20px"}}>
+                  <EmailCard name="Zanora Berry-El" email="Zanora.Berry-El@newcastlede.gov"/>
+                </div>
+                <div>
+                  <EmailCard name="Raymond Gravuer" email="Raymond.Gravuer@newcastlede.gov"/>
+                </div>
               </div>
             </div>
           </div>
