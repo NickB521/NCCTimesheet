@@ -24,7 +24,7 @@ const getCalendar = (role) => {
     case "Employee":
       return <Calendar/>;
     case "Supervisor":
-      return <SupervisorCalendar/>;
+      return <SupervisorTable/>;
     case "Coordinator":
       return <CoordinatorCalendar/>;
   }
@@ -64,7 +64,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={getDashboard(user.role)} />
           <Route path="calendar" element={getCalendar(user.role)}/>
-          <Route path="employee-list" element={<SupervisorTable />}/>
+          <Route path="employee-focus" element={<SupervisorCalendar />}/>
           <Route path="sign-in" element={<SignIn />} />
           <Route path="sign-up" element={<SignUp />} />
         </Routes>

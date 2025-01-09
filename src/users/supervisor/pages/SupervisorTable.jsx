@@ -100,7 +100,7 @@ const SupervisorTable = () => {
                                         <TableCell>{row.workedHours}</TableCell>
                                         <TableCell>{row.breakTime}</TableCell>
                                         <TableCell>{row.totalTime}</TableCell>
-                                        <TableCell><Link to="/Calendar"><Button style={{width: "30%", color: "white", background: "var(--gray)" }}>{row.name} View</Button></Link></TableCell>
+                                        <TableCell><Link to="/employee-focus"><Button style={{width: "30%", color: "white", background: "var(--gray)" }}>{row.name} View</Button></Link></TableCell>
                                         <TableCell>{row.sender}</TableCell>
                                         <TableCell>{row.information}</TableCell>
                                     </TableRow>

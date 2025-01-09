@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Dashboard, Calendar, Pointer, Requests } from "../assets/icons/navigation";
+import { Dashboard, Calendar, Pointer } from "../assets/icons/navigation";
 import { DropdownIcon } from "../assets/icons";
 
 import { useLocation, Link } from "react-router-dom";
@@ -48,15 +48,7 @@ const Navigation = (props) => {
                     icon={ <Calendar alt="" color={ "#292F36" } /> } 
                     page={ "/calendar" } 
                 />
-                {(props.role == "Supervisor") ?
-                    <NavigationButton 
-                    name={ 'Requests' } 
-                    icon={ <Requests alt="" color={ "#292F36" } /> } 
-                    page={ "/employee-list" } 
-                    />
-                : <></>}
             </div>
-
             <div id="dropdown-container" className="cursor-pointer">
                 <button onClick={ toggleExpanded }>
                     <DropdownIcon alt="" className={ `navigation-icon ${ expanded ? "open" : "" }` }/>
