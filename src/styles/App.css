@@ -230,3 +230,37 @@ body {
   margin-left: 10px;
   padding-left: 15px;
 }
+
+#alert-body{
+  z-index: 100000000;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  width: 100vw;
+  height: 20vh;
+  background: linear-gradient(to right, var(--dark-blue), var(--light-blue));
+  border-radius: 0px 0px 10px 10px;
+  box-shadow: 2px 4px 4px 1px var(--light-gray);
+}
+
+#alert-button{
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#alert-content{
+  color: white;
+  font-weight: 600;
+}
+
+#alert-header{
+  font-size: 50px;
+}
+
+#alert-subheader{
+  font-size: 20px;
+}

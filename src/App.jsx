@@ -13,6 +13,7 @@ import CoordinatorDashboard from "./users/coordinator/pages/CoordinatorDashboard
 import CoordinatorCalendar from "./users/coordinator/pages/CoordinatorCalendar.jsx"
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import HolidayAlert from "./components/HolidayAlert.jsx"
 
 import { Routes, Route } from "react-router-dom";
 import React, { useState } from "react";
@@ -43,6 +44,7 @@ const getDashboard = (role) => {
 const App = () => {
 
   const [user, setUser] = useState({
+    holiday: true,
     name: "USER IS ME",
     role: "Coordinator",
     email: "email@email.com",
@@ -51,11 +53,19 @@ const App = () => {
     }
   });
 
+  const [dayOff, setDayOff] = useState(user.holiday);
+
   return (
     <>
       <Header />
       <div id="content-wrapper-wrapper">
         <Navigation />
+        <HolidayAlert
+          isOpen={dayOff}
+          onClose={() => {
+            setDayOff(false);
+          }}
+        />
         <Routes>
           <Route path="/" element={getDashboard(user.role)} />
           <Route path="calendar" element={getCalendar(user.role)}/>
