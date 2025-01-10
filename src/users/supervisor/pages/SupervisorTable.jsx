@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -23,7 +23,7 @@ const SupervisorTable = () => {
   const [employeeList, setEmployeeList] = useState(employeeData); 
   const [searchQuery, setSearchQuery] = useState(""); 
   const [currentPage, setCurrentPage] = useState(1); 
-  const itemsPerPage = 5; // Items per page
+  const [itemsPerPage, setitemsPerPage] = useState(10);
 
   const getFilteredList = () => {
     if (!searchQuery) return employeeList; 
@@ -32,7 +32,6 @@ const SupervisorTable = () => {
     );
   };
 
-
   const fetchCurrentItems = () => {
     const filteredList = getFilteredList(); 
     const startIndex = (currentPage - 1) * itemsPerPage; 
@@ -40,11 +39,9 @@ const SupervisorTable = () => {
     return filteredList.slice(startIndex, endIndex); 
   };
 
-
   const handlePageChange = (value) => {
     setCurrentPage(value);
   };
-
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -63,6 +60,34 @@ const SupervisorTable = () => {
     setWeek(week);
     fetchData();
   };
+
+  useEffect(() => {
+    const updateItemsPerPage = () => {
+      const screenHeight = window.innerHeight;
+      if (screenHeight < 800) {
+        setitemsPerPage(3);
+      } 
+      else if (screenHeight < 950) {
+        setitemsPerPage(5);
+      } 
+      else if (screenHeight < 1100) {
+        setitemsPerPage(10);
+      } 
+      else if (screenHeight < 1200) {
+        setitemsPerPage(12);
+      } 
+      else{
+        setitemsPerPage(15);
+      } 
+    }
+  
+    updateItemsPerPage();
+  
+    window.addEventListener("resize", updateItemsPerPage);
+    return () => {
+      window.removeEventListener("resize", updateItemsPerPage);
+    };
+  }), [];
 
   // Get total pages after filtering
   const totalFilteredPages = Math.ceil(getFilteredList().length / itemsPerPage);
