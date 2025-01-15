@@ -15,28 +15,29 @@ import {
   Input,
 } from "@nextui-org/react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getDayOfWeek } from "@internationalized/date";
 import { employeeData } from "../../../assets/data/supervisortable-data";
 
 const SupervisorTable = () => {
-  const [employeeList, setEmployeeList] = useState(employeeData); 
-  const [searchQuery, setSearchQuery] = useState(""); 
-  const [currentPage, setCurrentPage] = useState(1); 
+  const [employeeList, setEmployeeList] = useState(employeeData);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setitemsPerPage] = useState(10);
+  const navigate = useNavigate();
 
   const getFilteredList = () => {
-    if (!searchQuery) return employeeList; 
+    if (!searchQuery) return employeeList;
     return employeeList.filter((employee) =>
       employee.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
   };
 
   const fetchCurrentItems = () => {
-    const filteredList = getFilteredList(); 
-    const startIndex = (currentPage - 1) * itemsPerPage; 
+    const filteredList = getFilteredList();
+    const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return filteredList.slice(startIndex, endIndex); 
+    return filteredList.slice(startIndex, endIndex);
   };
 
   const handlePageChange = (value) => {
@@ -66,28 +67,25 @@ const SupervisorTable = () => {
       const screenHeight = window.innerHeight;
       if (screenHeight < 800) {
         setitemsPerPage(3);
-      } 
-      else if (screenHeight < 950) {
+      } else if (screenHeight < 950) {
         setitemsPerPage(5);
-      } 
-      else if (screenHeight < 1100) {
+      } else if (screenHeight < 1100) {
         setitemsPerPage(10);
-      } 
-      else if (screenHeight < 1200) {
+      } else if (screenHeight < 1200) {
         setitemsPerPage(12);
-      } 
-      else{
+      } else {
         setitemsPerPage(15);
-      } 
-    }
-  
+      }
+    };
+
     updateItemsPerPage();
-  
+
     window.addEventListener("resize", updateItemsPerPage);
     return () => {
       window.removeEventListener("resize", updateItemsPerPage);
     };
-  }), [];
+  }),
+    [];
 
   // Get total pages after filtering
   const totalFilteredPages = Math.ceil(getFilteredList().length / itemsPerPage);
@@ -142,29 +140,34 @@ const SupervisorTable = () => {
               <TableColumn>Information</TableColumn>
             </TableHeader>
             <TableBody>
-              {fetchCurrentItems().slice(0, itemsPerPage).map((row, index) => (
-                <TableRow key={index} id={row.id}>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell>{row.workedHours}</TableCell>
-                  <TableCell>{row.breakTime}</TableCell>
-                  <TableCell>{row.totalTime}</TableCell>
-                  <TableCell>
-                    <Link to="/employee-focus">
+              {fetchCurrentItems()
+                .slice(0, itemsPerPage)
+                .map((row, index) => (
+                  <TableRow key={index} id={row.id}>
+                    <TableCell>{row.name}</TableCell>
+                    <TableCell>{row.workedHours}</TableCell>
+                    <TableCell>{row.breakTime}</TableCell>
+                    <TableCell>{row.totalTime}</TableCell>
+                    <TableCell>
                       <Button
                         style={{
                           width: "30%",
                           color: "white",
                           background: "var(--gray)",
                         }}
+                        onClick={() =>
+                          navigate("/employee-focus", {
+                            state: { name: row.name },
+                          })
+                        }
                       >
                         {row.name} View
                       </Button>
-                    </Link>
-                  </TableCell>
-                  <TableCell>{row.sender}</TableCell>
-                  <TableCell>{row.information}</TableCell>
-                </TableRow>
-              ))}
+                    </TableCell>
+                    <TableCell>{row.sender}</TableCell>
+                    <TableCell>{row.information}</TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </CardBody>
