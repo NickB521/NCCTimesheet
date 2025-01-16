@@ -13,6 +13,7 @@ import CoordinatorDashboard from "./users/coordinator/pages/CoordinatorDashboard
 import CoordinatorCalendar from "./users/coordinator/pages/CoordinatorCalendar.jsx"
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import SupervisorTable from "./users/supervisor/pages/SupervisorTable.jsx"
 import HolidayAlert from "./components/HolidayAlert.jsx"
 
 import { Routes, Route } from "react-router-dom";
@@ -24,7 +25,7 @@ const getCalendar = (role) => {
     case "Employee":
       return <Calendar/>;
     case "Supervisor":
-      return <SupervisorCalendar/>;
+      return <SupervisorTable/>;
     case "Coordinator":
       return <CoordinatorCalendar/>;
   }
@@ -40,6 +41,7 @@ const getDashboard = (role) => {
       return <CoordinatorDashboard/>;
   }
 }
+
 
 const App = () => {
 
@@ -59,6 +61,10 @@ const App = () => {
     <>
       <Header />
       <div id="content-wrapper-wrapper">
+        <Navigation 
+        role={user.role}
+        />
+        {/* <button onClick={setUser(user => ({...user, temp: !(user.temp)}))}></button> */}
         <Navigation />
         <HolidayAlert
           isOpen={dayOff}
@@ -69,6 +75,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={getDashboard(user.role)} />
           <Route path="calendar" element={getCalendar(user.role)}/>
+          <Route path="employee-focus" element={<SupervisorCalendar />}/>
           <Route path="sign-in" element={<SignIn />} />
           <Route path="sign-up" element={<SignUp />} />
         </Routes>

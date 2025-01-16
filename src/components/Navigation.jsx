@@ -5,7 +5,8 @@ import { DropdownIcon } from "../assets/icons";
 
 import { useLocation, Link } from "react-router-dom";
 
-const Navigation = () => {
+const Navigation = (props) => {
+    console.log(useLocation().pathname)
     const [expanded, setExpanded] = useState(false);
     const location = useLocation();
 
@@ -49,7 +50,6 @@ const Navigation = () => {
                     page={ "/calendar" } 
                 />
             </div>
-
             <div id="dropdown-container" className="cursor-pointer">
                 <button onClick={ toggleExpanded }>
                     <DropdownIcon alt="" className={ `navigation-icon ${ expanded ? "open" : "" }` }/>
