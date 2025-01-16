@@ -3,8 +3,8 @@ import { Forward, Seperator } from "/src/assets/icons/dashboard";
 import { Tooltip } from "@nextui-org/react";
 import {announcements as initialAnnouncements} from "../../../assets/data/announcement-data";
 import {holidays as initialHolidays} from "../../../assets/data/holiday-data";
-import { timesheets } from "../../../assets/data/timesheets-data";
-import { resubmitted } from "../../../assets/data/timesheets-data";
+import { companyList } from "../../../assets/data/coordinatortable-data";
+// import { resubmitted } from "../../../assets/data/coordinatortable-data";
 import { Link } from "react-router-dom";
 
 const useResponsiveMaxChars = (defaultMax) => {
@@ -73,14 +73,14 @@ const setActiveNotification = (item) => {
   console.log(sessionStorage.getItem('activeNotification'));
 };
 
-const TimesheetCard = ({ name, hours, newHours, item }) => (
+const TimesheetCard = ({ workplace, submissions, newSubmissions, item }) => (
   <div id="card-row">
     <Seperator />
     <div className="flex-1 text-white" id="card-row-content" style={{ display: "flex" }}>
       <div className="flex-1 text-white">
-        <p className="font-semibold">{name}</p>
+        <p className="font-semibold">{workplace}</p>
         <p>
-          {newHours ? `${hours} hours -> ${newHours} hours` : `${hours} Hours`}
+          {newSubmissions ? `${newSubmissions} Resubmissions` : `${submissions} Submissions`}
         </p>
       </div>
       <Link 
@@ -326,14 +326,14 @@ const CoordinatorDashboard = () => {
           <h1 style={{fontSize: "36px", fontWeight: "600", padding: "15px 0px 10px"}}>Timesheets</h1>
           <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Submitted Timesheets</h1>
 
-          {timesheets.slice(0, loopCount).map((item, index) => (
-            <TimesheetCard key={index} name={item.name} hours={item.hours} item={item}/>
+          {companyList.slice(0, loopCount).map((item, index) => (
+            <TimesheetCard key={index} workplace={item.company} submissions={item.totalSubmissions} item={item}/>
           ))}
               
           <h1 style={{fontSize: "24px", fontWeight: "600", padding: "10px 0px"}}>Resubmitted Timesheets</h1>
 
-          {resubmitted.slice(0, loopCount).map((item, index) => (
-            <TimesheetCard key={index} name={item.name} hours={item.hours} newHours={item.newHours} item={item}/>
+          {companyList.slice(0, loopCount).map((item, index) => (
+            <TimesheetCard key={index} workplace={item.company} submissions={item.totalSubmissions} newSubmissions={item.totalResubmissions} item={item}/>
           ))}
           <button id="timesheet-button">View All Timesheets</button>
         </div>
