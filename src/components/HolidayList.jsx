@@ -3,17 +3,18 @@ import Widget from "./Widget";
 
 const HolidayList = ({
   holidays,
-  isEditable,  
-  onAddHoliday,
-  onEditHoliday,
-  onDeleteHoliday,
+  isEditable,
+  onAddHoliday = () => {}, 
+  onEditHoliday = () => {},
+  onDeleteHoliday = () => {},
 }) => {
   const [isHolidayWindowOpen, setIsHolidayWindowOpen] = useState(false);
   const [selectedHoliday, setSelectedHoliday] = useState(null);
   const [newHolidayContent, setNewHolidayContent] = useState("");
 
   const handleOpen = (holiday, index) => {
-    setSelectedHoliday(index);
+    if (!isEditable) return; 
+    setSelectedHoliday(index !== undefined ? index : null);
     setNewHolidayContent(holiday?.content || "");
     setIsHolidayWindowOpen(true);
   };
@@ -25,6 +26,7 @@ const HolidayList = ({
   };
 
   const handleSubmit = () => {
+    if (!isEditable) return;
     if (selectedHoliday !== null) {
       onEditHoliday(selectedHoliday, newHolidayContent);
     } else {
@@ -34,23 +36,26 @@ const HolidayList = ({
   };
 
   const handleDelete = () => {
-    if (selectedHoliday !== null) {
-      onDeleteHoliday(selectedHoliday);
-      handleClose();
-    }
+    if (!isEditable || selectedHoliday === null) return;
+    onDeleteHoliday(selectedHoliday);
+    handleClose();
   };
 
   return (
     <div className="side-card">
       <h1>Upcoming Holidays</h1>
-      <div className="dashboard-edit-content" style={{ cursor: "pointer" }}>
+      <div className="dashboard-edit-content">
         {holidays.map((holiday, index) => (
-          <div key={index} onClick={() => isEditable && handleOpen(holiday, index)}>
+          <div
+            key={index}
+            onClick={() => handleOpen(holiday, index)}
+            style={{ cursor: isEditable ? "pointer" : "default" }}
+          >
             <Widget date={holiday.date} content={holiday.content} />
           </div>
         ))}
       </div>
-      
+
       {isEditable && (
         <button className="dashboard-edit-button" onClick={() => handleOpen(null)}>
           Add Holiday
@@ -69,7 +74,9 @@ const HolidayList = ({
             />
             <div className="dashboard-edit-button-div">
               <button onClick={handleClose}>Cancel</button>
-              {selectedHoliday !== null && <button onClick={handleDelete}>Delete</button>}
+              {selectedHoliday !== null && (
+                <button onClick={handleDelete}>Delete</button>
+              )}
               <button onClick={handleSubmit}>Submit</button>
             </div>
           </div>

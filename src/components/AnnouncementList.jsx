@@ -3,17 +3,18 @@ import Widget from "./Widget";
 
 const AnnouncementList = ({
   announcements,
-  isEditable, 
-  onAddAnnouncement,
-  onEditAnnouncement,
-  onDeleteAnnouncement,
+  isEditable,
+  onAddAnnouncement = () => {},
+  onEditAnnouncement = () => {},
+  onDeleteAnnouncement = () => {},
 }) => {
   const [isAnnouncementWindowOpen, setIsAnnouncementWindowOpen] = useState(false);
   const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
   const [newAnnouncementContent, setNewAnnouncementContent] = useState("");
 
   const handleOpen = (announcement, index) => {
-    setSelectedAnnouncement(index);
+    if (!isEditable) return;
+    setSelectedAnnouncement(index !== undefined ? index : null);
     setNewAnnouncementContent(announcement?.content || "");
     setIsAnnouncementWindowOpen(true);
   };
@@ -25,6 +26,7 @@ const AnnouncementList = ({
   };
 
   const handleSubmit = () => {
+    if (!isEditable) return;
     if (selectedAnnouncement !== null) {
       onEditAnnouncement(selectedAnnouncement, newAnnouncementContent);
     } else {
@@ -34,18 +36,21 @@ const AnnouncementList = ({
   };
 
   const handleDelete = () => {
-    if (selectedAnnouncement !== null) {
-      onDeleteAnnouncement(selectedAnnouncement);
-      handleClose();
-    }
+    if (!isEditable || selectedAnnouncement === null) return;
+    onDeleteAnnouncement(selectedAnnouncement);
+    handleClose();
   };
 
   return (
     <div className="side-card">
       <h1>Announcements</h1>
-      <div className="dashboard-edit-content" style={{ cursor: "pointer" }}>
+      <div className="dashboard-edit-content">
         {announcements.map((announcement, index) => (
-          <div key={index} onClick={() => isEditable && handleOpen(announcement, index)}>
+          <div
+            key={index}
+            onClick={() => handleOpen(announcement, index)}
+            style={{ cursor: isEditable ? "pointer" : "default" }}
+          >
             <Widget date={announcement.date} content={announcement.content} />
           </div>
         ))}
@@ -69,7 +74,9 @@ const AnnouncementList = ({
             />
             <div className="dashboard-edit-button-div">
               <button onClick={handleClose}>Cancel</button>
-              {selectedAnnouncement !== null && <button onClick={handleDelete}>Delete</button>}
+              {selectedAnnouncement !== null && (
+                <button onClick={handleDelete}>Delete</button>
+              )}
               <button onClick={handleSubmit}>Submit</button>
             </div>
           </div>
