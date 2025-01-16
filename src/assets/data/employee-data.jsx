@@ -1,4 +1,4 @@
-export const employee = [
+export const timesheets = [
     {
         date: "2025-1-5" , 
         hours: 40
@@ -13,7 +13,7 @@ export const employee = [
     },
 ]
 
-export const pastemployee = [
+export const resubmitted = [
     {
         date: "2024-12-29",
         hours: 40
