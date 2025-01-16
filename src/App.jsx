@@ -60,12 +60,12 @@ const App = () => {
   return (
     <>
       <Header />
+      
       <div id="content-wrapper-wrapper">
         <Navigation 
-        role={user.role}
+          role={user.role}
         />
         {/* <button onClick={setUser(user => ({...user, temp: !(user.temp)}))}></button> */}
-        <Navigation />
         <HolidayAlert
           isOpen={dayOff}
           onClose={() => {
