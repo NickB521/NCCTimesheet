@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import {
   Button,
@@ -15,7 +16,7 @@ import {
   Input,
 } from "@nextui-org/react";
 
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { DateTime } from 'luxon';
 import { supervisorTableData } from "../../../assets/data/supervisortable-data";
 

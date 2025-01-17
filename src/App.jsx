@@ -48,7 +48,7 @@ const App = () => {
   const [user, setUser] = useState({
     holiday: true,
     name: "USER IS ME",
-    role: "Employee",
+    role: "Supervisor",
     email: "email@email.com",
     worksite: {
       name: ""
@@ -65,7 +65,6 @@ const App = () => {
         role={user.role}
         />
         {/* <button onClick={setUser(user => ({...user, temp: !(user.temp)}))}></button> */}
-        <Navigation />
         <HolidayAlert
           isOpen={dayOff}
           onClose={() => {
