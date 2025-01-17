@@ -58,7 +58,7 @@ const SupervisorTable = () => {
       
     weekOf = input.startOf('week').toISODate().toString();
 
-    console.log(weekOf);
+    // console.log(weekOf);
     
     setEmployeeList(supervisorTableData(weekOf));
   };
@@ -66,7 +66,6 @@ const SupervisorTable = () => {
   useEffect(()=> {
     let currentDate = DateTime.local();
     CalendarHandle(currentDate);
-
   }, [])
 
   useEffect(() => {
