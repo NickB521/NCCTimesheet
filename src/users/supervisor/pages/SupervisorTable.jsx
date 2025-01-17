@@ -16,11 +16,11 @@ import {
 } from "@nextui-org/react";
 
 import { Link, useNavigate } from "react-router-dom";
-import { getDayOfWeek } from "@internationalized/date";
-import { employeeData } from "../../../assets/data/supervisortable-data";
+import { DateTime } from 'luxon';
+import { supervisorTableData } from "../../../assets/data/supervisortable-data";
 
 const SupervisorTable = () => {
-  const [employeeList, setEmployeeList] = useState(employeeData);
+  const [employeeList, setEmployeeList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setitemsPerPage] = useState(10);
@@ -50,17 +50,24 @@ const SupervisorTable = () => {
   };
 
   const CalendarHandle = (input) => {
-    const key = Object.keys(week);
-    input.day -= getDayOfWeek(input, "en-US") - 1;
-    for (let i = 0; i < key.length; i++) {
-      week[key[i]].day = input.month + "/" + input.day;
-      document.getElementById(key[i]).innerHTML = week[key[i]].day + "";
-      input.day += 1;
-    }
-    input.day -= 7;
-    setWeek(week);
-    fetchData();
+    let weekOf;
+      
+    if (input && !(input instanceof DateTime)) {
+      input = DateTime.fromISO(input);
+    }  
+      
+    weekOf = input.startOf('week').toISODate().toString();
+
+    console.log(weekOf);
+    
+    setEmployeeList(supervisorTableData(weekOf));
   };
+  
+  useEffect(()=> {
+    let currentDate = DateTime.local();
+    CalendarHandle(currentDate);
+
+  }, [])
 
   useEffect(() => {
     const updateItemsPerPage = () => {
