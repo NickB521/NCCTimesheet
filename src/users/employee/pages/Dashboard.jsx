@@ -71,6 +71,7 @@ const Dashboard = () => {
               ))}
             </div>
           </div>
+          {/* work on contact information */}
           <div className="side-card">
             <h1>Worksite Policies</h1>
             <div id="worksite-policies">
