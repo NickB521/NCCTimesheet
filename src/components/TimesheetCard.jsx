@@ -1,16 +1,18 @@
 import { Link } from "react-router-dom";
 import { Forward, Seperator } from "/src/assets/icons/dashboard";
 
-const TimesheetCard = ({ date, hours, icon, status }) => {
-  console.log({ date, hours, icon, status });
+const TimesheetCard = ({ title, hours, icon, status, newHours, total }) => {
+  console.log({ title, hours, icon, status });
 
   return (
     <div id="card-row">
       <Seperator />
       <div className="flex-1 text-white" id="card-row-content" style={{ display: "flex" }}>
         <div className="flex-1 text-white">
-          <p className="font-semibold">{date}</p>
-          <p>{hours || 'No Hours Provided'} Hours</p>
+          <p className="font-semibold">{title}</p>
+          <p>
+            {total ? `${total} Submissions` : `${hours} Hours ${newHours ? `-> ${newHours} Hours` : ""}`}
+          </p>
         </div>
         <button
           className="text-white"

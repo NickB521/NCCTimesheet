@@ -4,7 +4,7 @@ import HolidayList from "/src/components/HolidayList";
 import AnnouncementList from "/src/components/AnnouncementList";
 import TimesheetCard from "/src/components/TimesheetCard";
 import EmailCard from "/src/components/EmailCard";
-import { timesheets, resubmitted } from "../../../assets/data/employee-data";
+import { employeeTimesheet, employeeResubmitted } from "../../../assets/data/dashboard-timesheet-data";
 import { holidays as holidayData } from "../../../assets/data/holiday-data";
 import { announcements as announcementData } from "../../../assets/data/announcement-data";
 
@@ -39,28 +39,28 @@ const Dashboard = () => {
           <h1 style={{ fontSize: "36px", fontWeight: "600", padding: "15px 0px 10px" }}>Timesheets</h1>
 
           <h2 style={{ fontSize: "24px", fontWeight: "600", padding: "10px 0px" }}>Recent Timesheets</h2>
-          {timesheets.slice(0, loopCount).map((item, index) => (
+          {employeeTimesheet.slice(0, loopCount).map((item, index) => (
             <TimesheetCard
               key={index}
+              title={item.title} 
               hours={item.hours} 
-              date={item.date}     
             />
           ))}
 
           <h2 style={{ fontSize: "24px", fontWeight: "600", padding: "10px 0px" }}>Past Timesheets</h2>
-          {resubmitted.slice(0, loopCount).map((item, index) => (
+          {employeeResubmitted.slice(0, loopCount).map((item, index) => (
             <TimesheetCard
               key={index}
+              title={item.title}
               hours={item.hours}
-              date={item.date}
             />
           ))}
           <button id="timesheet-button">View All Timesheets</button>
         </div>
 
         <div id="side-cards">
-          <HolidayList holidays={holidayData} isEditable={false} />
-          <AnnouncementList announcements={announcementData} isEditable={false} />
+          <HolidayList holidays={holidayData}/>
+          <AnnouncementList announcements={announcementData}/>
           <div className="side-card">
             <h1>Contact Information</h1>
             <div style={{ width: "80%" }}>

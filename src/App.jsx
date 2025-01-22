@@ -48,7 +48,7 @@ const App = () => {
   const [user, setUser] = useState({
     holiday: true,
     name: "USER IS ME",
-    role: "Coordinator",
+    role: "Supervisor",
     email: "email@email.com",
     worksite: {
       name: ""
