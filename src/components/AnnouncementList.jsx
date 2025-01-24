@@ -43,7 +43,7 @@ const AnnouncementList = ({
 
   return (
     <div className="side-card">
-      <h1>Announcements</h1>
+      <h1 className="widget-title">Announcements</h1>
       <div className="dashboard-edit-content">
         {announcements.map((announcement, index) => (
           <div

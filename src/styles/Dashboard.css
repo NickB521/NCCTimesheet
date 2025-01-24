@@ -139,6 +139,7 @@ textarea{
 
 .dashboard-edit-content{
     width: 90%;
+    margin-top: 20px;
     max-height: 70%;
     overflow: auto;
 }
@@ -192,4 +193,23 @@ textarea{
 
 #cancel{
     background-color: var(--gray) !important;
+}
+
+.widget-title{
+    padding: 15px 10% 10px !important;
+    border-bottom: var(--yellow) solid 3px;
+    border-radius: 2px;
+    font-weight: 600; 
+}
+
+.dashboard-subtitle{
+    font-size: 24px;
+    font-weight: 600;
+    padding: 10px 0px
+}
+
+.widget-subtitle{
+    font-size: 20px !important;
+    font-weight: 600;
+    padding: 10px 0px
 }

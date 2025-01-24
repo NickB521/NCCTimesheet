@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { supervisorTimesheet, supervisorResubmitted } from "../../../assets/data/dashboard-timesheet-data";
 import Greeting from "/src/components/Greeting.jsx";
-import AnnouncementList from "/src/components/AnnouncementList";
 import TimesheetCard from "/src/components/TimesheetCard";
-import EmailCard from "/src/components/EmailCard";
 import HolidayParent from "../../../components/HolidayParent";
 import AnnouncementParent from "../../../components/AnnouncementParent";
+import ContactCard from "../../../components/ContactCard";
+import PoliciesCard from "../../../components/PoliciesCard";
+import { supervisorInformation, coordinatorInformation } from "../../../assets/data/dashboard-contact-information";
 
 // work on later
 const setActiveNotification = (item) => {
@@ -22,16 +23,9 @@ const setActiveNotification = (item) => {
 // 
 
 const SupervisorDashboard = () => {
-
   const [loopCount, setLoopCount] = useState(0);
   const name = "test_name";
-  const [worksitePolicies, setWorksitePolicies] = useState("");
-  const [editPolicies, setEditPolicies] = useState(true);
-  const [submitText, setSubmitText] = useState("Edit");
-  const contacts = [
-    { name: "John Doe", email: "john.doe@example.com" },
-    { name: "Jane Smith", email: "jane.smith@example.com" },
-  ];
+  const [policy, setPolicy] = useState("policy");
 
   useEffect(() => {
     const updateLoopCount = () => {
@@ -46,24 +40,24 @@ const SupervisorDashboard = () => {
 
     return () => window.removeEventListener("resize", updateLoopCount);
   }, []);
-  
+
   return (
     <div id="dashboard">
       <Greeting name={name} />
       <div id="dashboard-body">
         <div id="main-card">
-          <h1 style={{ fontSize: "36px", fontWeight: "600", padding: "15px 0px 10px" }}>Timesheets</h1>
+          <h1 className="widget-title" style={{fontSize:"30px"}}>Timesheets</h1>
 
-          <h2 style={{ fontSize: "24px", fontWeight: "600", padding: "10px 0px" }}>Recent Timesheets</h2>
+          <h2 className="dashboard-subtitle">Recent Timesheets</h2>
           {supervisorTimesheet.slice(0, loopCount).map((item, index) => (
             <TimesheetCard
               key={index}
-              title={item.title}  
+              title={item.title} 
               hours={item.hours} 
             />
           ))}
 
-          <h2 style={{ fontSize: "24px", fontWeight: "600", padding: "10px 0px" }}>Past Timesheets</h2>
+          <h2 className="dashboard-subtitle">Past Timesheets</h2>
           {supervisorResubmitted.slice(0, loopCount).map((item, index) => (
             <TimesheetCard
               key={index}
@@ -78,37 +72,8 @@ const SupervisorDashboard = () => {
         <div id="side-cards">
           <HolidayParent/>
           <AnnouncementParent/>
-          <div className="side-card">
-            <h1>Contact Information</h1>
-            <div style={{ width: "80%" }}>
-              {contacts.map((contact, index) => (
-                <div key={index}>
-                  <EmailCard name={contact.name} email={contact.email} />
-                </div>
-              ))}
-            </div>
-          </div>
-          {/* work on contact information */}
-          <div className="side-card">
-            <h1>Worksite Policies</h1>
-            <div id="worksite-policies">
-              <textarea
-                disabled={editPolicies}
-                onChange={(e) => setWorksitePolicies(e.target.value)}
-                value={worksitePolicies}
-                style={{ width: "100%", height: "90%", color: "black" }}
-              />
-            </div>
-            <button
-              id="textarea-button"
-              onClick={() => {
-                setEditPolicies(!editPolicies);
-                setSubmitText(editPolicies ? "Submit" : "Edit");
-              }}
-            >
-              {submitText}
-            </button>
-          </div>
+          <ContactCard groups={[supervisorInformation, coordinatorInformation]}/>
+          <PoliciesCard policy={policy} setPolicy={setPolicy} isEditable={true}/>
         </div>
       </div>
     </div>

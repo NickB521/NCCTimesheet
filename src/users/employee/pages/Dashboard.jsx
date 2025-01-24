@@ -3,19 +3,18 @@ import Greeting from "/src/components/Greeting.jsx";
 import HolidayList from "/src/components/HolidayList";
 import AnnouncementList from "/src/components/AnnouncementList";
 import TimesheetCard from "/src/components/TimesheetCard";
-import EmailCard from "/src/components/EmailCard";
+import PoliciesCard from "../../../components/PoliciesCard";
+import ContactCard from "../../../components/ContactCard";
 import { employeeTimesheet, employeeResubmitted } from "../../../assets/data/dashboard-timesheet-data";
 import { holidays as holidayData } from "../../../assets/data/holiday-data";
 import { announcements as announcementData } from "../../../assets/data/announcement-data";
+import { supervisorInformation, coordinatorInformation } from "../../../assets/data/dashboard-contact-information";
+
 
 const Dashboard = () => {
   const [loopCount, setLoopCount] = useState(0);
   const name = "test_name";
   const policy = "policy";
-  const contacts = [
-    { name: "John Doe", email: "john.doe@example.com" },
-    { name: "Jane Smith", email: "jane.smith@example.com" },
-  ];
 
   useEffect(() => {
     const updateLoopCount = () => {
@@ -36,9 +35,9 @@ const Dashboard = () => {
       <Greeting name={name} />
       <div id="dashboard-body">
         <div id="main-card">
-          <h1 style={{ fontSize: "36px", fontWeight: "600", padding: "15px 0px 10px" }}>Timesheets</h1>
+          <h1 className="widget-title" style={{fontSize:"30px"}}>Timesheets</h1>
 
-          <h2 style={{ fontSize: "24px", fontWeight: "600", padding: "10px 0px" }}>Recent Timesheets</h2>
+          <h2 className="dashboard-subtitle">Recent Timesheets</h2>
           {employeeTimesheet.slice(0, loopCount).map((item, index) => (
             <TimesheetCard
               key={index}
@@ -47,7 +46,7 @@ const Dashboard = () => {
             />
           ))}
 
-          <h2 style={{ fontSize: "24px", fontWeight: "600", padding: "10px 0px" }}>Past Timesheets</h2>
+          <h2 className="dashboard-subtitle">Past Timesheets</h2>
           {employeeResubmitted.slice(0, loopCount).map((item, index) => (
             <TimesheetCard
               key={index}
@@ -61,27 +60,8 @@ const Dashboard = () => {
         <div id="side-cards">
           <HolidayList holidays={holidayData}/>
           <AnnouncementList announcements={announcementData}/>
-          <div className="side-card">
-            <h1>Contact Information</h1>
-            <div style={{ width: "80%" }}>
-              {contacts.map((contact, index) => (
-                <div key={index}>
-                  <EmailCard name={contact.name} email={contact.email} />
-                </div>
-              ))}
-            </div>
-          </div>
-          {/* work on contact information */}
-          <div className="side-card">
-            <h1>Worksite Policies</h1>
-            <div id="worksite-policies">
-              <textarea
-                disabled
-                value={policy}
-                style={{ width: "100%", height: "90%", color: "black" }}
-              />
-            </div>
-          </div>
+          <ContactCard groups={[supervisorInformation, coordinatorInformation]}/>
+          <PoliciesCard policy={policy} isEditable={false}/>
         </div>
       </div>
     </div>

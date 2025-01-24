@@ -43,7 +43,7 @@ const HolidayList = ({
 
   return (
     <div className="side-card">
-      <h1>Upcoming Holidays</h1>
+      <h1 className="widget-title">Upcoming Holidays</h1>
       <div className="dashboard-edit-content">
         {holidays.map((holiday, index) => (
           <div
