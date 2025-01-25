@@ -2,46 +2,65 @@ import React, { useState, useEffect } from "react";
 import {
     Button, Card, CardHeader, CardBody, Table,
     TableHeader, TableBody, TableRow, TableColumn, TableCell,
-    Textarea, DatePicker, Checkbox, TimeInput, Popover, PopoverTrigger, PopoverContent
+    Textarea, DatePicker, Checkbox, TimeInput, Popover, PopoverTrigger, PopoverContent, Pagination
 } from "@nextui-org/react";
 import { DateTime } from 'luxon';  
 
-const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {
+const WeekTool = ({ week, timeSet, addShift, breakHandle, day, saveHandle, currentPage, setCurrentPage, deleteShift}) => {
 
     const [buttonColor, setButtonColor] = useState("#292F36");
+    const [isTimeInputted, setIsTimeInputted] = useState(false);
+    const shiftsPerPage = 1;
+    const totalShifts = week[day].shifts.length;
+    const totalPages = Math.ceil(totalShifts / shiftsPerPage);
+
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    const startIndex = (currentPage - 1) * shiftsPerPage;
+    const currentShifts = week[day].shifts.slice(startIndex, startIndex + shiftsPerPage);
+
+    const handleTimeInput = (inpt, day, timeType, index) => {
+        setIsTimeInputted(true);
+        timeSet(inpt, day, timeType, index);
+    };
 
     return (
         <>
-            <Popover placement="bottom" showArrow style={{marginTop: "10px"}}>
+            <Popover placement="bottom" showArrow style={{ marginTop: "10px" }}>
                 <PopoverTrigger placement="bottom" showArrow>
-                    <Button style={{width: "80%", color: "white", background:`${buttonColor}`}}>{week[day].saved ? "Hours: " + week[day].totalHours : "Add Shift"}</Button>
+                    <Button style={{ width: "80%", color: "white", background: `${buttonColor}` }}>{week[day].saved ? "Hours: " + week[day].totalHours : "Add Shift"}</Button>
                 </PopoverTrigger>
-                <PopoverContent style={{display: "flex", flexDirection: "column", height: "fit-content", width: "170px", border: "gray 1px", alignItems: "center"}}>
-                    <div className="flex w-full flex-col" style={{width: "180px", display: "flex", alignItems:"center", justifyContent:"space-evenly", paddingBottom: "20px"}}>
-                        <h4 className="text-medium font-medium" id="notification-title" style={{padding: "20px"}}>
-                            Shift Information
+                <PopoverContent style={{ display: "flex", flexDirection: "column", height: "fit-content", width: "170px", border: "gray 1px", alignItems: "center" }}>
+                    <div className="flex w-full flex-col" style={{ width: "180px", display: "flex", alignItems: "center", justifyContent: "space-evenly", paddingBottom: "20px" }}>
+                        <Button color="danger" style={{ position: "absolute", top: 0, right: 0, height: "20px" }} onClick={() => deleteShift(day, startIndex)}>X</Button>
+                        <h4 className="text-medium font-medium" id="notification-title" style={{ padding: "20px" }}>
+                            Shift {currentPage}
                         </h4>
-                        <div className="flex w-full flex-col" style={{gap: "20px", width: "90%", display: "flex", alignItems:"center"}}>
-                            <TimeInput isRequired label={"Start Time"} onChange={(inpt) => timeSet(inpt, day, "startTime")} value={week[day].startTime.hour != 0 ? week[day].startTime : ""} 
-                                hourCycle={24} granularity="minute" isDisabled={week[day].saved}/>
-                            <Checkbox onClick={() => breakHandle(day)} isSelected={week[day].breakTaken}
-                                isDisabled={week[day].saved}>Meal Break?</Checkbox>
-                        {week[day].breakTaken ?
-                            <>
-                                <TimeInput isRequired label={"Break Start"} onChange={(inpt) => timeSet(inpt, day, "breakStart")} value={week[day].breakStart.hour != 0 ? week[day].breakStart : ""}
-                                hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
-                                <TimeInput isRequired label={"Break End"} onChange={(inpt) => timeSet(inpt, day, "breakEnd")} value={week[day].breakEnd.hour != 0 ? week[day].breakEnd : ""}
-                                hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
-                            </>
-                            : ""
-                        }
-                            
-                            <TimeInput isRequired label={"End Time"} onChange={(inpt) => timeSet(inpt, day, "endTime")} value={week[day].endTime.hour != 0 ? week[day].endTime : ""}
-                                isDisabled={week[day].saved} hourCycle={24} granularity="minute"/>
+                        <div className="flex w-full flex-col" style={{ gap: "20px", width: "90%", display: "flex", alignItems: "center" }}>
+                            {currentShifts.map((shift, index) => (
+                                <div key={index} style={{ position: "relative" }}>
+                                    <TimeInput isRequired label={"Start Time"} onChange={(inpt) => handleTimeInput(inpt, day, "startTime", startIndex + index)} value={shift.startTime} hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
+                                    <Checkbox onClick={() => breakHandle(day, startIndex + index)} isSelected={shift.breakTaken} isDisabled={week[day].saved}>Meal Break?</Checkbox>
+                                    {shift.breakTaken && (
+                                        <>
+                                            <TimeInput isRequired label={"Break Start"} onChange={(inpt) => handleTimeInput(inpt, day, "breakStart", startIndex + index)} value={shift.breakStart} hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
+                                            <TimeInput isRequired label={"Break End"} onChange={(inpt) => handleTimeInput(inpt, day, "breakEnd", startIndex + index)} value={shift.breakEnd} hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
+                                        </>
+                                    )}
+                                    <TimeInput isRequired label={"End Time"} onChange={(inpt) => handleTimeInput(inpt, day, "endTime", startIndex + index)} value={shift.endTime} isDisabled={week[day].saved} hourCycle={24} granularity="minute" />
+                                </div>
+                            ))}
                             {week[day].saved ? "Total Hours Worked: " + week[day].totalHours : ""}
-                            <Button style={{alignItems: "center", justifyContent: "center", width: "60%", padding: "20px", color:"white", background:"#1C6296"}} onClick={() => {saveHandle(day), setButtonColor("#1C6296")}}> { week[day].saved ? "Edit" : "Save"}</Button>
+                            <Button style={{ alignItems: "center", justifyContent: "center", width: "60%", padding: "20px", color: "white", background: "#1C6296" }} onClick={() => { saveHandle(day), setButtonColor("#1C6296") }} disabled={!isTimeInputted}> {week[day].saved ? "Edit" : "Save"}</Button>
+                            <Button style={{ alignItems: "center", justifyContent: "center", borderRadius: "110px", color: "white", background: "#1C6296" }} onClick={() => addShift(day, totalPages, setCurrentPage)}>+</Button>
+                            <div style={{ display: "flex", justifyContent: "center", width: "100%", marginTop: "10px" }}>
+                                <Pagination color="warning" initialPage={currentPage} total={totalPages} onChange={handlePageChange} boundaries={0} />
+                            </div>
                         </div>
-                    </div>  
+                    </div>
                 </PopoverContent>
             </Popover>
         </>
@@ -71,7 +90,8 @@ const Calendar = () => {
             },
             totalHours: 0,
             breakTaken: false,
-            saved: false
+            saved: false,
+            shifts: [{ startTime: "", endTime: "", breakTaken: false, breakStart: "", breakEnd: "" }]
         },
         tuesday: {
             day: "",
@@ -93,7 +113,8 @@ const Calendar = () => {
             },
             totalHours: 0,
             breakTaken: false,
-            saved: false
+            saved: false,
+            shifts: [{ startTime: "", endTime: "", breakTaken: false, breakStart: "", breakEnd: "" }]
         },
         wednesday: {
             day: "",
@@ -115,7 +136,8 @@ const Calendar = () => {
             },
             totalHours: 0,
             breakTaken: false,
-            saved: false
+            saved: false,
+            shifts: [{ startTime: "", endTime: "", breakTaken: false, breakStart: "", breakEnd: "" }]
         },
         thursday: {
             day: "",
@@ -137,7 +159,8 @@ const Calendar = () => {
             },
             totalHours: 0,
             breakTaken: false,
-            saved: false
+            saved: false,
+            shifts: [{ startTime: "", endTime: "", breakTaken: false, breakStart: "", breakEnd: "" }]
         },
         friday: {
             day: "",
@@ -149,7 +172,6 @@ const Calendar = () => {
                 hour: 0,
                 minute: 0
             },
-
             breakStart: {
                 hour: 0,
                 minute: 0
@@ -160,7 +182,8 @@ const Calendar = () => {
             },
             totalHours: 0,
             breakTaken: false,
-            saved: false
+            saved: false,
+            shifts: [{ startTime: "", endTime: "", breakTaken: false, breakStart: "", breakEnd: "" }]
         },
         saturday: {
             day: "",
@@ -172,7 +195,6 @@ const Calendar = () => {
                 hour: 0,
                 minute: 0
             },
-
             breakStart: {
                 hour: 0,
                 minute: 0
@@ -183,7 +205,8 @@ const Calendar = () => {
             },
             totalHours: 0,
             breakTaken: false,
-            saved: false
+            saved: false,
+            shifts: [{ startTime: "", endTime: "", breakTaken: false, breakStart: "", breakEnd: "" }]
         },
         sunday: {
             day: "",
@@ -195,7 +218,6 @@ const Calendar = () => {
                 hour: 0,
                 minute: 0
             },
-
             breakStart: {
                 hour: 0,
                 minute: 0
@@ -206,11 +228,21 @@ const Calendar = () => {
             },
             totalHours: 0,
             breakTaken: false,
-            saved: false
+            saved: false,
+            shifts: [{ startTime: "", endTime: "", breakTaken: false, breakStart: "", breakEnd: "" }]
         }
     });
 
     const [isReady, setIsReady] = useState(false);
+    const [currentPage, setCurrentPage] = useState({
+        monday: 1,
+        tuesday: 1,
+        wednesday: 1,
+        thursday: 1,
+        friday: 1,
+        saturday: 1,
+        sunday: 1
+    });
 
     useEffect(() => {
         const savedNotification = JSON.parse(sessionStorage.getItem('activeNotification'));
@@ -277,13 +309,48 @@ const Calendar = () => {
         setWeek(week);
       };
 
-    const breakHandle = (day) => {
+    const breakHandle = (day, index) => {
+        const newShifts = [...week[day].shifts];
+        newShifts[index].breakTaken = !newShifts[index].breakTaken;
         setWeek(week => ({
-            ...week, [day]: { ...week[day], breakTaken: !(week[day].breakTaken) }
+            ...week, [day]: { ...week[day], shifts: newShifts }
         }));
     }
 
-    const timeSet = (inpt, day, timeType) => {
+    const addShift = (day, totalPages, setCurrentPage) => {
+        setWeek(prevWeek => ({
+            ...prevWeek,
+            [day]: {
+                ...prevWeek[day],
+                shifts: [...prevWeek[day].shifts, { startTime: "", endTime: "", breakTaken: false, breakStart: "", breakEnd: "" }],
+                saved: false // Ensure new shifts are not saved initially
+            }
+        }));
+        setCurrentPage(totalPages + 1);
+    };
+
+    const deleteShift = (day, index) => {
+        const shift = week[day].shifts[index];
+        const shiftHours = calculateShiftHours(shift);
+        const newShifts = [...week[day].shifts];
+        newShifts.splice(index, 1); // Remove the shift from the array
+        const newTotalHours = week[day].totalHours - shiftHours;
+    
+        setWeek(week => ({
+            ...week, [day]: { ...week[day], shifts: newShifts, totalHours: newTotalHours }
+        }));
+    
+        // Adjust the current page if there are more than one page
+        const totalPages = Math.ceil(newShifts.length / 1); // Assuming 1 shift per page
+        if (index >= newShifts.length && totalPages > 0) {
+            setCurrentPage(totalPages);
+        } else {
+            setCurrentPage(1); // Reset to the first page if only one page is left
+        }
+    };
+
+
+    const timeSet = (inpt, day, timeType, index) => {
         if(inpt.minute > 52){
             inpt.hour += 1
         }
@@ -291,25 +358,54 @@ const Calendar = () => {
             inpt.hour -= 12
         }
         inpt.minute = ((((inpt.minute + 7.5) / 15 | 0) * 15) % 60)
+        const newShifts = [...week[day].shifts];
+        newShifts[index][timeType] = { hour: inpt.hour, minute: inpt.minute };
         setWeek(week => ({
-            ...week, [day]: { ...week[day], [timeType]: { ...week[day][timeType], hour: inpt.hour, minute: inpt.minute } }
+            ...week, [day]: { ...week[day], shifts: newShifts }
         }));
     }
 
     const saveHandle = (day) => {
-        let end = (week[day].endTime.hour + (week[day].endTime.minute / 60));
-        let start = (week[day].startTime.hour + (week[day].startTime.minute / 60));
-        if(!week[day].saved){
-            if(start > end){
-                week[day].totalHours = (end + 12 - start);
-            } else{
-                week[day].totalHours = (end - start);
-            }
+        let totalHours = 0;
+        if (week[day].shifts.length === 0) {
+            totalHours = 0;
+        } else {
+            week[day].shifts.forEach(shift => {
+                if (shift.startTime.hour === 0 && shift.startTime.minute === 0 || shift.endTime.hour === 0 && shift.endTime.minute === 0) {
+                    totalHours = 0;
+                } else {
+                    let end = (shift.endTime.hour + (shift.endTime.minute / 60));
+                    let start = (shift.startTime.hour + (shift.startTime.minute / 60));
+                    if (isNaN(end) || isNaN(start)) {
+                        totalHours = 0;
+                    } else if (start > end) {
+                        totalHours += (end + 12 - start);
+                    } else {
+                        totalHours += (end - start);
+                    }
+                }
+            });
         }
         setWeek(week => ({
-            ...week, [day]: { ...week[day], saved: !(week[day].saved) }
+            ...week, [day]: { ...week[day], totalHours, saved: !(week[day].saved) }
         }));
     }
+
+    const calculateShiftHours = (shift) => {
+        if (shift.startTime.hour === 0 && shift.startTime.minute === 0 || shift.endTime.hour === 0 && shift.endTime.minute === 0) {
+            return 0;
+        } else {
+            let end = (shift.endTime.hour + (shift.endTime.minute / 60));
+            let start = (shift.startTime.hour + (shift.startTime.minute / 60));
+            if (isNaN(end) || isNaN(start)) {
+                return 0;
+            } else if (start > end) {
+                return (end + 12 - start);
+            } else {
+                return (end - start);
+            }
+        }
+    };
 
     const noteHandle = (inpt) => {
         setWeek(week => ({
@@ -354,25 +450,25 @@ const Calendar = () => {
                                 <TableRow>
                                     <TableCell>Name</TableCell>
                                     <TableCell>
-                                        <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"monday"} saveHandle={saveHandle} />
+                                        <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"monday"} saveHandle={saveHandle} addShift={addShift} currentPage={currentPage.monday} setCurrentPage={(page) => setCurrentPage(prev => ({ ...prev, monday: page }))} deleteShift={deleteShift}/>
                                     </TableCell>
                                     <TableCell>
-                                        <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"tuesday"} saveHandle={saveHandle} />
+                                        <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"tuesday"} saveHandle={saveHandle} addShift={addShift} currentPage={currentPage.tuesday} setCurrentPage={(page) => setCurrentPage(prev => ({ ...prev, tuesday: page }))} deleteShift={deleteShift}/>
                                     </TableCell>
                                     <TableCell>
-                                        <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"wednesday"} saveHandle={saveHandle} />
+                                        <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"wednesday"} saveHandle={saveHandle} addShift={addShift} currentPage={currentPage.wednesday} setCurrentPage={(page) => setCurrentPage(prev => ({ ...prev, wednesday: page }))} deleteShift={deleteShift}/>
                                     </TableCell>
                                     <TableCell>
-                                        <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"thursday"} saveHandle={saveHandle} />
+                                        <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"thursday"} saveHandle={saveHandle} addShift={addShift} currentPage={currentPage.thursday} setCurrentPage={(page) => setCurrentPage(prev => ({ ...prev, thursday: page }))} deleteShift={deleteShift}/>
                                     </TableCell>
                                     <TableCell>
-                                        <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"friday"} saveHandle={saveHandle} />
+                                        <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"friday"} saveHandle={saveHandle} addShift={addShift} currentPage={currentPage.friday} setCurrentPage={(page) => setCurrentPage(prev => ({ ...prev, friday: page }))} deleteShift={deleteShift}/>
                                     </TableCell>
                                     <TableCell>
-                                        <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"saturday"} saveHandle={saveHandle} />
+                                        <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"saturday"} saveHandle={saveHandle} addShift={addShift} currentPage={currentPage.saturday} setCurrentPage={(page) => setCurrentPage(prev => ({ ...prev, saturday: page }))} deleteShift={deleteShift}/>
                                     </TableCell>
                                     <TableCell>
-                                        <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"sunday"} saveHandle={saveHandle} />
+                                        <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"sunday"} saveHandle={saveHandle} addShift={addShift} currentPage={currentPage.sunday} setCurrentPage={(page) => setCurrentPage(prev => ({ ...prev, sunday: page }))} />
                                     </TableCell>
                                     <TableCell>
                                         <Textarea onChange={(inpt) => noteHandle(inpt)}></Textarea>
