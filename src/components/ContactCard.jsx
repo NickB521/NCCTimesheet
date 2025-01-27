@@ -7,18 +7,19 @@ const ContactCard = ({ groups }) => {
                 <div
                     key={index}
                     style={{
-                    padding: "0px 20px 20px",
-                    marginTop: "20px",
-                    border: "#1C6296 3px solid",
-                    borderRadius: "10px",
+                        padding: "0px 20px 20px",
+                        marginTop: "20px",
+                        border: "#1C6296 3px solid",
+                        borderRadius: "10px",
+                        overflowWrap: "break-word"
                     }}
                 >
                     <h1 className="widget-subtitle">{group.groupName}</h1>
                     {group.people.map((person) => (
-                    <div key={person.email}>
-                        <b>{person.name}</b>
-                        <p style={{ paddingBottom: "10px" }}>{person.email}</p>
-                    </div>
+                        <div key={person.email}>
+                            <b>{person.name}</b>
+                            <p style={{ paddingBottom: "10px" }}>{person.email}</p>
+                        </div>
                     ))}
                 </div>
                 ))}

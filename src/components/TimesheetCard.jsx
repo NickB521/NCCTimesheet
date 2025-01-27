@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Forward, Seperator } from "/src/assets/icons/dashboard";
 
 const TimesheetCard = ({ title, hours, icon, status, newHours, total }) => {
-  console.log({ title, hours, icon, status });
+  console.log({ title, hours, icon, status, total });
 
   return (
     <div id="card-row">

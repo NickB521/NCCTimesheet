@@ -57,7 +57,7 @@ const SupervisorDashboard = () => {
             />
           ))}
 
-          <h2 className="dashboard-subtitle">Past Timesheets</h2>
+          <h2 className="dashboard-subtitle">Resubmitted Timesheets</h2>
           {supervisorResubmitted.slice(0, loopCount).map((item, index) => (
             <TimesheetCard
               key={index}
