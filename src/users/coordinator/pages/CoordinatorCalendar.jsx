@@ -261,7 +261,7 @@ const CoordinatorCalendar = () => {
             <div className="weeklyWrapper">
                 <Card className="headerCard">
                     <CardHeader>
-                        Coordnitator Week View
+                        Coordinator Week View
                     </CardHeader>
                 </Card>
                 <Card className="tableCard">
