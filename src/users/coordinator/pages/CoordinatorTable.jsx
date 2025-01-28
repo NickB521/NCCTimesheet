@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import {
   Button,
@@ -16,12 +15,12 @@ import {
   Input,
 } from "@nextui-org/react";
 
-import { useNavigate } from "react-router-dom";
-import { DateTime } from 'luxon';
-import { supervisorTableData } from "../../../assets/data/supervisortable-data";
+import { Link, useNavigate } from "react-router-dom";
+import { getDayOfWeek } from "@internationalized/date";
+import { employeeData } from "../../../assets/data/supervisortable-data";
 
 const CoordinatorTable = () => {
-  const [employeeList, setEmployeeList] = useState([]);
+  const [employeeList, setEmployeeList] = useState(employeeData);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setitemsPerPage] = useState(10);
@@ -51,23 +50,17 @@ const CoordinatorTable = () => {
   };
 
   const CalendarHandle = (input) => {
-    let weekOf;
-      
-    if (input && !(input instanceof DateTime)) {
-      input = DateTime.fromISO(input);
-    }  
-      
-    weekOf = input.startOf('week').toISODate().toString();
-
-    // console.log(weekOf);
-    
-    setEmployeeList(supervisorTableData(weekOf));
+    const key = Object.keys(week);
+    input.day -= getDayOfWeek(input, "en-US") - 1;
+    for (let i = 0; i < key.length; i++) {
+      week[key[i]].day = input.month + "/" + input.day;
+      document.getElementById(key[i]).innerHTML = week[key[i]].day + "";
+      input.day += 1;
+    }
+    input.day -= 7;
+    setWeek(week);
+    fetchData();
   };
-  
-  useEffect(()=> {
-    let currentDate = DateTime.local();
-    CalendarHandle(currentDate);
-  }, [])
 
   useEffect(() => {
     const updateItemsPerPage = () => {
@@ -98,8 +91,7 @@ const CoordinatorTable = () => {
   const totalFilteredPages = Math.ceil(getFilteredList().length / itemsPerPage);
 
   return (
-   //changed supervisor-table -> coordinator table
-   <div id="C=coordinator-table" className="weeklyWrapper">
+    <div id="supervisor-table" className="weeklyWrapper">
       <Card className="headerCard">
         <CardHeader>List View</CardHeader>
       </Card>

@@ -44,3 +44,15 @@ export const employeeData = [
     {id: 43, name: "Quincy", workedHours: 26.8, breakTime: 92, totalTime: 120, sender: "Supervisor B", information: "forwarded"},
     {id: 44, name: "Ruth", workedHours: 39.3, breakTime: 125, totalTime: 190, sender: "not sent", information: "in progress"},
 ];
+
+export const businessData = {
+    business1: [
+        {id: 1, name: "Bob", workedHours: 23.0, breakTime: 123, totalTime: 123, sender: "Bob", information: "forwarded"},
+        {id: 2, name: "Alice", workedHours: 35.2, breakTime: 98, totalTime: 125, sender: "not sent", information: "in progress"},
+        {id: 3, name: "Charlie", workedHours: 40.5, breakTime: 150, totalTime: 190, sender: "Supervisor A", information: "incomplete"},
+        {id: 4, name: "Diane", workedHours: 29.8, breakTime: 110, totalTime: 139, sender: "Supervisor B", information: "forwarded"},
+    ],
+    business2: [
+
+    ]
+}

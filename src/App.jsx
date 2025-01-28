@@ -18,6 +18,7 @@ import HolidayAlert from "./components/HolidayAlert.jsx"
 
 import { Routes, Route } from "react-router-dom";
 import React, { useState } from "react";
+import CoordinatorTable from "./users/Coordinator/pages/CoordinatorTable.jsx"
 
 const getCalendar = (role) => {
   console.log(role);
@@ -27,7 +28,7 @@ const getCalendar = (role) => {
     case "Supervisor":
       return <SupervisorTable/>;
     case "Coordinator":
-      return <CoordinatorCalendar/>;
+      return <CoordinatorTable/>;
   }
 }
 
@@ -46,7 +47,7 @@ const getDashboard = (role) => {
 const App = () => {
 
   const [user, setUser] = useState({
-    holiday: true,
+    holiday: false,
     name: "USER IS ME",
     role: "Coordinator",
     email: "email@email.com",
