@@ -17,25 +17,27 @@ import {
 
 import { Link, useNavigate } from "react-router-dom";
 import { getDayOfWeek } from "@internationalized/date";
-import { employeeData } from "../../../assets/data/supervisortable-data";
+import { businessData } from "../../../assets/data/supervisortable-data";
 
 const CoordinatorTable = () => {
-  const [employeeList, setEmployeeList] = useState(employeeData);
+  const [businessList, setBusinessList] = useState(businessData);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setitemsPerPage] = useState(10);
+  const [itemsPerPage, setitemsPerPage] = useState(2);
   const navigate = useNavigate();
 
   const getFilteredList = () => {
-    if (!searchQuery) return employeeList;
-    return employeeList.filter((employee) =>
-      employee.name.toLowerCase().includes(searchQuery.toLowerCase())
+    if (!searchQuery) return businessList;
+    return businessList.filter((business) =>
+      business.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
   };
 
+ 
+
   const fetchCurrentItems = () => {
     const filteredList = getFilteredList();
-    const startIndex = (currentPage - 1) * itemsPerPage;
+    const startIndex = (currentPage - 1) * itemsPerPage;   
     const endIndex = startIndex + itemsPerPage;
     return filteredList.slice(startIndex, endIndex);
   };
@@ -61,6 +63,29 @@ const CoordinatorTable = () => {
     setWeek(week);
     fetchData();
   };
+  
+  const getTotalWorkedHours = (employees) => {
+    let totalWorkedHours = 0
+    employees.forEach(employee =>{
+      totalWorkedHours += employee.workedHours;
+    })
+    return totalWorkedHours
+  }
+  const getTotalBreakTime = (employees) => {
+    let totalBreakTime = 0
+    employees.forEach(employee =>{
+      totalBreakTime += employee.breakTime;
+    })
+    return totalBreakTime
+  }
+  const getTotalTime = (employees) => {
+    let totalTime = 0
+    employees.forEach(employee =>{
+      totalTime += employee.totalTime;
+    })
+    return totalTime
+  }
+
 
   useEffect(() => {
     const updateItemsPerPage = () => {
@@ -84,8 +109,7 @@ const CoordinatorTable = () => {
     return () => {
       window.removeEventListener("resize", updateItemsPerPage);
     };
-  }),
-    [];
+  }, []);
 
   // Get total pages after filtering
   const totalFilteredPages = Math.ceil(getFilteredList().length / itemsPerPage);
@@ -93,7 +117,7 @@ const CoordinatorTable = () => {
   return (
     <div id="supervisor-table" className="weeklyWrapper">
       <Card className="headerCard">
-        <CardHeader>List View</CardHeader>
+        <CardHeader>Coordinator List View</CardHeader>
       </Card>
       <Card className="tableCard">
         <CardHeader>
@@ -131,41 +155,43 @@ const CoordinatorTable = () => {
         <CardBody>
           <Table>
             <TableHeader>
-              <TableColumn></TableColumn>
-              <TableColumn>Worked Hours</TableColumn>
-              <TableColumn>Break Time</TableColumn>
+              <TableColumn>Name</TableColumn>
+              <TableColumn>Total Worked Hours</TableColumn>
+              <TableColumn>Total Break Time</TableColumn>
               <TableColumn>Total Time</TableColumn>
               <TableColumn>Direct View</TableColumn>
-              <TableColumn>Sender</TableColumn>
-              <TableColumn>Information</TableColumn>
+              <TableColumn>Total Entries</TableColumn>
             </TableHeader>
             <TableBody>
-              {fetchCurrentItems()
-                .slice(0, itemsPerPage)
+              {
+                
+              fetchCurrentItems()
                 .map((row, index) => (
                   <TableRow key={index} id={row.id}>
                     <TableCell>{row.name}</TableCell>
-                    <TableCell>{row.workedHours}</TableCell>
-                    <TableCell>{row.breakTime}</TableCell>
-                    <TableCell>{row.totalTime}</TableCell>
+                    <TableCell>{getTotalWorkedHours(row.employees)}</TableCell>
+                    <TableCell>{getTotalBreakTime(row.employees)}</TableCell>
+                    <TableCell>{getTotalTime(row.employees)}</TableCell>
                     <TableCell>
                       <Button
                         style={{
-                          width: "30%",
+                          width: "50%",
                           color: "white",
                           background: "var(--gray)",
                         }}
                         onClick={() =>
-                          navigate("/employee-focus", {
-                            state: { name: row.name },
-                          })
+                          navigate("/supervisor-table",
+                            {
+                              state: {employeeData: row.employees, businessName : row.name}
+                            }
+                          )
+
                         }
                       >
                         {row.name} View
                       </Button>
                     </TableCell>
-                    <TableCell>{row.sender}</TableCell>
-                    <TableCell>{row.information}</TableCell>
+                    <TableCell>{row.employees.length}</TableCell>
                   </TableRow>
                 ))}
             </TableBody>
@@ -185,7 +211,7 @@ const CoordinatorTable = () => {
           variant="flat"
           showControls
           total={totalFilteredPages}
-          initialPage={currentPage}
+          page={currentPage}
           onChange={handlePageChange}
         />
       </div>
