@@ -9,6 +9,7 @@ import Dashboard from "./users/employee/pages/Dashboard.jsx";
 import Calendar from "./users/employee/pages/Calendar.jsx";
 import SupervisorDashboard from "./users/supervisor/pages/SupervisorDashboard.jsx";
 import SupervisorCalendar from "./users/supervisor/pages/SupervisorCalendar.jsx";
+
 import CoordinatorDashboard from "./users/coordinator/pages/CoordinatorDashboard.jsx"
 import CoordinatorCalendar from "./users/coordinator/pages/CoordinatorCalendar.jsx"
 import SignIn from "./pages/SignIn";
@@ -18,6 +19,7 @@ import HolidayAlert from "./components/HolidayAlert.jsx"
 
 import { Routes, Route } from "react-router-dom";
 import React, { useState } from "react";
+import CoordinatorTable from "./users/coordinator/pages/CoordinatorTable.jsx"
 
 const getCalendar = (role) => {
   console.log(role);
@@ -27,7 +29,7 @@ const getCalendar = (role) => {
     case "Supervisor":
       return <SupervisorTable/>;
     case "Coordinator":
-      return <CoordinatorCalendar/>;
+      return <CoordinatorTable/>;
   }
 }
 
@@ -76,6 +78,7 @@ const App = () => {
           <Route path="/" element={getDashboard(user.role)} />
           <Route path="calendar" element={getCalendar(user.role)}/>
           <Route path="employee-focus" element={<SupervisorCalendar />}/>
+          <Route path="supervisor-table" element={<SupervisorTable />}/>
           <Route path="sign-in" element={<SignIn />} />
           <Route path="sign-up" element={<SignUp />} />
         </Routes>
