@@ -16,12 +16,16 @@ import {
   Input,
 } from "@nextui-org/react";
 
-import { useNavigate } from "react-router-dom";
-import { DateTime } from 'luxon';
-import { supervisorTableData } from "../../../assets/data/supervisortable-data";
+import { Link, useNavigate } from "react-router-dom";
+import { getDayOfWeek } from "@internationalized/date";
+import { useLocation } from "react-router-dom";
+
 
 const SupervisorTable = () => {
-  const [employeeList, setEmployeeList] = useState([]);
+  const location = useLocation();
+
+  const [employeeList, setEmployeeList] = useState(location.state?.employeeData);
+  const businessName = location.state?.businessName;
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setitemsPerPage] = useState(10);
@@ -38,6 +42,7 @@ const SupervisorTable = () => {
     const filteredList = getFilteredList();
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
+    console.log(filteredList)
     return filteredList.slice(startIndex, endIndex);
   };
 
@@ -100,7 +105,7 @@ const SupervisorTable = () => {
   return (
     <div id="supervisor-table" className="weeklyWrapper">
       <Card className="headerCard">
-        <CardHeader>List View</CardHeader>
+        <CardHeader>Supervisor List View: {businessName}</CardHeader>
       </Card>
       <Card className="tableCard">
         <CardHeader>

@@ -6,5 +6,21 @@ export const holidays = [
     {
         date: "01/01/2025",
         content: "New Year's Day"
+    },
+    {
+        date: "01/01/2025",
+        content: "New Year's Day"
+    },
+    {
+        date: "01/01/2025",
+        content: "New Year's Day"
+    },
+    {
+        date: "01/01/2025",
+        content: "New Year's Day"
+    },
+    {
+        date: "01/01/2025",
+        content: "New Year's Day"
     }
 ]
