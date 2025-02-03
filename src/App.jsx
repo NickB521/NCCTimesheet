@@ -46,9 +46,9 @@ const getDashboard = (role) => {
 const App = () => {
 
   const [user, setUser] = useState({
-    holiday: true,
+    holiday: false,
     name: "USER IS ME",
-    role: "Employee",
+    role: "Coordinator",
     email: "email@email.com",
     worksite: {
       name: ""
