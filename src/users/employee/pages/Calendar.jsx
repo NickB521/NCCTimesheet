@@ -207,7 +207,7 @@ const Calendar = () => {
             totalHours: 0,
             breakTaken: false,
             saved: false
-        }
+        },
     });
 
     const [isReady, setIsReady] = useState(false);

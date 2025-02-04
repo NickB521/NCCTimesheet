@@ -17,69 +17,92 @@ import SupervisorTable from "./users/supervisor/pages/SupervisorTable.jsx"
 import HolidayAlert from "./components/HolidayAlert.jsx"
 
 import { Routes, Route } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Context from "./components/Context.jsx";
+import { useNavigate } from "react-router-dom";
 
 const getCalendar = (role) => {
-  console.log(role);
-  switch (role){
-    case "Employee":
-      return <Calendar/>;
-    case "Supervisor":
-      return <SupervisorTable/>;
-    case "Coordinator":
-      return <CoordinatorCalendar/>;
+  switch (role) {
+    case "EMPLOYEE":
+      return <Calendar />;
+    case "SUPERVISOR":
+      return <SupervisorTable />;
+    case "COORDINATOR":
+      return <CoordinatorCalendar />;
+    default:
+      return <></>;
   }
 }
 
 const getDashboard = (role) => {
-  switch (role){
-    case "Employee":
-      return <Dashboard/>;
-    case "Supervisor":
-      return <SupervisorDashboard/>;
-    case "Coordinator":
-      return <CoordinatorDashboard/>;
+  switch (role) {
+    case "EMPLOYEE":
+      return <Dashboard />;
+    case "SUPERVISOR":
+      return <SupervisorDashboard />;
+    case "COORDINATOR":
+      return <CoordinatorDashboard />;
+    default:
+      return <></>;
   }
 }
 
 
 const App = () => {
-
-  const [user, setUser] = useState({
-    holiday: true,
-    name: "USER IS ME",
-    role: "Employee",
-    email: "email@email.com",
-    worksite: {
-      name: ""
+  const [token, setToken] = useState();
+  const navigate = useNavigate();
+  const [user, setUser] = useState(
+    {
+      name: "",
+      role: {
+        id: null,
+        name: ""
+      },
+      email: "",
+      worksite: {
+        name: ""
+      }
     }
-  });
+  );
 
-  const [dayOff, setDayOff] = useState(user.holiday);
+  const [dayOff, setDayOff] = useState(false);
+
+  useEffect(() => {
+    if(localStorage.getItem("token") && !token){
+      setToken(localStorage.getItem("token"))
+    }
+    if (token) { // 2 hour life-span
+      // MAKE THE CHECK FOR USER CONTENT OR A TOKEN ERROR SINCE BACKEND HAS A LIFE SPAN PRE-SET????????????
+      navigate("/")
+    } else {
+      navigate("/sign-in")
+    }
+  }, [token])
+  
 
   return (
     <>
-      <Header />
-      
-      <div id="content-wrapper-wrapper">
-        <Navigation 
-          role={user.role}
-        />
-        {/* <button onClick={setUser(user => ({...user, temp: !(user.temp)}))}></button> */}
-        <HolidayAlert
-          isOpen={dayOff}
-          onClose={() => {
-            setDayOff(false);
-          }}
-        />
-        <Routes>
-          <Route path="/" element={getDashboard(user.role)} />
-          <Route path="calendar" element={getCalendar(user.role)}/>
-          <Route path="employee-focus" element={<SupervisorCalendar />}/>
-          <Route path="sign-in" element={<SignIn />} />
-          <Route path="sign-up" element={<SignUp />} />
-        </Routes>
-      </div>
+      <Context.Provider value={{ token, setToken, user, setUser }}>
+        <Header />
+        <div id="content-wrapper-wrapper">
+          <Navigation
+            role={user.role}
+          />
+          <HolidayAlert
+            isOpen={dayOff}
+            onClose={() => {
+              setDayOff(false);
+            }}
+          />
+          <Routes>
+            <Route path="/" element={getDashboard(user.role.name)} />
+            <Route path="calendar" element={getCalendar(user.role.name)} />
+            <Route path="employee-focus" element={<SupervisorCalendar />} />
+            <Route path="sign-in" element={<SignIn />} />
+            <Route path="sign-up" element={<SignUp />} />
+          </Routes>
+        </div>
+      </Context.Provider>
     </>
   );
 }
