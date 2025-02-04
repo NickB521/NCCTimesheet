@@ -9,6 +9,7 @@ import Dashboard from "./users/employee/pages/Dashboard.jsx";
 import Calendar from "./users/employee/pages/Calendar.jsx";
 import SupervisorDashboard from "./users/supervisor/pages/SupervisorDashboard.jsx";
 import SupervisorCalendar from "./users/supervisor/pages/SupervisorCalendar.jsx";
+
 import CoordinatorDashboard from "./users/coordinator/pages/CoordinatorDashboard.jsx"
 import CoordinatorCalendar from "./users/coordinator/pages/CoordinatorCalendar.jsx"
 import SignIn from "./pages/SignIn";
@@ -53,14 +54,15 @@ const App = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(
     {
-      name: "",
+      holiday: false,
+      name: "person",
       role: {
         id: null,
-        name: ""
+        name: "COORDINATOR"
       },
-      email: "",
+      email: "email@email.com",
       worksite: {
-        name: ""
+        name: "place"
       }
     }
   );
