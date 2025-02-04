@@ -1,25 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Email, Lock } from "../assets/icons/sign-in";
 import { useNavigate } from "react-router-dom";
 import SignInput from "../components/SignInput";
+import * as auth from "../Services/AuthService";
+import * as userService from "../Services/UserService";
+import Context from "../components/Context";
 
 
 const SignIn = () => {
-    
+
     const [pass, setPass] = useState("");
     const [email, setEmail] = useState("");
-
+    const {token, setToken} = useContext(Context);
+    const {user, setUser} = useContext(Context);
     const navigate = useNavigate();
 
     //this checks if all needed information is filled out and validates if email is a email
-    //THIS NEEDS TO BE ADJUSTED TO THE API CALLS FOR VALIDATION!!!!!!!!!
     const LogIn = () => {
-        if(email && pass && (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email))){
-            navigate("/");
-        }
-        
+        auth.authenticate(email, pass).then(response => {
+            userService.getSelf(response.data.token).then(res => {
+                setUser(res.data)
+            })
+            // setToken(response.data.token)
+            // localStorage.setItem("token", response.data.token)
+        })
     }
-    
+
     //navigates the user to the sign-up page
     const SignUp = () => {
         navigate("/sign-up");
@@ -30,7 +36,7 @@ const SignIn = () => {
             <div id="sign-in">
                 <div id="sign-in-card">
                     <div id="sign-in-title">Sign In</div>
-                    
+
                     <SignInput
                         placeholder="Email"
                         startContent={<Email />}
