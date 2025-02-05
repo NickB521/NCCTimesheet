@@ -53,12 +53,21 @@
 }
 
 #side-cards {
+    display: flex;
+    max-height: 100%;
+    width: 100%;
+}
+
+#scroll{
     display: grid;
+    width: 100%;
     grid-template-columns: 50% 50%;
     grid-template-rows: 50% calc(50% - 20px); 
     gap: 20px;
-    max-height: 100%;
-    width: 100%;
+}
+
+.scroll-pointer{
+    display: none;
 }
 
 .side-card {
@@ -223,12 +232,15 @@ textarea{
 
 @media all and (max-width: 1200px) {
     html{
+        overflow-x: hidden !important;
         overflow-y: hidden !important;
     }
-
+    #dashboard{
+        height: 90vh;
+    }
     #main-card{
         width: 50%;
-        min-height: 80%; 
+        height: 100%;
         overflow: auto !important;
     }
 
@@ -236,12 +248,26 @@ textarea{
         display: flex;
         flex-direction: column;
         width: 50%;
-        height: 60%;
-        overflow: auto !important;
     }
-    
+
+    #scroll{
+        flex-direction: column;
+        display: flex !important;
+        gap: 10px;
+        height: 100%;
+        overflow: hidden !important;
+    }
+
+    .scroll-pointer{
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 0px;
+        border-radius: 10px;
+        border: 1px solid var(--light-gray);
+    }
+
     .side-card {
-        min-height: 40%;
+        min-height: 350px;
         padding: 10px 0px;
     }
 
