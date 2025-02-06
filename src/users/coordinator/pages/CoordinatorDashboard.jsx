@@ -6,6 +6,7 @@ import HolidayParent from "../../../components/HolidayParent";
 import AnnouncementParent from "../../../components/AnnouncementParent";
 import ContactCard from "../../../components/ContactCard";
 import { supervisorInformation, coordinatorInformation } from "../../../assets/data/dashboard-contact-information";
+import { UpArrow, DownArrow } from "../../../assets/icons/dashboard";
 
 // work on later
 const setActiveNotification = (item) => {
@@ -84,13 +85,17 @@ const CoordinatorDashboard = () => {
         </div>
 
         <div id="side-cards">
-          <div className="scroll-pointer" style={{margin: "0px 0px 10px"}} onClick={scrollUp}>ddawdaw</div>
+          <div className="scroll-pointer" style={{margin: "0px 0px 10px"}} onClick={scrollUp}>
+           <UpArrow/>
+          </div>
           <div id="scroll" ref={contentRef}>
             <HolidayParent/>
             <AnnouncementParent/>
             <ContactCard groups={[supervisorInformation, coordinatorInformation]}/>
           </div>
-          <div className="scroll-pointer" style={{margin: "10px 0px 0px"}} onClick={scrollDown}>fdjweidfje</div>
+          <div className="scroll-pointer" style={{margin: "10px 0px 0px"}} onClick={scrollDown}>
+            <DownArrow/>
+          </div>
         </div>
       </div>
     </div>
