@@ -6,67 +6,87 @@ import {
 } from "@nextui-org/react";
 import { DateTime } from 'luxon';  
 import { CiCirclePlus } from "react-icons/ci";
+import { Shift } from "../../../assets/icons/calendar/shift";
 
 
 const WeekTool = ({ week, timeSet, addShift, breakHandle, day, saveHandle, currentPage, setCurrentPage, deleteShift}) => {
 
     const [buttonColor, setButtonColor] = useState("#292F36");
     const [isTimeInputted, setIsTimeInputted] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const shiftsPerPage = 1;
     const totalShifts = week[day].shifts.length;
-const totalPages = Math.ceil(totalShifts / shiftsPerPage);
+    const totalPages = Math.ceil(totalShifts / shiftsPerPage);
 
-const handlePageChange = (page) => {
-    setCurrentPage(page);
-};
+    // Function to handle page change based on the current page
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
 
-const startIndex = (currentPage - 1) * shiftsPerPage;
-const currentShifts = week[day].shifts.slice(startIndex, startIndex + shiftsPerPage);
+    // Get the current shifts for the current page
+    const startIndex = (currentPage - 1) * shiftsPerPage;
+    const currentShifts = week[day].shifts.slice(startIndex, startIndex + shiftsPerPage);
+    
+    // Function to handle time input. Gets the current shift and the previous shift if it exists
+    // Checks if the start time is after the previous shift's end time
+    const handleTimeInput = (inpt, day, timeType, index) => {
+        const previousShift = index > 0 ? week[day].shifts[index - 1] : null;
 
-const handleTimeInput = (inpt, day, timeType, index) => {
-    setIsTimeInputted(true);
-    timeSet(inpt, day, timeType, index);
-};
+        // Determines if the start time is after the previous shift's end time
+        // Depending on the timeType, the start time must be after the previous shift's end time
+        if (timeType === "startTime" && previousShift && (inpt.hour < previousShift.endTime.hour || (inpt.hour === previousShift.endTime.hour && inpt.minute <= previousShift.endTime.minute))) {
+            const formattedMinute = inpt.minute < 10 ? `0${inpt.minute}` : inpt.minute;
+            setErrorMessage(`*Must be after ${previousShift.endTime.hour}:${formattedMinute}*`);
+            return;
+        }
 
-return (
-    <>
-        <Popover placement="bottom" showArrow style={{ marginTop: "10px"}}>
-            <PopoverTrigger placement="bottom" showArrow>
-                <Button style={{ width: "80%", color: "white", background: `${buttonColor}` }}>{week[day].saved ? "Hours: " + week[day].totalHours : "Add Shift"}</Button>
-            </PopoverTrigger>
-            <PopoverContent style={{ display: "flex", flexDirection: "column", height: "fit-content", width: "170px", border: "gray 1px", alignItems: "center" }}>
-                <div className="flex w-full flex-col" style={{ width: "180px", display: "flex", alignItems: "center", justifyContent: "space-evenly", paddingBottom: "20px" }}>
-                    <h4 className="text-medium font-medium" id="notification-title" style={{ padding: "20px" }}>
-                        Shift {currentPage}
-                    </h4>
-                    <div className="flex w-full flex-col" style={{ gap: "20px", width: "90%", display: "flex", alignItems: "center" }}>
-                        {currentShifts.map((shift, index) => (
-                            <div key={index} style={{ position: "relative", width: "100%"}}>
-                                <TimeInput isRequired label={"Start Time"} onChange={(inpt) => handleTimeInput(inpt, day, "startTime", startIndex + index)} value={shift.startTime} hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
-                                <Checkbox style={{marginTop: "6px", marginBottom: "6px", left: "15px"}} onClick={() => breakHandle(day, startIndex + index)} isSelected={shift.breakTaken} isDisabled={week[day].saved}>Meal Break?</Checkbox>
-                                {shift.breakTaken && (
-                                    <div style={{marginBottom: "15px"}}>
-                                        <TimeInput isRequired label={"Break Start"} onChange={(inpt) => handleTimeInput(inpt, day, "breakStart", startIndex + index)} value={shift.breakStart} hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
-                                        <div style={{marginBottom: "10px"}}></div>
-                                        <TimeInput isRequired label={"Break End"} onChange={(inpt) => handleTimeInput(inpt, day, "breakEnd", startIndex + index)} value={shift.breakEnd} hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
-                                    </div>
-                                )}
-                                <TimeInput isRequired label={"End Time"} onChange={(inpt) => handleTimeInput(inpt, day, "endTime", startIndex + index)} value={shift.endTime} isDisabled={week[day].saved} hourCycle={24} granularity="minute" />
+        setErrorMessage("");
+        setIsTimeInputted(true);
+        timeSet(inpt, day, timeType, index);
+    };
+
+    return (
+        <>
+            <Popover placement="bottom" showArrow style={{ marginTop: "10px", display: "flex", padding: "10px"}}>
+                <PopoverTrigger placement="bottom" showArrow>
+                    <Button style={{ width: "80%", color: "white", background: `${buttonColor}` }}>{week[day].saved ? "Hours: " + week[day].totalHours : "Add Shift"}</Button>
+                </PopoverTrigger>
+                <PopoverContent style={{ display: "flex", flexDirection: "column", height: "fit-content", width: "170px", border: "gray 1px", alignItems: "center" }}>
+                    <div className="flex w-full flex-col" style={{ width: "180px", display: "flex", alignItems: "center", justifyContent: "space-evenly", paddingBottom: "20px" }}>
+                        <h4 className="text-medium font-medium" id="notification-title" style={{ padding: "20px" }}>
+                            Shift {currentPage}
+                        </h4>
+                        <div style={{ color: "red", marginBottom: "10px" }}>{errorMessage}</div>
+                        <div className="flex w-full flex-col" style={{ gap: "20px", width: "90%", display: "flex", alignItems: "center" }}>
+                            {currentShifts.map((shift, index) => (
+                                <div key={index} style={{ position: "relative", width: "115%"}}>
+                                    <TimeInput isRequired label={"Start Time"} onChange={(inpt) => handleTimeInput(inpt, day, "startTime", startIndex + index)} value={shift.startTime} hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
+                                    <Checkbox style={{marginTop: "6px", marginBottom: "6px", left: "15px"}} onClick={() => breakHandle(day, startIndex + index)} isSelected={shift.breakTaken} isDisabled={week[day].saved}>Meal Break?</Checkbox>
+                                    {shift.breakTaken && (
+                                        <div style={{marginBottom: "15px"}}>
+                                            <TimeInput isRequired label={"Break Start"} onChange={(inpt) => handleTimeInput(inpt, day, "breakStart", startIndex + index)} value={shift.breakStart} hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
+                                            <div style={{marginBottom: "10px"}}></div>
+                                            <TimeInput isRequired label={"Break End"} onChange={(inpt) => handleTimeInput(inpt, day, "breakEnd", startIndex + index)} value={shift.breakEnd} hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
+                                        </div>
+                                    )}
+                                    <TimeInput isRequired label={"End Time"} onChange={(inpt) => handleTimeInput(inpt, day, "endTime", startIndex + index)} value={shift.endTime} isDisabled={week[day].saved} hourCycle={24} granularity="minute" />
+                                </div>
+                            ))}
+                            {week[day].saved ? "Total Hours Worked: " + week[day].totalHours : ""}
+                            <div style={{ marginTop: "10px", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: "10px" }}>
+                                <Button style={{ height: "30px", alignItems: "center", justifyContent: "center", color: "white", background: "#1C6296" }} onClick={() => { saveHandle(day), setButtonColor("#1C6296") }} disabled={!isTimeInputted}> {week[day].saved ? "Edit" : "Save"}</Button>
+                                <Button color="danger" style={{ height: "30px" }} onClick={() => deleteShift(day, startIndex)}>Delete</Button>
                             </div>
-                        ))}
-                        {week[day].saved ? "Total Hours Worked: " + week[day].totalHours : ""}
-                        <Button style={{ height: "30px", alignItems: "center", justifyContent: "center", color: "white", background: "#1C6296" }} onClick={() => { saveHandle(day), setButtonColor("#1C6296") }} disabled={!isTimeInputted}> {week[day].saved ? "Edit" : "Save"}</Button>
-                        <Button color="danger" style={{height: "30px" }} onClick={() => deleteShift(day, startIndex)}>Delete</Button>
-                        <CiCirclePlus className="plus-icon" size={32} style={{cursor: "pointer", alignItems: "center", justifyContent: "center", color: "black"}} onClick={() => addShift(day, totalPages, setCurrentPage)}/>
-                        <div style={{ display: "flex", justifyContent: "center", marginTop: "10px"}}>
-                            <Pagination loop showControls color="warning" initialPage={currentPage} total={totalPages} onChange={handlePageChange} boundaries={0} siblings={0}/>
+                            <Shift className="add-btn" style={{cursor: "pointer", alignItems: "center", justifyContent: "center", color: "black"}} onClick={() => addShift(day, totalPages, setCurrentPage)}/>
+                            <div style={{ display: "flex", justifyContent: "center", marginTop: "10px"}}>
+                                <Pagination loop showControls color="warning" initialPage={currentPage} total={totalPages} onChange={handlePageChange} boundaries={0} siblings={0}/>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </PopoverContent>
-        </Popover>
-    </>
-);
+                </PopoverContent>
+            </Popover>
+        </>
+    );
 }
 
 const Calendar = () => {
@@ -319,17 +339,30 @@ const Calendar = () => {
         }));
     }
 
+    // Function to add a new shift to the current day
     const addShift = (day, totalPages, setCurrentPage) => {
-        setWeek(prevWeek => ({
+    setWeek(prevWeek => {
+        const lastShift = prevWeek[day].shifts[prevWeek[day].shifts.length - 1];
+         
+        const newStartTime = lastShift ? { ...lastShift.endTime } : { hour: 0, minute: 0 };
+        const newShift = {
+            startTime: newStartTime,
+            endTime: { hour: 0, minute: 0 },
+            breakTaken: false,
+            breakStart: { hour: 0, minute: 0 },
+            breakEnd: { hour: 0, minute: 0 }
+        };
+        return {
             ...prevWeek,
             [day]: {
                 ...prevWeek[day],
-                shifts: [...prevWeek[day].shifts, { startTime: "", endTime: "", breakTaken: false, breakStart: "", breakEnd: "" }],
+                shifts: [...prevWeek[day].shifts, newShift],
                 saved: false // Ensure new shifts are not saved initially
             }
-        }));
-        setCurrentPage(totalPages + 1);
-    };
+        };
+    });
+    setCurrentPage(totalPages + 1);
+};
 
     const deleteShift = (day, index) => {
         const shift = week[day].shifts[index];
