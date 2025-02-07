@@ -5,7 +5,6 @@ import {
     Textarea, DatePicker, Checkbox, TimeInput, Popover, PopoverTrigger, PopoverContent, Pagination
 } from "@nextui-org/react";
 import { DateTime } from 'luxon';  
-import { CiCirclePlus } from "react-icons/ci";
 import { Shift } from "../../../assets/icons/calendar/shift";
 
 
