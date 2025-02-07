@@ -16,7 +16,7 @@
 
 html {
   font-family: "Inter", serif;
-  overflow-x: hidden;
+  overflow-x: hidden !important;
   overflow-y: auto;
   background: var(--background);
 }
@@ -176,7 +176,7 @@ body {
 }
 
 .navigation.open {
-  width: 220px;
+  width: 250px;
 }
 
 .navigation-icon {

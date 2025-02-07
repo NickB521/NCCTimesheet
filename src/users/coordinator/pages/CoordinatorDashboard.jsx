@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { coordinatorTimesheet, coordinatorResubmitted } from "../../../assets/data/dashboard-timesheet-data";
 import Greeting from "/src/components/Greeting.jsx";
 import TimesheetCard from "/src/components/TimesheetCard";
@@ -6,6 +6,7 @@ import HolidayParent from "../../../components/HolidayParent";
 import AnnouncementParent from "../../../components/AnnouncementParent";
 import ContactCard from "../../../components/ContactCard";
 import { supervisorInformation, coordinatorInformation } from "../../../assets/data/dashboard-contact-information";
+import { UpArrow, DownArrow } from "../../../assets/icons/dashboard";
 
 // work on later
 const setActiveNotification = (item) => {
@@ -19,16 +20,18 @@ const setActiveNotification = (item) => {
   sessionStorage.setItem('activeNotification', JSON.stringify(notificationItems));
   console.log(sessionStorage.getItem('activeNotification'));
 };
-// 
+//
 
 const CoordinatorDashboard = () => {
   const [loopCount, setLoopCount] = useState(0);
   const name = "test_name";
+  const contentRef = useRef(null);
+  const [scrollPosition, setScrollPosition] = useState(0);
+
   useEffect(() => {
     const updateLoopCount = () => {
       const screenHeight = window.innerHeight;
-      if (screenHeight < 900) setLoopCount(1);
-      else if (screenHeight < 1175) setLoopCount(2);
+      if (screenHeight < 900) setLoopCount(2);
       else setLoopCount(3);
     };
 
@@ -37,6 +40,22 @@ const CoordinatorDashboard = () => {
 
     return () => window.removeEventListener("resize", updateLoopCount);
   }, []);
+
+  const scrollUp = () => {
+    if (contentRef.current) {
+      const newScrollPosition = Math.max(scrollPosition - 355, 0); 
+      setScrollPosition(newScrollPosition);
+      contentRef.current.scrollTop = newScrollPosition;
+    }
+  };
+
+  const scrollDown = () => {
+    if (contentRef.current) {
+      const newScrollPosition = Math.min(scrollPosition + 355, contentRef.current.scrollHeight - contentRef.current.clientHeight);
+      setScrollPosition(newScrollPosition);
+      contentRef.current.scrollTop = newScrollPosition;
+    }
+  };
 
   return (
     <div id="dashboard">
@@ -66,9 +85,17 @@ const CoordinatorDashboard = () => {
         </div>
 
         <div id="side-cards">
-          <HolidayParent/>
-          <AnnouncementParent/>
-          <ContactCard groups={[supervisorInformation, coordinatorInformation]}/>
+          <div className="scroll-pointer" style={{margin: "0px 0px 10px"}} onClick={scrollUp}>
+           <UpArrow/>
+          </div>
+          <div id="scroll" ref={contentRef}>
+            <HolidayParent/>
+            <AnnouncementParent/>
+            <ContactCard groups={[supervisorInformation, coordinatorInformation]}/>
+          </div>
+          <div className="scroll-pointer" style={{margin: "10px 0px 0px"}} onClick={scrollDown}>
+            <DownArrow/>
+          </div>
         </div>
       </div>
     </div>
