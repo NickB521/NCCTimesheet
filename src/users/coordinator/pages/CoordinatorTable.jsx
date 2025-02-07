@@ -16,8 +16,8 @@ import {
 } from "@nextui-org/react";
 
 import { Link, useNavigate } from "react-router-dom";
-import { getDayOfWeek } from "@internationalized/date";
-import { businessData } from "../../../assets/data/supervisortable-data";
+import { DateTime } from 'luxon';
+import { businessData } from "../../../assets/data/table-data";
 
 const CoordinatorTable = () => {
   const [businessList, setBusinessList] = useState(businessData);
@@ -32,8 +32,6 @@ const CoordinatorTable = () => {
       business.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
   };
-
- 
 
   const fetchCurrentItems = () => {
     const filteredList = getFilteredList();
@@ -51,17 +49,25 @@ const CoordinatorTable = () => {
     setCurrentPage(1);
   };
 
+  useEffect(() => {
+    let week = DateTime.local().startOf("week");
+    console.log (week.toISODate().toString())
+  }, [])
+
   const CalendarHandle = (input) => {
-    const key = Object.keys(week);
-    input.day -= getDayOfWeek(input, "en-US") - 1;
-    for (let i = 0; i < key.length; i++) {
-      week[key[i]].day = input.month + "/" + input.day;
-      document.getElementById(key[i]).innerHTML = week[key[i]].day + "";
-      input.day += 1;
-    }
-    input.day -= 7;
-    setWeek(week);
-    fetchData();
+    let weekOf;
+      
+    if (input && !(input instanceof DateTime)) {
+      input = DateTime.fromISO(input);
+    }  
+      
+    weekOf = input.startOf('week').toISODate().toString();
+
+    // console.log(weekOf.plus({days: -7}))
+
+    console.log(businessData.find(worksite => worksite.name == "Code Differently"));  
+    
+    // setEmployeeList(supervisorTableData(weekOf));
   };
   
   const getTotalWorkedHours = (employees) => {
@@ -169,7 +175,7 @@ const CoordinatorTable = () => {
                 .map((row, index) => (
                   <TableRow key={index} id={row.id}>
                     <TableCell>{row.name}</TableCell>
-                    <TableCell>{getTotalWorkedHours(row.employees)}</TableCell>
+                    <TableCell>{getTotalWorkedHours(row.companies.employees)}</TableCell>
                     <TableCell>{getTotalBreakTime(row.employees)}</TableCell>
                     <TableCell>{getTotalTime(row.employees)}</TableCell>
                     <TableCell>

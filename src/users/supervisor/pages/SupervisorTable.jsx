@@ -17,9 +17,9 @@ import {
 } from "@nextui-org/react";
 
 import { Link, useNavigate } from "react-router-dom";
-import { getDayOfWeek } from "@internationalized/date";
+import { DateTime } from 'luxon';
 import { useLocation } from "react-router-dom";
-
+import { businessData } from "../../../assets/data/table-data";
 
 const SupervisorTable = () => {
   const location = useLocation();
@@ -55,6 +55,11 @@ const SupervisorTable = () => {
     setCurrentPage(1);
   };
 
+  useEffect(() => {
+    let week = DateTime.local().startOf("week");
+    console.log (week.toISODate().toString())
+  }, [])
+  
   const CalendarHandle = (input) => {
     let weekOf;
       
@@ -64,15 +69,10 @@ const SupervisorTable = () => {
       
     weekOf = input.startOf('week').toISODate().toString();
 
-    // console.log(weekOf);
+    console.log(weekOf);
     
-    setEmployeeList(supervisorTableData(weekOf));
+    // setEmployeeList(supervisorTableData(weekOf));
   };
-  
-  useEffect(()=> {
-    let currentDate = DateTime.local();
-    CalendarHandle(currentDate);
-  }, [])
 
   useEffect(() => {
     const updateItemsPerPage = () => {

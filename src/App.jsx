@@ -53,7 +53,7 @@ const App = () => {
     role: "Coordinator",
     email: "email@email.com",
     worksite: {
-      name: ""
+      name: "Code Differently"
     }
   });
 
