@@ -21,8 +21,7 @@ const Dashboard = () => {
   useEffect(() => {
     const updateLoopCount = () => {
       const screenHeight = window.innerHeight;
-      if (screenHeight < 900) setLoopCount(1);
-      else if (screenHeight < 1175) setLoopCount(2);
+      if (screenHeight < 900) setLoopCount(2);
       else setLoopCount(3);
     };
 

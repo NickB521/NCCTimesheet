@@ -1,30 +1,24 @@
 #dashboard {
     display: flex;
     flex-direction: column;
-    width: 85%;
+    width: 88%;
 }
 
 #dashboard-header {
     display: flex;
     align-items: center;
-    height: 20%;
     width: 100%;
     padding-left: 70px;
     font-weight: 600;
-}
-
-#dashboard-header-content {
-    display: flex;
-    align-items: baseline;
-    width: 100%;
-    gap: 30px;
+    height: 20%;
 }
 
 #dashboard-body {
+    height: 80%;
     display: flex;
-    max-height: 80vh;
     width: 88%;
     gap: 20px;
+    padding-bottom: 40px;
 }
 
 #main-card {
@@ -59,12 +53,21 @@
 }
 
 #side-cards {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 35vh 35vh; 
-    gap: 20px;
+    display: flex;
     max-height: 100%;
     width: 100%;
+}
+
+#scroll{
+    display: grid;
+    width: 100%;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% calc(50% - 20px); 
+    gap: 20px;
+}
+
+.scroll-pointer{
+    display: none;
 }
 
 .side-card {
@@ -213,4 +216,60 @@ textarea{
     font-size: 20px !important;
     font-weight: 600;
     padding: 10px 0px
+}
+
+/* View Port Stuff */
+
+@media all and (max-width: 2000px) {
+    #dashboard{
+        width: 100%;
+    } 
+
+    #dashboard-body{
+        width: 96%;
+    }
+}
+
+@media all and (max-width: 1200px) {
+    html{
+        overflow-x: hidden !important;
+        overflow-y: hidden !important;
+    }
+    #dashboard{
+        height: 90vh;
+    }
+    #main-card{
+        width: 50%;
+        height: 100%;
+        overflow: auto !important;
+    }
+
+    #side-cards {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+    }
+
+    #scroll{
+        flex-direction: column;
+        display: flex !important;
+        gap: 10px;
+        height: 100%;
+        overflow: hidden !important;
+    }
+
+    .scroll-pointer{
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 0px;
+        border-radius: 10px;
+        border: 1px solid var(--light-gray);
+    }
+
+    .side-card {
+        min-height: 350px;
+        padding: 10px 0px;
+    }
+
+    /* try to find a way to make it work as a button to slide up and down like a carousel */
 }
