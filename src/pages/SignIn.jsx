@@ -17,14 +17,15 @@ const SignIn = () => {
 
     //this checks if all needed information is filled out and validates if email is a email
     const LogIn = () => {
+        //comment block below out for developing if no back-end and uncomment next most line
+        setToken("TEMP")
         // auth.authenticate(email, pass).then(response => {
         //     userService.getSelf(response.data.token).then(res => {
         //         setUser(res.data)
         //     })
         //     setToken(response.data.token)
-        //     // localStorage.setItem("token", response.data.token)
+            // localStorage.setItem("token", response.data.token)
         // })
-        setToken("thingy");
     }
 
     //navigates the user to the sign-up page

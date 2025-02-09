@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { supervisorTimesheet, supervisorResubmitted } from "../../../assets/data/dashboard-timesheet-data";
 import Greeting from "/src/components/Greeting.jsx";
 import TimesheetCard from "/src/components/TimesheetCard";
@@ -7,6 +7,7 @@ import AnnouncementParent from "../../../components/AnnouncementParent";
 import ContactCard from "../../../components/ContactCard";
 import PoliciesCard from "../../../components/PoliciesCard";
 import { supervisorInformation, coordinatorInformation } from "../../../assets/data/dashboard-contact-information";
+import Context from "../../../components/Context";
 
 // work on later
 const setActiveNotification = (item) => {
@@ -24,8 +25,9 @@ const setActiveNotification = (item) => {
 
 const SupervisorDashboard = () => {
   const [loopCount, setLoopCount] = useState(0);
-  const name = "test_name";
   const [policy, setPolicy] = useState("policy");
+  const {token, setToken} = useContext(Context); //THIS MAY NOT BE NEEDED DEPENDING ON CONTEXT AND OTHER DATA FLOW
+  const {user, setUser} = useContext(Context);
 
   useEffect(() => {
     const updateLoopCount = () => {
@@ -43,7 +45,7 @@ const SupervisorDashboard = () => {
 
   return (
     <div id="dashboard">
-      <Greeting name={name} />
+      <Greeting name={user.firstName} />
       <div id="dashboard-body">
         <div id="main-card">
           <h1 className="widget-title" style={{fontSize:"30px"}}>Timesheets</h1>

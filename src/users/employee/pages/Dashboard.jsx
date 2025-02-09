@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Greeting from "/src/components/Greeting.jsx";
 import HolidayList from "/src/components/HolidayList";
 import AnnouncementList from "/src/components/AnnouncementList";
@@ -9,12 +9,14 @@ import { employeeTimesheet, employeeResubmitted } from "../../../assets/data/das
 import { holidays as holidayData } from "../../../assets/data/holiday-data";
 import { announcements as announcementData } from "../../../assets/data/announcement-data";
 import { supervisorInformation, coordinatorInformation } from "../../../assets/data/dashboard-contact-information";
+import Context from "../../../components/Context";
 
 
 const Dashboard = () => {
   const [loopCount, setLoopCount] = useState(0);
-  const name = "test_name";
   const policy = "policy";
+  const {token, setToken} = useContext(Context); //THIS MAY NOT BE NEEDED DEPENDING ON CONTEXT AND OTHER DATA FLOW
+  const {user, setUser} = useContext(Context);
 
   useEffect(() => {
     const updateLoopCount = () => {
@@ -32,11 +34,10 @@ const Dashboard = () => {
 
   return (
     <div id="dashboard">
-      <Greeting name={name} />
+      <Greeting name={user.firstName} />
       <div id="dashboard-body">
         <div id="main-card">
           <h1 className="widget-title" style={{fontSize:"30px"}}>Timesheets</h1>
-
           <h2 className="dashboard-subtitle">Recent Timesheets</h2>
           {employeeTimesheet.slice(0, loopCount).map((item, index) => (
             <TimesheetCard
