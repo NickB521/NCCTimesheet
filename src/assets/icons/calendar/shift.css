@@ -45,17 +45,19 @@
   
   .btn-txt {
     opacity: 0;
-    transition: opacity 0.2s;
+    visibility: hidden;
+    transition: opacity .3s ease-in, visibility 0s ease-out;
+  }
+  
+  .add-btn:hover .btn-txt {
+    opacity: 1;
+    visibility: visible;
   }
   
   .add-btn:hover::before,
   .add-btn:hover::after {
     width: 4px;
     border-radius: 2px;
-  }
-  
-  .add-btn:hover .btn-txt {
-    opacity: 1;
   }
   
   .add-icon::after,
