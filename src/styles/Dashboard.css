@@ -67,6 +67,7 @@
 }
 
 .scroll-pointer{
+    user-select: none;
     display: none;
     background-color: var(--light-blue);
     color: var(--white);
@@ -257,9 +258,11 @@ textarea{
         overflow-x: hidden !important;
         overflow-y: hidden !important;
     }
+
     #dashboard{
         height: 90vh;
     }
+
     #main-card{
         width: 50%;
         height: 100%;
