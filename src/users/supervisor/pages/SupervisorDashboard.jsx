@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { supervisorTimesheet, supervisorResubmitted } from "../../../assets/data/dashboard-timesheet-data";
 import Greeting from "/src/components/Greeting.jsx";
 import TimesheetCard from "/src/components/TimesheetCard";
@@ -7,6 +7,7 @@ import AnnouncementParent from "../../../components/AnnouncementParent";
 import ContactCard from "../../../components/ContactCard";
 import PoliciesCard from "../../../components/PoliciesCard";
 import { supervisorInformation, coordinatorInformation } from "../../../assets/data/dashboard-contact-information";
+import { UpArrow, DownArrow } from "../../../assets/icons/dashboard";
 
 // work on later
 const setActiveNotification = (item) => {
@@ -26,6 +27,10 @@ const SupervisorDashboard = () => {
   const [loopCount, setLoopCount] = useState(0);
   const name = "test_name";
   const [policy, setPolicy] = useState("policy");
+  const contentRef = useRef(null);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [isAtTop, setIsAtTop] = useState(true);
+  const [isAtBottom, setIsAtBottom] = useState(false);
 
   useEffect(() => {
     const updateLoopCount = () => {
@@ -39,6 +44,27 @@ const SupervisorDashboard = () => {
 
     return () => window.removeEventListener("resize", updateLoopCount);
   }, []);
+
+  const scrollUp = () => {
+    if (contentRef.current) {
+      const newScrollPosition = Math.max(scrollPosition - 355, 0);
+      setScrollPosition(newScrollPosition);
+      contentRef.current.scrollTop = newScrollPosition;
+      setIsAtTop(newScrollPosition === 0);
+      setIsAtBottom(false);
+    }
+  };
+  
+  const scrollDown = () => {
+    if (contentRef.current) {
+      const maxScrollPosition = contentRef.current.scrollHeight - contentRef.current.clientHeight;
+      const newScrollPosition = Math.min(scrollPosition + 355, maxScrollPosition);
+      setScrollPosition(newScrollPosition);
+      contentRef.current.scrollTop = newScrollPosition;
+      setIsAtTop(false);
+      setIsAtBottom(newScrollPosition >= maxScrollPosition);
+    }
+  };
 
   return (
     <div id="dashboard">
@@ -67,12 +93,19 @@ const SupervisorDashboard = () => {
           ))}
           <button id="timesheet-button">View All Timesheets</button>
         </div>
-
         <div id="side-cards">
-          <HolidayParent/>
-          <AnnouncementParent/>
-          <ContactCard groups={[supervisorInformation, coordinatorInformation]}/>
-          <PoliciesCard policy={policy} setPolicy={setPolicy} isEditable={true}/>
+          <div className={`scroll-pointer ${isAtTop ? 'disabled-arrow' : ''}`} style={{margin: "0px 0px 10px"}} onClick={scrollUp}>
+           <UpArrow/>
+          </div>
+          <div id="scroll" ref={contentRef}>
+            <HolidayParent/>
+            <AnnouncementParent/>
+            <ContactCard groups={[supervisorInformation, coordinatorInformation]}/>
+            <PoliciesCard policy={policy} setPolicy={setPolicy} isEditable={true}/>
+          </div>
+          <div className={`scroll-pointer ${isAtBottom ? 'disabled-arrow' : ''}`} style={{margin: "10px 0px 0px"}} onClick={scrollDown}>
+            <DownArrow/>
+          </div>
         </div>
       </div>
     </div>

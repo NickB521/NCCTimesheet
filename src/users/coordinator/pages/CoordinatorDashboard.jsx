@@ -27,6 +27,8 @@ const CoordinatorDashboard = () => {
   const name = "test_name";
   const contentRef = useRef(null);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [isAtTop, setIsAtTop] = useState(true);
+  const [isAtBottom, setIsAtBottom] = useState(false);
 
   useEffect(() => {
     const updateLoopCount = () => {
@@ -43,17 +45,22 @@ const CoordinatorDashboard = () => {
 
   const scrollUp = () => {
     if (contentRef.current) {
-      const newScrollPosition = Math.max(scrollPosition - 355, 0); 
+      const newScrollPosition = Math.max(scrollPosition - 355, 0);
       setScrollPosition(newScrollPosition);
       contentRef.current.scrollTop = newScrollPosition;
+      setIsAtTop(newScrollPosition === 0);
+      setIsAtBottom(false);
     }
   };
-
+  
   const scrollDown = () => {
     if (contentRef.current) {
-      const newScrollPosition = Math.min(scrollPosition + 355, contentRef.current.scrollHeight - contentRef.current.clientHeight);
+      const maxScrollPosition = contentRef.current.scrollHeight - contentRef.current.clientHeight;
+      const newScrollPosition = Math.min(scrollPosition + 355, maxScrollPosition);
       setScrollPosition(newScrollPosition);
       contentRef.current.scrollTop = newScrollPosition;
+      setIsAtTop(false);
+      setIsAtBottom(newScrollPosition >= maxScrollPosition);
     }
   };
 
@@ -85,7 +92,7 @@ const CoordinatorDashboard = () => {
         </div>
 
         <div id="side-cards">
-          <div className="scroll-pointer" style={{margin: "0px 0px 10px"}} onClick={scrollUp}>
+          <div className={`scroll-pointer ${isAtTop ? 'disabled-arrow' : ''}`} style={{margin: "0px 0px 10px"}} onClick={scrollUp}>
            <UpArrow/>
           </div>
           <div id="scroll" ref={contentRef}>
@@ -93,7 +100,7 @@ const CoordinatorDashboard = () => {
             <AnnouncementParent/>
             <ContactCard groups={[supervisorInformation, coordinatorInformation]}/>
           </div>
-          <div className="scroll-pointer" style={{margin: "10px 0px 0px"}} onClick={scrollDown}>
+          <div className={`scroll-pointer ${isAtBottom ? 'disabled-arrow' : ''}`} style={{margin: "10px 0px 0px"}} onClick={scrollDown}>
             <DownArrow/>
           </div>
         </div>

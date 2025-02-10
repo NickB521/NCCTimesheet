@@ -68,7 +68,29 @@
 
 .scroll-pointer{
     display: none;
+    background-color: var(--light-blue);
+    color: var(--white);
+    cursor: pointer;
+    transition: .3s;
+    opacity: .9;
+    transition: opacity 0.3s ease;
 }
+
+.scroll-pointer:hover{
+    background-color: var(--yellow);
+    color: var(--white);
+}
+
+.scroll-pointer:active{
+    background-color: var(--white);
+    color: var(--white);
+}
+
+.disabled-arrow {
+    opacity: 0.3;
+    pointer-events: none;
+    cursor: default;
+  }
 
 .side-card {
     width: 100%;
