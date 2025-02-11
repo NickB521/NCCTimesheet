@@ -114,7 +114,7 @@ const WeekTool = ({ week, timeSet, addShift, breakHandle, day, saveHandle, curre
                             ))}
                             {week[day].saved ? "Total Hours Worked: " + week[day].totalHours : ""}
                             <div style={{ marginTop: "10px", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: "10px" }}>
-                                <Button style={{ height: "30px", alignItems: "center", justifyContent: "center", color: "white", background: "#1C6296" }} onClick={() => { saveHandle(day), setButtonColor("#1C6296") }} disabled={!isTimeInputted}> {week[day].saved ? "Edit" : "Save"}</Button>
+                                <Button style={{ height: "30px", alignItems: "center", justifyContent: "center", color: "white", background: "#1C6296" }} onClick={() => { saveHandle(day, setErrorMessage), setButtonColor("#1C6296") }} disabled={!isTimeInputted}> {week[day].saved ? "Edit" : "Save"}</Button>
                                 <Button color="danger" style={{ height: "30px" }} onClick={handleDeleteShift}>Delete</Button>
                             </div>
                             <Shift className="add-btn" style={{ cursor: "pointer", alignItems: "center", justifyContent: "center", color: "black" }} onClick={handleAddShift} />
@@ -440,45 +440,82 @@ const Calendar = () => {
         }));
     }
 
-    const saveHandle = (day) => {
+    const saveHandle = (day, setErrorMessage) => {
         let totalHours = 0;
+        let hasError = false;
+    
+        // Check if there are any shifts for the day
         if (week[day].shifts.length === 0) {
             totalHours = 0;
         } else {
-            week[day].shifts.forEach(shift => {
-                if (shift.startTime.hour === 0 && shift.startTime.minute === 0 || shift.endTime.hour === 0 && shift.endTime.minute === 0) {
-                    totalHours = 0;
+            week[day].shifts.forEach((shift, index) => {
+                const { startTime, endTime } = shift;
+    
+                // Check for invalid times (0:00)
+                if (
+                    (startTime.hour === 0 && startTime.minute === 0) ||
+                    (endTime.hour === 0 && endTime.minute === 0)
+                ) {
+                    hasError = true;
+                    console.log(`Error in shift ${index + 1}: Start or End time is 00:00`);
                 } else {
-                    let end = (shift.endTime.hour + (shift.endTime.minute / 60));
-                    let start = (shift.startTime.hour + (shift.startTime.minute / 60));
-                    if (isNaN(end) || isNaN(start)) {
-                        totalHours = 0;
-                    } else if (start > end) {
-                        totalHours += (end + 12 - start);
+                    // Calculate hours worked (including break time)
+                    const shiftHours = calculateShiftHours(shift);
+                    if (shiftHours === 0) {
+                        hasError = true;
+                        console.log(`Error in shift ${index + 1}: Invalid shift duration`);
                     } else {
-                        totalHours += (end - start);
+                        totalHours += shiftHours;
                     }
                 }
             });
         }
-        setWeek(week => ({
-            ...week, [day]: { ...week[day], totalHours, saved: !(week[day].saved) }
+    
+        // If any errors were found, show the error message and stop
+        if (hasError) {
+            setErrorMessage("Shift times cannot have 0 hours or invalid entries.");
+            return;
+        }
+    
+        // Update the week state with total hours if no errors
+        setWeek(prevWeek => ({
+            ...prevWeek,
+            [day]: { ...prevWeek[day], totalHours, saved: !prevWeek[day].saved }
         }));
-    }
+    
+        setErrorMessage("");  // Clear error message on successful save
+        console.log(`Total hours for ${day}:`, totalHours);  // Debugging output
+    };
 
     const calculateShiftHours = (shift) => {
         if (shift.startTime.hour === 0 && shift.startTime.minute === 0 || shift.endTime.hour === 0 && shift.endTime.minute === 0) {
             return 0;
         } else {
-            let end = (shift.endTime.hour + (shift.endTime.minute / 60));
-            let start = (shift.startTime.hour + (shift.startTime.minute / 60));
-            if (isNaN(end) || isNaN(start)) {
+            let start = shift.startTime.hour + (shift.startTime.minute / 60);
+            let end = shift.endTime.hour + (shift.endTime.minute / 60);
+    
+            if (isNaN(start) || isNaN(end)) {
                 return 0;
-            } else if (start > end) {
-                return (end + 12 - start);
-            } else {
-                return (end - start);
             }
+    
+            // Calculate the break time in hours (if break was taken)
+            let breakTime = 0;
+            if (shift.breakTaken) {
+                let breakStart = shift.breakStart.hour + (shift.breakStart.minute / 60);
+                let breakEnd = shift.breakEnd.hour + (shift.breakEnd.minute / 60);
+                if (!isNaN(breakStart) && !isNaN(breakEnd)) {
+                    breakTime = breakEnd - breakStart;
+                }
+            }
+    
+            // Adjust for the case where the shift spans midnight
+            if (start > end) {
+                end += 24; // Assume the shift goes to the next day
+            }
+    
+            // Subtract break time from total worked time
+            let totalShiftTime = end - start - breakTime;
+            return totalShiftTime > 0 ? totalShiftTime : 0; // Ensure no negative total hours
         }
     };
 
