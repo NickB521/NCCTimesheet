@@ -7,6 +7,7 @@ import AnnouncementParent from "../../../components/AnnouncementParent";
 import ContactCard from "../../../components/ContactCard";
 import { supervisorInformation, coordinatorInformation } from "../../../assets/data/dashboard-contact-information";
 import { UpArrow, DownArrow } from "../../../assets/icons/dashboard";
+import { Button } from "@nextui-org/react";
 
 // work on later
 const setActiveNotification = (item) => {
@@ -92,17 +93,17 @@ const CoordinatorDashboard = () => {
         </div>
 
         <div id="side-cards">
-          <div className={`scroll-pointer ${isAtTop ? 'disabled-arrow' : ''}`} style={{margin: "0px 0px 10px"}} onClick={scrollUp}>
-           <UpArrow/>
-          </div>
+          <Button className={`scroll-pointer ${isAtTop ? 'disabled-arrow' : ''}`} style={{margin: "0px 0px 10px"}} onClick={scrollUp}>
+            <UpArrow/>
+          </Button>
           <div id="scroll" ref={contentRef}>
             <HolidayParent/>
             <AnnouncementParent/>
             <ContactCard groups={[supervisorInformation, coordinatorInformation]}/>
           </div>
-          <div className={`scroll-pointer ${isAtBottom ? 'disabled-arrow' : ''}`} style={{margin: "10px 0px 0px"}} onClick={scrollDown}>
+          <Button className={`scroll-pointer ${isAtBottom ? 'disabled-arrow' : ''}`} style={{margin: "10px 0px 0px"}} onClick={scrollDown}>
             <DownArrow/>
-          </div>
+          </Button>
         </div>
       </div>
     </div>

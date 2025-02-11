@@ -10,6 +10,7 @@ import { holidays as holidayData } from "../../../assets/data/holiday-data";
 import { announcements as announcementData } from "../../../assets/data/announcement-data";
 import { supervisorInformation, coordinatorInformation } from "../../../assets/data/dashboard-contact-information";
 import { UpArrow, DownArrow } from "../../../assets/icons/dashboard";
+import { Button } from "@nextui-org/react";
 
 
 const Dashboard = () => {
@@ -83,18 +84,18 @@ const Dashboard = () => {
         </div>
 
         <div id="side-cards">
-          <div className={`scroll-pointer ${isAtTop ? 'disabled-arrow' : ''}`} style={{margin: "0px 0px 10px"}} onClick={scrollUp}>
-           <UpArrow/>
-          </div>
+          <Button className={`scroll-pointer ${isAtTop ? 'disabled-arrow' : ''}`} style={{margin: "0px 0px 10px"}} onClick={scrollUp}>
+            <UpArrow/>
+          </Button>
           <div id="scroll" ref={contentRef}>
             <HolidayList holidays={holidayData} isEditable={false}/>
             <AnnouncementList announcements={announcementData} isEditable={false}/>
             <ContactCard groups={[supervisorInformation, coordinatorInformation]}/>
             <PoliciesCard policy={policy} isEditable={false}/>
           </div>
-          <div className={`scroll-pointer ${isAtBottom ? 'disabled-arrow' : ''}`} style={{margin: "10px 0px 0px"}} onClick={scrollDown}>
+          <Button className={`scroll-pointer ${isAtBottom ? 'disabled-arrow' : ''}`} style={{margin: "10px 0px 0px"}} onClick={scrollDown}>
             <DownArrow/>
-          </div>
+          </Button>
         </div>
       </div>
     </div>
