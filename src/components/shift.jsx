@@ -1,5 +1,4 @@
 import React from 'react';
-import './shift.css';
 
 export function Shift(props) {
     return (

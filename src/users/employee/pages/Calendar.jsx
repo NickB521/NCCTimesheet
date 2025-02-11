@@ -5,7 +5,7 @@ import {
     Textarea, DatePicker, Checkbox, TimeInput, Popover, PopoverTrigger, PopoverContent, Pagination
 } from "@nextui-org/react";
 import { DateTime } from 'luxon';  
-import { Shift } from "../../../assets/icons/calendar/shift";
+import { Shift } from "../../../components/shift";
 
 
 const WeekTool = ({ week, timeSet, addShift, breakHandle, day, saveHandle, currentPage, setCurrentPage, deleteShift}) => {
@@ -51,7 +51,7 @@ const WeekTool = ({ week, timeSet, addShift, breakHandle, day, saveHandle, curre
                     <Button style={{ width: "80%", color: "white", background: `${buttonColor}` }}>{week[day].saved ? "Hours: " + week[day].totalHours : "Add Shift"}</Button>
                 </PopoverTrigger>
                 <PopoverContent style={{ display: "flex", flexDirection: "column", height: "fit-content", width: "170px", border: "gray 1px", alignItems: "center" }}>
-                    <div className="flex w-full flex-col" style={{ width: "180px", display: "flex", alignItems: "center", justifyContent: "space-evenly", paddingBottom: "20px" }}>
+                    <div className="flex w-full flex-col" style={{ width: "190px", display: "flex", alignItems: "center", justifyContent: "space-evenly", paddingBottom: "20px" }}>
                         <h4 className="text-medium font-medium" id="notification-title" style={{ padding: "20px" }}>
                             Shift {currentPage}
                         </h4>
