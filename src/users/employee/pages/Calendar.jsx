@@ -65,22 +65,24 @@ const WeekTool = ({ week, timeSet, addShift, breakHandle, day, saveHandle, curre
         const lastShift = week[day].shifts[week[day].shifts.length - 1];
     
         if (lastShift && !isShiftComplete(lastShift)) {
-            setErrorMessage("Please complete the current shift before adding a new one.");
+            setErrorMessage("Please Complete The Current Shift Before Adding A New One");
             return;
         }
     
-        // If max shifts are reached, show an error
         if (totalShifts >= MAX_SHIFTS_PER_DAY) {
             setErrorMessage(`Daily ${MAX_SHIFTS_PER_DAY} Shift Limit Reached`);
             return;
         }
     
-        // Clear any previous error message and add the new shift
         setErrorMessage(""); 
         addShift(day, totalPages, setCurrentPage);
     };
 
     const handleDeleteShift = () => {
+        if(totalShifts <= 1){
+            setErrorMessage("Unable To Delete Last Remaining Shift");
+            return;
+        }
         setErrorMessage("");
         deleteShift(day, startIndex)
     }
@@ -93,15 +95,17 @@ const WeekTool = ({ week, timeSet, addShift, breakHandle, day, saveHandle, curre
                 </PopoverTrigger>
                 <PopoverContent style={{ display: "flex", flexDirection: "column", height: "fit-content", width: "170px", border: "gray 1px", alignItems: "center" }}>
                     <div className="flex w-full flex-col" style={{ width: "190px", display: "flex", alignItems: "center", justifyContent: "space-evenly", paddingBottom: "20px" }}>
-                        <h4 className="text-medium font-medium" id="notification-title" style={{ padding: "20px" }}>
-                            Shift {currentPage}
+                        <h4 id="shift-title">
+                            {String(day).charAt(0).toUpperCase() + String(day).slice(1)} Shift {currentPage}
                         </h4>
-                        <div style={{ color: "red", marginBottom: "10px" }}>{errorMessage}</div>
+                        <div id="error-message">{errorMessage}</div>
                         <div className="flex w-full flex-col" style={{ gap: "20px", width: "90%", display: "flex", alignItems: "center" }}>
                             {currentShifts.map((shift, index) => (
                                 <div key={index} style={{ position: "relative", width: "115%" }}>
                                     <TimeInput isRequired label={"Start Time"} onChange={(inpt) => handleTimeInput(inpt, day, "startTime", startIndex + index)} value={shift.startTime} hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
-                                    <Checkbox style={{ marginTop: "6px", marginBottom: "6px", left: "15px" }} onClick={() => breakHandle(day, startIndex + index)} isSelected={shift.breakTaken} isDisabled={week[day].saved}>Meal Break?</Checkbox>
+                                    <Checkbox style={{ margin: "6px 0px", fontWeight: "500"}} onClick={() => breakHandle(day, startIndex + index)} isSelected={shift.breakTaken} isDisabled={week[day].saved}>
+                                        <p style={{fontSize: "16px"}}>Meal Break?</p>
+                                    </Checkbox>
                                     {shift.breakTaken && (
                                         <div style={{ marginBottom: "15px" }}>
                                             <TimeInput isRequired label={"Break Start"} onChange={(inpt) => handleTimeInput(inpt, day, "breakStart", startIndex + index)} value={shift.breakStart} hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
@@ -113,12 +117,12 @@ const WeekTool = ({ week, timeSet, addShift, breakHandle, day, saveHandle, curre
                                 </div>
                             ))}
                             {week[day].saved ? "Total Hours Worked: " + week[day].totalHours : ""}
-                            <div style={{ marginTop: "10px", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: "10px" }}>
+                            <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: "10px" }}>
                                 <Button style={{ height: "30px", alignItems: "center", justifyContent: "center", color: "white", background: "#1C6296" }} onClick={() => { saveHandle(day, setErrorMessage), setButtonColor("#1C6296") }} disabled={!isTimeInputted}> {week[day].saved ? "Edit" : "Save"}</Button>
                                 <Button color="danger" style={{ height: "30px" }} onClick={handleDeleteShift}>Delete</Button>
                             </div>
                             <Shift className="add-btn" style={{ cursor: "pointer", alignItems: "center", justifyContent: "center", color: "black" }} onClick={handleAddShift} />
-                            <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
+                            <div style={{ display: "flex", justifyContent: "center" }}>
                                 <Pagination loop showControls color="warning" key={currentPage} initialPage={currentPage} total={totalPages} onChange={handlePageChange} boundaries={0} siblings={0} />
                             </div>
                         </div>
@@ -369,7 +373,7 @@ const Calendar = () => {
         }
       
         setWeek(week);
-      };
+    };
 
     const breakHandle = (day, index) => {
         const newShifts = [...week[day].shifts];
@@ -379,7 +383,6 @@ const Calendar = () => {
         }));
     }
 
-    // Function to add a new shift to the current day
     const addShift = (day, totalPages, setCurrentPage) => {
         setWeek(prevWeek => {
             const lastShift = prevWeek[day].shifts[prevWeek[day].shifts.length - 1];
@@ -408,7 +411,7 @@ const Calendar = () => {
         const shift = week[day].shifts[index];
         const shiftHours = calculateShiftHours(shift);
         const newShifts = [...week[day].shifts];
-        newShifts.splice(index, 1); // Remove the shift
+        newShifts.splice(index, 1); 
         const newTotalHours = week[day].totalHours - shiftHours;
     
         setWeek(week => ({
@@ -416,8 +419,7 @@ const Calendar = () => {
             [day]: { ...week[day], shifts: newShifts, totalHours: newTotalHours }
         }));
     
-        // Adjust current page for the specific day
-        const totalPages = Math.ceil(newShifts.length / 1); // Assuming 1 shift per page
+        const totalPages = Math.ceil(newShifts.length / 1); 
         setCurrentPage(prevPage => ({
             ...prevPage,
             [day]: Math.max(1, Math.min(prevPage[day], totalPages))
@@ -471,24 +473,22 @@ const Calendar = () => {
             });
         }
     
-        // If any errors were found, show the error message and stop
         if (hasError) {
-            setErrorMessage("Shift times cannot have 0 hours or invalid entries.");
+            setErrorMessage("Shift Times Cannot Have 0 Hours Or Invalid Entries");
             return;
         }
     
-        // Update the week state with total hours if no errors
         setWeek(prevWeek => ({
             ...prevWeek,
             [day]: { ...prevWeek[day], totalHours, saved: !prevWeek[day].saved }
         }));
     
-        setErrorMessage("");  // Clear error message on successful save
-        console.log(`Total hours for ${day}:`, totalHours);  // Debugging output
+        setErrorMessage("");  
     };
 
     const calculateShiftHours = (shift) => {
-        if (shift.startTime.hour === 0 && shift.startTime.minute === 0 || shift.endTime.hour === 0 && shift.endTime.minute === 0) {
+        if ((shift.startTime.hour === 0 && shift.startTime.minute === 0) || 
+            (shift.endTime.hour === 0 && shift.endTime.minute === 0)) {
             return 0;
         } else {
             let start = shift.startTime.hour + (shift.startTime.minute / 60);
@@ -498,24 +498,27 @@ const Calendar = () => {
                 return 0;
             }
     
+            // Subtract 12 hours if shift spans over midnight
+            if (start > end) {
+                end += 12;
+            }
+    
             // Calculate the break time in hours (if break was taken)
             let breakTime = 0;
             if (shift.breakTaken) {
                 let breakStart = shift.breakStart.hour + (shift.breakStart.minute / 60);
                 let breakEnd = shift.breakEnd.hour + (shift.breakEnd.minute / 60);
                 if (!isNaN(breakStart) && !isNaN(breakEnd)) {
+                    if (breakEnd <= breakStart) {
+                        breakEnd += 12; 
+                    }
                     breakTime = breakEnd - breakStart;
                 }
             }
     
-            // Adjust for the case where the shift spans midnight
-            if (start > end) {
-                end += 24; // Assume the shift goes to the next day
-            }
-    
             // Subtract break time from total worked time
             let totalShiftTime = end - start - breakTime;
-            return totalShiftTime > 0 ? totalShiftTime : 0; // Ensure no negative total hours
+            return totalShiftTime > 0 ? totalShiftTime : 0; 
         }
     };
 
@@ -524,6 +527,7 @@ const Calendar = () => {
             ...week, shiftNote: inpt
         }));
     }
+    
     const submissionHandle = () => {
         console.log("Week submitted", week)
     }
