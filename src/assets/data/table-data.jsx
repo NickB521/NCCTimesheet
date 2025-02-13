@@ -1,11 +1,14 @@
 import { DateTime } from "luxon";
 
-let week = DateTime.local().startOf("week").toISODate.toString;
-// let week2 = week.plus({days: -7});
+//this just grabs the starting dates of the current week and last week
+let weekOf = DateTime.local().startOf("week");
+let cweek = weekOf.toISODate().toString();
+let lweek = weekOf.plus({days: -7}).toISODate().toString();
 
 export const businessData = [
-    {date: week, companies :[
-        {name: "Code Differently", employees: [ 
+    {date: lweek, companies : [
+        {name: "Code Differently", employees: [
+            {id: 1, name: "Alice", workedHours: 20.0, breakTime: 100, totalTime: 120, sender: "Supervisor A", information: "in progress"},
             {id: 2, name: "Bob", workedHours: 20.5, breakTime: 105, totalTime: 125, sender: "not sent", information: "forwarded"},
             {id: 3, name: "Charlie", workedHours: 21.0, breakTime: 110, totalTime: 130, sender: "Charlie", information: "incomplete"},
             {id: 4, name: "Diane", workedHours: 21.5, breakTime: 115, totalTime: 135, sender: "Supervisor B", information: "in progress"},
@@ -48,7 +51,7 @@ export const businessData = [
             {id: 19, name: "Sam", workedHours: 29.0, breakTime: 190, totalTime: 210, sender: "Sam", information: "in progress"},
             {id: 20, name: "Tina", workedHours: 29.5, breakTime: 195, totalTime: 215, sender: "Tina", information: "incomplete"}
         ]},
-        { name: "Chase", employees: [
+        {name: "Chase", employees: [
             {id: 1, name: "Alice", workedHours: 20.0, breakTime: 100, totalTime: 120, sender: "Supervisor A", information: "in progress"},
             {id: 2, name: "Bob", workedHours: 20.5, breakTime: 105, totalTime: 125, sender: "not sent", information: "forwarded"},
             {id: 3, name: "Charlie", workedHours: 21.0, breakTime: 110, totalTime: 130, sender: "Charlie", information: "incomplete"},
@@ -69,6 +72,17 @@ export const businessData = [
             {id: 18, name: "Rachel", workedHours: 28.5, breakTime: 185, totalTime: 265, sender: "not sent", information: "completed"},
             {id: 19, name: "Sam", workedHours: 29.0, breakTime: 190, totalTime: 210, sender: "Sam", information: "in progress"},
             {id: 20, name: "Tina", workedHours: 29.5, breakTime: 195, totalTime: 215, sender: "Tina", information: "incomplete"}
-        ]}]
-    }
+        ]}
+    ]},
+    {date: cweek, companies : [
+        {name: "Code Differently", employees: [ 
+            {id: 1, name: "Bob", workedHours: 20.5, breakTime: 105, totalTime: 125, sender: "not sent", information: "forwarded"},
+        ]},
+        {name: "JP Morgan", employees: [
+            {id: 1, name: "Alice", workedHours: 20.0, breakTime: 100, totalTime: 120, sender: "Supervisor A", information: "in progress"},
+        ]},
+        {name: "Chase", employees: [
+            {id: 1, name: "Charlie", workedHours: 21.0, breakTime: 110, totalTime: 130, sender: "Charlie", information: "incomplete"},
+        ]}
+    ]}
 ]

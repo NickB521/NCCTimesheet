@@ -20,11 +20,46 @@ import { DateTime } from 'luxon';
 import { businessData } from "../../../assets/data/table-data";
 
 const CoordinatorTable = () => {
-  const [businessList, setBusinessList] = useState(businessData);
+  const [weekOf, setWeekOf] = useState(DateTime.local().startOf("week").toISODate().toString());
+  const [businessList, setBusinessList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setitemsPerPage] = useState(2);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    CalendarHandle(weekOf);
+  },[weekOf])
+
+  const CalendarHandle = (input) => {      
+    if (input && !(input instanceof DateTime)) {
+      input = DateTime.fromISO(input);
+    }  
+    
+    setWeekOf(input.startOf('week').toISODate().toString());
+    
+    //sees if the date exists in the array
+    try {
+      setBusinessList(businessData.find(list => (list.date == weekOf)).companies)
+    }
+    //If the date does not exist, then it fills businesslist with a "blank" list
+    catch {
+      let blankList = [{name: "N/A", employees: [ 
+          {
+            id: 1,
+            name: "N/A",
+            workedHours: 0,
+            breakTime: 0,
+            totalTime: 0,
+            sender: "N/A",
+            information: "N/A"
+          },
+        ]
+      }];
+      
+      setBusinessList(blankList);
+    }
+  };
 
   const getFilteredList = () => {
     if (!searchQuery) return businessList;
@@ -48,27 +83,6 @@ const CoordinatorTable = () => {
     setSearchQuery(query);
     setCurrentPage(1);
   };
-
-  useEffect(() => {
-    let week = DateTime.local().startOf("week");
-    console.log (week.toISODate().toString())
-  }, [])
-
-  const CalendarHandle = (input) => {
-    let weekOf;
-      
-    if (input && !(input instanceof DateTime)) {
-      input = DateTime.fromISO(input);
-    }  
-      
-    weekOf = input.startOf('week').toISODate().toString();
-
-    // console.log(weekOf.plus({days: -7}))
-
-    console.log(businessData.find(worksite => worksite.name == "Code Differently"));  
-    
-    // setEmployeeList(supervisorTableData(weekOf));
-  };
   
   const getTotalWorkedHours = (employees) => {
     let totalWorkedHours = 0
@@ -91,7 +105,6 @@ const CoordinatorTable = () => {
     })
     return totalTime
   }
-
 
   useEffect(() => {
     const updateItemsPerPage = () => {
@@ -175,7 +188,7 @@ const CoordinatorTable = () => {
                 .map((row, index) => (
                   <TableRow key={index} id={row.id}>
                     <TableCell>{row.name}</TableCell>
-                    <TableCell>{getTotalWorkedHours(row.companies.employees)}</TableCell>
+                    <TableCell>{getTotalWorkedHours(row.employees)}</TableCell>
                     <TableCell>{getTotalBreakTime(row.employees)}</TableCell>
                     <TableCell>{getTotalTime(row.employees)}</TableCell>
                     <TableCell>
