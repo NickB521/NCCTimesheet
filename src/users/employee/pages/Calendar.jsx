@@ -17,6 +17,25 @@ const WeekTool = ({ week, timeSet, addShift, breakHandle, day, saveHandle, curre
     const shiftsPerPage = 1;
     const totalShifts = week[day].shifts.length;
     const totalPages = Math.ceil(totalShifts / shiftsPerPage);
+    const [placement, setPlacement] = useState("bottom");
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerHeight < 875) {
+                setPlacement("right");
+            } else {
+                setPlacement("bottom");
+            }
+        };
+
+        handleResize();
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
@@ -64,13 +83,13 @@ const WeekTool = ({ week, timeSet, addShift, breakHandle, day, saveHandle, curre
     const handleAddShift = () => {
         const lastShift = week[day].shifts[week[day].shifts.length - 1];
     
-        if (lastShift && !isShiftComplete(lastShift)) {
-            setErrorMessage("Please Complete The Current Shift Before Adding A New One");
+        if (totalShifts >= MAX_SHIFTS_PER_DAY) {
+            setErrorMessage(`Daily ${MAX_SHIFTS_PER_DAY} Shift Limit Reached`);
             return;
         }
     
-        if (totalShifts >= MAX_SHIFTS_PER_DAY) {
-            setErrorMessage(`Daily ${MAX_SHIFTS_PER_DAY} Shift Limit Reached`);
+        if (lastShift && !isShiftComplete(lastShift)) {
+            setErrorMessage("Please Complete The Current Shift Before Adding A New One");
             return;
         }
     
@@ -89,31 +108,36 @@ const WeekTool = ({ week, timeSet, addShift, breakHandle, day, saveHandle, curre
 
     return (
         <>
-            <Popover placement="bottom" showArrow style={{ marginTop: "10px", display: "flex", padding: "10px" }}>
-                <PopoverTrigger placement="bottom" showArrow>
+            <Popover placement={placement} showArrow style={{ marginTop: "10px", display: "flex", padding: "10px" }}>
+                <PopoverTrigger>
                     <Button style={{ width: "80%", color: "white", background: `${buttonColor}` }}>{week[day].saved ? "Hours: " + week[day].totalHours : "Add Shift"}</Button>
                 </PopoverTrigger>
                 <PopoverContent style={{ display: "flex", flexDirection: "column", height: "fit-content", width: "170px", border: "gray 1px", alignItems: "center" }}>
-                    <div className="flex w-full flex-col" style={{ width: "190px", display: "flex", alignItems: "center", justifyContent: "space-evenly", paddingBottom: "20px" }}>
+                    <div className="flex w-full flex-col" id="popup-card">
                         <h4 id="shift-title">
                             {String(day).charAt(0).toUpperCase() + String(day).slice(1)} Shift {currentPage}
                         </h4>
                         <div id="error-message">{errorMessage}</div>
                         <div className="flex w-full flex-col" style={{ gap: "20px", width: "90%", display: "flex", alignItems: "center" }}>
                             {currentShifts.map((shift, index) => (
-                                <div key={index} style={{ position: "relative", width: "115%" }}>
-                                    <TimeInput isRequired label={"Start Time"} onChange={(inpt) => handleTimeInput(inpt, day, "startTime", startIndex + index)} value={shift.startTime} hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
-                                    <Checkbox style={{ margin: "6px 0px", fontWeight: "500"}} onClick={() => breakHandle(day, startIndex + index)} isSelected={shift.breakTaken} isDisabled={week[day].saved}>
-                                        <p style={{fontSize: "16px"}}>Meal Break?</p>
-                                    </Checkbox>
-                                    {shift.breakTaken && (
-                                        <div style={{ marginBottom: "15px" }}>
-                                            <TimeInput isRequired label={"Break Start"} onChange={(inpt) => handleTimeInput(inpt, day, "breakStart", startIndex + index)} value={shift.breakStart} hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
-                                            <div style={{ marginBottom: "10px" }}></div>
-                                            <TimeInput isRequired label={"Break End"} onChange={(inpt) => handleTimeInput(inpt, day, "breakEnd", startIndex + index)} value={shift.breakEnd} hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
+                                <div key={index} id="shrunken-shift" style={{ position: "relative"}}>
+                                    <div id="shrunken-shift-content">
+                                        <div className="shift-content">
+                                            <TimeInput isRequired label={"Start Time"} onChange={(inpt) => handleTimeInput(inpt, day, "startTime", startIndex + index)} value={shift.startTime} hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
+                                            <TimeInput isRequired label={"End Time"} onChange={(inpt) => handleTimeInput(inpt, day, "endTime", startIndex + index)} value={shift.endTime} isDisabled={week[day].saved} hourCycle={24} granularity="minute" />
                                         </div>
-                                    )}
-                                    <TimeInput isRequired label={"End Time"} onChange={(inpt) => handleTimeInput(inpt, day, "endTime", startIndex + index)} value={shift.endTime} isDisabled={week[day].saved} hourCycle={24} granularity="minute" />
+                                        {shift.breakTaken && (
+                                            <div className="shift-content">
+                                                <TimeInput isRequired label={"Break Start"} onChange={(inpt) => handleTimeInput(inpt, day, "breakStart", startIndex + index)} value={shift.breakStart} hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
+                                                <TimeInput isRequired label={"Break End"} onChange={(inpt) => handleTimeInput(inpt, day, "breakEnd", startIndex + index)} value={shift.breakEnd} hourCycle={24} granularity="minute" isDisabled={week[day].saved} />
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div id="popup-checkbox">
+                                        <Checkbox style={{ margin: "6px 0px", fontWeight: "500"}} onClick={() => breakHandle(day, startIndex + index)} isSelected={shift.breakTaken} isDisabled={week[day].saved}>
+                                            <p style={{fontSize: "16px"}}>Meal Break?</p>
+                                        </Checkbox>
+                                    </div>
                                 </div>
                             ))}
                             {week[day].saved ? "Total Hours Worked: " + week[day].totalHours : ""}
@@ -543,10 +567,8 @@ const Calendar = () => {
                 <Card className="tableCard">
                     <CardHeader>
                         <div className="tableCardHead">
-                            <CardBody>
-                                <DatePicker aria-label="workWeekSelect" id="workWeekSelect" onChange={CalendarHandle} />
-                                <div id={"errorCode"}></div>
-                            </CardBody>
+                            <DatePicker aria-label="workWeekSelect" id="workWeekSelect" onChange={CalendarHandle} />
+                            <Button onClick={submissionHandle}>Submit</Button>
                         </div>
                     </CardHeader>
                     <CardBody>
@@ -587,14 +609,13 @@ const Calendar = () => {
                                         <WeekTool week={week} timeSet={timeSet} breakHandle={breakHandle} day={"sunday"} saveHandle={saveHandle} addShift={addShift} currentPage={currentPage.sunday} setCurrentPage={(page) => setCurrentPage(prev => ({ ...prev, sunday: page }))} />
                                     </TableCell>
                                     <TableCell>
-                                        <Textarea onChange={(inpt) => noteHandle(inpt)}></Textarea>
+                                        <textarea onChange={(inpt) => noteHandle(inpt)} id="shift-note"></textarea>
                                     </TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>
                     </CardBody>
                 </Card>
-                <Button onClick={submissionHandle}>Submit</Button>
             </div>
         </>
     );
