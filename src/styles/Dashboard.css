@@ -1,0 +1,295 @@
+#dashboard {
+    display: flex;
+    flex-direction: column;
+    width: 88%;
+}
+
+#dashboard-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding-left: 70px;
+    font-weight: 600;
+    height: 20%;
+}
+
+#dashboard-body {
+    height: 80%;
+    display: flex;
+    width: 88%;
+    gap: 20px;
+    padding-bottom: 40px;
+}
+
+#main-card {
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 60%;
+    border: 1px solid var(--light-gray);
+    box-shadow: 2px 4px 4px 0px var(--light-gray);
+    margin-left: 20px;
+    border-radius: 10px;
+    padding-bottom: 20px;
+}
+
+#card-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 10%;
+}
+
+#main-card-content {
+    height: 100%;
+    width: 70%;
+    background-color: var(--light-blue);
+    box-shadow: 2px 4px 4px 0px var(--light-gray);
+    border-radius: 10px;
+    overflow-y: auto;
+}
+
+#side-cards {
+    display: flex;
+    max-height: 100%;
+    width: 100%;
+}
+
+#scroll{
+    display: grid;
+    gap: 20px;
+    width: 100%;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% calc(50% - 20px); 
+}
+
+.scroll-pointer{
+    display: none !important;
+    user-select: none;
+    background-color: var(--light-blue) !important;
+    color: var(--white) !important;
+    cursor: pointer;
+    transition: .3s;
+    opacity: .9;
+    transition: opacity 0.3s ease;
+}
+
+.scroll-pointer:hover{
+    background-color: var(--yellow) !important;
+    color: var(--white);
+}
+
+.disabled-arrow {
+    opacity: 0.3;
+    pointer-events: none;
+    cursor: default;
+  }
+
+.side-card {
+    width: 100%;
+    border: 1px solid var(--light-gray);
+    box-shadow: 2px 4px 4px 0px var(--light-gray);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    overflow-y: auto;
+}
+
+.side-card h1{
+    font-size: 24px;
+    font-weight: 600;
+    padding: 15px 0px 10px;
+    text-align: center;
+}
+
+#card-row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-left: -30px;
+    height: fit-content;
+}
+
+#card-row-content{
+    max-height: fit-content;
+    padding: 15px;
+    border-radius: 10px;
+    background: var(--light-blue);
+    color: white;
+    margin-left: -20px;
+}
+
+#timesheet-button{
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background: var(--light-blue);
+    color: white;
+    font-weight: 600;
+}
+
+#worksite-policies{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 80%;
+    height: 100%;
+}
+
+textarea{
+    overflow-x: visible;
+    background-color: var(--background);
+    border-radius: 10px;
+    padding: 10px !important;
+    font-size: 10px;
+    resize: none !important;
+}
+
+#textarea-button{
+    background-color: var(--light-blue);
+    color: white;
+    border-radius: 10px;
+    padding: 10px 20px;
+    margin-bottom: 5%;
+}
+
+.dashboard-edit-content{
+    width: 90%;
+    margin-top: 20px;
+    max-height: 70%;
+    overflow: auto;
+}
+
+.dashboard-edit-button {
+    background-color: var(--light-blue);
+    color: white;
+    border-radius: 10px;
+    padding: 10px 20px;
+    margin: 5%;
+}
+
+.dashboard-edit-window {
+    position: absolute;
+    display: flex;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--light-blue);
+    height: 400px;
+    width: 400px;
+    border-radius: 10px;
+    border: 1px var(--light-gray) solid;
+    box-shadow: 2px 4px 4px 0px var(--light-gray);
+    justify-content: center;
+    padding: 10px 20px;
+}
+
+.dashboard-edit-window-content {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    color: white;
+}
+
+.dashboard-edit-button-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 15px 0px 5px;
+}
+
+.dashboard-edit-button-div > button {
+    padding: 10px 20px; 
+    border-radius: 10px;
+    background-color: var(--dark-blue);
+}
+
+#cancel{
+    background-color: var(--gray) !important;
+}
+
+.widget-title{
+    padding: 15px 10% 10px !important;
+    border-bottom: var(--yellow) solid 3px;
+    border-radius: 2px;
+    font-weight: 600; 
+}
+
+.dashboard-subtitle{
+    font-size: 24px;
+    font-weight: 600;
+    padding: 10px 0px
+}
+
+.widget-subtitle{
+    font-size: 20px !important;
+    font-weight: 600;
+    padding: 10px 0px
+}
+
+/* View Port Stuff */
+
+@media all and (max-width: 2000px) {
+    #dashboard{
+        width: 100%;
+    } 
+
+    #dashboard-body{
+        width: 96%;
+    }
+}
+
+@media all and (max-width: 1200px) {
+    html{
+        overflow-x: hidden !important;
+        overflow-y: hidden !important;
+    }
+
+    #dashboard{
+        height: 90vh;
+    }
+
+    #main-card{
+        width: 50%;
+        height: 100%;
+        overflow: auto !important;
+    }
+
+    #side-cards {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+    }
+
+    #scroll{
+        flex-direction: column;
+        display: flex !important;
+        gap: 10px;
+        height: 100%;
+        overflow: hidden !important;
+    }
+
+    .scroll-pointer{
+        display: flex !important;
+        justify-content: space-around;
+        padding: 20px 0px !important;
+        border-radius: 10px;
+        border: 1px solid var(--light-gray);
+    }
+
+    .side-card {
+        min-height: 350px;
+        padding: 10px 0px;
+    }
+
+    /* try to find a way to make it work as a button to slide up and down like a carousel */
+}
