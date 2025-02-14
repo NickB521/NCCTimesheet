@@ -60,14 +60,15 @@
 
 #scroll{
     display: grid;
+    gap: 20px;
     width: 100%;
     grid-template-columns: 50% 50%;
     grid-template-rows: 50% calc(50% - 20px); 
 }
 
 .scroll-pointer{
+    display: none !important;
     user-select: none;
-    display: none;
     background-color: var(--light-blue) !important;
     color: var(--white) !important;
     cursor: pointer;
@@ -278,7 +279,7 @@ textarea{
     }
 
     .scroll-pointer{
-        display: flex;
+        display: flex !important;
         justify-content: space-around;
         padding: 20px 0px !important;
         border-radius: 10px;
