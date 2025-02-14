@@ -77,6 +77,7 @@ const App = () => {
       // MAKE THE CHECK FOR USER CONTENT OR A TOKEN ERROR SINCE BACKEND HAS A LIFE SPAN PRE-SET????????????
       navigate("/")
     } else {
+      // CAN COMMENT THIS OUT IF IT GETS ANNOYING WHILE DEVELOPING
       navigate("/sign-in")
     }
   }, [token])

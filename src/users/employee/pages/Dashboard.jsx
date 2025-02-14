@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import Greeting from "/src/components/Greeting.jsx";
 import HolidayList from "/src/components/HolidayList";
 import AnnouncementList from "/src/components/AnnouncementList";
@@ -11,16 +11,18 @@ import { announcements as announcementData } from "../../../assets/data/announce
 import { supervisorInformation, coordinatorInformation } from "../../../assets/data/dashboard-contact-information";
 import { UpArrow, DownArrow } from "../../../assets/icons/dashboard";
 import { Button } from "@nextui-org/react";
+import Context from "../../../components/Context";
 
 
 const Dashboard = () => {
   const [loopCount, setLoopCount] = useState(0);
-  const name = "test_name";
   const policy = "policy";
   const contentRef = useRef(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isAtTop, setIsAtTop] = useState(true);
   const [isAtBottom, setIsAtBottom] = useState(false);
+  const {token, setToken} = useContext(Context); //THIS MAY NOT BE NEEDED DEPENDING ON CONTEXT AND OTHER DATA FLOW
+  const {user, setUser} = useContext(Context);
 
   useEffect(() => {
     const updateLoopCount = () => {
@@ -58,11 +60,10 @@ const Dashboard = () => {
 
   return (
     <div id="dashboard">
-      <Greeting name={name} />
+      <Greeting name={user.firstName} />
       <div id="dashboard-body">
         <div id="main-card">
           <h1 className="widget-title" style={{fontSize:"30px"}}>Timesheets</h1>
-
           <h2 className="dashboard-subtitle">Recent Timesheets</h2>
           {employeeTimesheet.slice(0, loopCount).map((item, index) => (
             <TimesheetCard

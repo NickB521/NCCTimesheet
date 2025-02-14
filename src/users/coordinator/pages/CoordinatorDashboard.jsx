@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { coordinatorTimesheet, coordinatorResubmitted } from "../../../assets/data/dashboard-timesheet-data";
 import Greeting from "/src/components/Greeting.jsx";
 import TimesheetCard from "/src/components/TimesheetCard";
@@ -6,6 +6,7 @@ import HolidayParent from "../../../components/HolidayParent";
 import AnnouncementParent from "../../../components/AnnouncementParent";
 import ContactCard from "../../../components/ContactCard";
 import { supervisorInformation, coordinatorInformation } from "../../../assets/data/dashboard-contact-information";
+import Context from "../../../components/Context";
 import { UpArrow, DownArrow } from "../../../assets/icons/dashboard";
 import { Button } from "@nextui-org/react";
 
@@ -25,7 +26,8 @@ const setActiveNotification = (item) => {
 
 const CoordinatorDashboard = () => {
   const [loopCount, setLoopCount] = useState(0);
-  const name = "test_name";
+  const {token, setToken} = useContext(Context); //THIS MAY NOT BE NEEDED DEPENDING ON CONTEXT AND OTHER DATA FLOW
+  const {user, setUser} = useContext(Context);
   const contentRef = useRef(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isAtTop, setIsAtTop] = useState(true);
@@ -67,7 +69,7 @@ const CoordinatorDashboard = () => {
 
   return (
     <div id="dashboard">
-      <Greeting name={name} />
+      <Greeting name={user.firstName} />
       <div id="dashboard-body">
         <div id="main-card">
           <h1 className="widget-title" style={{fontSize:"30px"}}>Timesheets</h1>
