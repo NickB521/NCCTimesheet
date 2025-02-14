@@ -16,15 +16,50 @@ import {
 } from "@nextui-org/react";
 
 import { Link, useNavigate } from "react-router-dom";
-import { getDayOfWeek } from "@internationalized/date";
-import { businessData } from "../../../assets/data/supervisortable-data";
+import { DateTime } from 'luxon';
+import { businessData } from "../../../assets/data/table-data";
 
 const CoordinatorTable = () => {
-  const [businessList, setBusinessList] = useState(businessData);
+  const [weekOf, setWeekOf] = useState(DateTime.local().startOf("week").toISODate().toString());
+  const [businessList, setBusinessList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setitemsPerPage] = useState(2);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    CalendarHandle(weekOf);
+  },[weekOf])
+
+  const CalendarHandle = (input) => {      
+    if (input && !(input instanceof DateTime)) {
+      input = DateTime.fromISO(input);
+    }  
+    
+    setWeekOf(input.startOf('week').toISODate().toString());
+    
+    //sees if the date exists in the array
+    try {
+      setBusinessList(businessData.find(list => (list.date == weekOf)).companies)
+    }
+    //If the date does not exist, then it fills businesslist with a "blank" list
+    catch {
+      let blankList = [{name: "N/A", employees: [ 
+          {
+            id: 1,
+            name: "N/A",
+            workedHours: 0,
+            breakTime: 0,
+            totalTime: 0,
+            sender: "N/A",
+            information: "N/A"
+          },
+        ]
+      }];
+      
+      setBusinessList(blankList);
+    }
+  };
 
   const getFilteredList = () => {
     if (!searchQuery) return businessList;
@@ -32,8 +67,6 @@ const CoordinatorTable = () => {
       business.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
   };
-
- 
 
   const fetchCurrentItems = () => {
     const filteredList = getFilteredList();
@@ -49,19 +82,6 @@ const CoordinatorTable = () => {
   const handleSearch = (query) => {
     setSearchQuery(query);
     setCurrentPage(1);
-  };
-
-  const CalendarHandle = (input) => {
-    const key = Object.keys(week);
-    input.day -= getDayOfWeek(input, "en-US") - 1;
-    for (let i = 0; i < key.length; i++) {
-      week[key[i]].day = input.month + "/" + input.day;
-      document.getElementById(key[i]).innerHTML = week[key[i]].day + "";
-      input.day += 1;
-    }
-    input.day -= 7;
-    setWeek(week);
-    fetchData();
   };
   
   const getTotalWorkedHours = (employees) => {
@@ -85,7 +105,6 @@ const CoordinatorTable = () => {
     })
     return totalTime
   }
-
 
   useEffect(() => {
     const updateItemsPerPage = () => {
