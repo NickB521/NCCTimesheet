@@ -5,7 +5,7 @@ import { DropdownIcon } from "../assets/icons";
 
 import { useLocation, Link } from "react-router-dom";
 
-const Navigation = (props) => {
+const Navigation = () => {
     console.log(useLocation().pathname)
     const [expanded, setExpanded] = useState(false);
     const location = useLocation();
