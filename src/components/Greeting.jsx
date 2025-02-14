@@ -22,11 +22,9 @@ const Greeting = ({ name }) => {
 
   return (
     <div id="dashboard-header" className="bg-red-100">
-      <div id="dashboard-header-content">
-        <p className="text-5xl" style={{ fontSize: "48px" }}>
-          Good {greeting}, {name}!
-        </p>
-      </div>
+      <p style={{ fontSize: "3em", fontWeight: "600", textAlign:"left"}}>
+        Good {greeting}, {name}!
+      </p>
     </div>
   );
 };
