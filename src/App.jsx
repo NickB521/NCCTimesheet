@@ -9,12 +9,13 @@ import Dashboard from "./users/employee/pages/Dashboard.jsx";
 import Calendar from "./users/employee/pages/Calendar.jsx";
 import SupervisorDashboard from "./users/supervisor/pages/SupervisorDashboard.jsx";
 import SupervisorCalendar from "./users/supervisor/pages/SupervisorCalendar.jsx";
+import CoordinatorCalendar from "./users/coordinator/pages/CoordinatorCalendar.jsx";
 
 import CoordinatorDashboard from "./users/coordinator/pages/CoordinatorDashboard.jsx"
-import CoordinatorCalendar from "./users/coordinator/pages/CoordinatorCalendar.jsx"
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import SupervisorTable from "./users/supervisor/pages/SupervisorTable.jsx"
+import CoordinatorTable from "./users/coordinator/pages/CoordinatorTable.jsx"
 import HolidayAlert from "./components/HolidayAlert.jsx"
 
 import { Routes, Route } from "react-router-dom";
@@ -29,7 +30,7 @@ const getCalendar = (role) => {
     case "SUPERVISOR":
       return <SupervisorTable />;
     case "COORDINATOR":
-      return <CoordinatorCalendar />;
+      return <CoordinatorTable />;
     default:
       return <></>;
   }

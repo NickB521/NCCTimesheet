@@ -82,6 +82,7 @@
 
 #workWeekSelect{
     width: fit-content;
+    margin-top: -10px;
 }
 
 #shift-note{

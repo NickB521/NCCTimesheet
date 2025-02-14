@@ -150,14 +150,7 @@ const CoordinatorTable = () => {
             }}
           >
             <div className="tableCardHead">
-              <CardBody>
-                <DatePicker
-                  aria-label="workWeekSelectTable"
-                  id="workWeekSelectTable"
-                  onChange={CalendarHandle}
-                />
-                <div id={"errorCode"}></div>
-              </CardBody>
+                <DatePicker aria-label="workWeekSelect" id="workWeekSelect" onChange={CalendarHandle} />
             </div>
             <div>
               <Input
