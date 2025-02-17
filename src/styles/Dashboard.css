@@ -77,12 +77,12 @@
     align-items: center;
     gap: 2px;
     overflow-y: auto;
-}
+}x
 
 .side-card h1{
     font-size: 24px;
-    font-weight: 600;
-    padding: 15px 0px 10px;
+    font-weight:300;
+    padding: 15px 0px 20px;
     text-align: center;
 }
 
@@ -124,7 +124,7 @@
 textarea{
     overflow-x: visible;
     background-color: var(--background);
-    border-radius: 10px;
+   
     padding: 10px !important;
     font-size: 10px;
     resize: none !important;
@@ -159,14 +159,13 @@ textarea{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: var(--light-blue);
-    height: 400px;
-    width: 400px;
-    border-radius: 10px;
-    border: 1px var(--light-gray) solid;
-    box-shadow: 2px 4px 4px 0px var(--light-gray);
+    background-color: var(--dark-blue);
+    height: 500px;
+    width: 350px;
     justify-content: center;
-    padding: 10px 20px;
+    padding: 15px 15px;
+    box-shadow: 0px 3px 3px 2px rgba(87, 87, 87, 0.2);
+
 }
 
 .dashboard-edit-window-content {
@@ -179,6 +178,12 @@ textarea{
     color: white;
 }
 
+.dashboard-edit-window-content h1{
+    padding: 20px;
+    font-size: 1.1rem;
+    font-weight: 300;
+}
+
 .dashboard-edit-button-div {
     display: flex;
     flex-direction: row;
@@ -189,6 +194,7 @@ textarea{
 .dashboard-edit-button-div > button {
     padding: 10px 20px; 
     border-radius: 10px;
+    border: 1px solid var(--light-gray);
     background-color: var(--dark-blue);
 }
 

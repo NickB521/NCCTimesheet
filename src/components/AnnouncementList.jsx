@@ -42,7 +42,7 @@ const AnnouncementList = ({
   };
 
   return (
-    <div className="side-card">
+    <div className="side-card" >
       <h1 className="widget-title">Announcements</h1>
       <div className="dashboard-edit-content">
         {announcements.map((announcement, index) => (
@@ -61,7 +61,6 @@ const AnnouncementList = ({
           Make Announcement
         </button>
       )}
-
       {isAnnouncementWindowOpen && isEditable && (
         <div className="dashboard-edit-window">
           <div className="dashboard-edit-window-content">
