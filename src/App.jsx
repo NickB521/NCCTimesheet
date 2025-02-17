@@ -59,7 +59,7 @@ const App = () => {
       name: "person",
       role: {
         id: null,
-        name: "COORDINATOR"
+        name: "EMPLOYEE"
       },
       email: "email@email.com",
       worksite: {

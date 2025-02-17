@@ -13,7 +13,6 @@ import { UpArrow, DownArrow } from "../../../assets/icons/dashboard";
 import { Button } from "@nextui-org/react";
 import Context from "../../../components/Context";
 
-
 const Dashboard = () => {
   const [loopCount, setLoopCount] = useState(0);
   const policy = "policy";

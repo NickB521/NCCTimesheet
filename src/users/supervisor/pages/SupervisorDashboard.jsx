@@ -75,7 +75,6 @@ const SupervisorDashboard = () => {
       <div id="dashboard-body">
         <div id="main-card">
           <h1 className="widget-title" style={{fontSize:"30px"}}>Timesheets</h1>
-
           <h2 className="dashboard-subtitle">Recent Timesheets</h2>
           {supervisorTimesheet.slice(0, loopCount).map((item, index) => (
             <TimesheetCard
@@ -96,6 +95,7 @@ const SupervisorDashboard = () => {
           ))}
           <button id="timesheet-button">View All Timesheets</button>
         </div>
+        
         <div id="side-cards">
           <Button className={`scroll-pointer ${isAtTop ? 'disabled-arrow' : ''}`} style={{margin: "0px 0px 10px"}} onClick={scrollUp}>
             <UpArrow/>
