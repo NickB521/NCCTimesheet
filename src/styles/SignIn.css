@@ -1,9 +1,10 @@
 /* Main Organization */
 #sign-in {
+    overflow: hidden !important;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: calc(100vh - 80px);
     width: 100vw;
     background: linear-gradient(to right, var(--dark-blue) , var(--light-blue));
 }
