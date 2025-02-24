@@ -140,28 +140,18 @@ const CoordinatorTable = () => {
       </Card>
       <Card className="tableCard">
         <CardHeader>
-          <div
-            className="tableCardHead"
-            style={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <div className="tableCardHead">
-                <DatePicker aria-label="workWeekSelect" id="workWeekSelect" onChange={CalendarHandle} />
-            </div>
-            <div>
-              <Input
-                clearable
-                bordered
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={(e) => handleSearch(e.target.value)}
-                css={{ width: "250px" }}
-              />
-            </div>
+          <div className="tableCardHead">
+              <DatePicker aria-label="workWeekSelect" id="workWeekSelect" onChange={(e) => CalendarHandle(e, null, week, setWeek)} />
+              <div>
+                <Input
+                  clearable
+                  bordered
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  css={{ width: "250px" }}
+                />
+              </div>
           </div>
         </CardHeader>
         <CardBody>
