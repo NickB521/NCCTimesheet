@@ -46,7 +46,6 @@ const CoordinatorCalendar = () => {
                                         <TableCell key={day}>
                                             <CalendarWeekTool 
                                                 week={week} 
-                                                timeSet={timeSet} 
                                                 day={day} 
                                                 currentPage={currentPage[day]} 
                                                 setCurrentPage={(page) => setCurrentPage(prev => ({ ...prev, [day]: page }))} 

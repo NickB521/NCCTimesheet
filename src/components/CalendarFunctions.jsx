@@ -227,6 +227,25 @@ export const calculateShiftHours = (shift) => {
     return Math.max(0, endDecimal - startDecimal - breakTime);
 };
 
+export const resetDay = (day, setWeek) => {
+    setWeek(prevWeek => {
+        if (!prevWeek[day]) {
+            console.warn(`resetDay: Attempted to reset a non-existent day: ${day}`);
+            return prevWeek;
+        }
+
+        return {
+            ...prevWeek,
+            [day]: {
+                ...prevWeek[day],
+                totalHours: 0,
+                saved: false,
+                shifts: [{}] // Empty the shifts array
+            }
+        };
+    });
+};
+
 const roundToNearest15Minutes = (time) => {
     const minutes = time.minute;
     const roundedMinutes = Math.round(minutes / 15) * 15;

@@ -6,7 +6,7 @@ import {
 
 const MAX_SHIFTS_PER_DAY = 3;
 
-const CalendarWeekTool = ({ week, timeSet, breakHandle, day, saveHandle, currentPage, setCurrentPage, deleteShift, addShift, setWeek }) => {
+const CalendarWeekTool = ({ week, timeSet, breakHandle, day, saveHandle, currentPage, setCurrentPage, deleteShift, addShift, setWeek, resetDay }) => {
     const [buttonColor, setButtonColor] = useState("#292F36");
     const [isTimeInputted, setIsTimeInputted] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -42,16 +42,22 @@ const CalendarWeekTool = ({ week, timeSet, breakHandle, day, saveHandle, current
 
     const handleTimeInput = (inpt, day, timeType, index) => {
         const previousShift = index > 0 ? week[day].shifts[index - 1] : null;
-
+    
+        if (inpt.hour > 12) {
+            const formattedMinute = inpt.minute < 10 ? `0${inpt.minute}` : inpt.minute;
+            setErrorMessage(`*Hour must be between 0 and 12. Setting hour to 12.*`);
+            inpt.hour = 12; 
+        }
+    
         if (timeType === "startTime" && previousShift && (inpt.hour < previousShift.endTime.hour || (inpt.hour === previousShift.endTime.hour && inpt.minute <= previousShift.endTime.minute))) {
             const formattedMinute = inpt.minute < 10 ? `0${inpt.minute}` : inpt.minute;
             setErrorMessage(`*Must be after ${previousShift.endTime.hour}:${formattedMinute}*`);
             return;
         }
-
+    
         setErrorMessage("");
         setIsTimeInputted(true);
-
+    
         timeSet(inpt, day, timeType, index, week, setWeek);
     };
 
@@ -128,7 +134,7 @@ const CalendarWeekTool = ({ week, timeSet, breakHandle, day, saveHandle, current
                                             />
                                             <TimeInput
                                                 isRequired label={"End Time"} onChange={(inpt) => handleTimeInput(inpt, day, "endTime", startIndex + index)}
-                                                value={shift.endTime} isDisabled={week[day].saved} hourCycle={24} granularity="minute"
+                                                value={shift.endTime} isDisabled={week[day].saved} hourCycle={24} granularity="minute" content="10:30"
                                             />
                                         </div>
                                         {shift.breakTaken && (
@@ -171,6 +177,8 @@ const CalendarWeekTool = ({ week, timeSet, breakHandle, day, saveHandle, current
                             <div style={{ display: "flex", justifyContent: "center" }}>
                                 <Pagination loop showControls color="warning" key={currentPage} initialPage={currentPage} total={totalPages} onChange={handlePageChange} boundaries={0} siblings={0} />
                             </div>
+                            {/* COME BACK AND TRY TO GET THIS TO RESET THE INPUTS SO THE SHIFT LOOKS COMPLETELY EMPTY */}
+                            <button onClick={() => { resetDay(day, setWeek); }}>RESET</button>
                         </div>
                     </div>
                 </PopoverContent>

@@ -3,7 +3,7 @@ import {
     Card, CardHeader, CardBody, Table, TableBody, TableRow, TableCell, TableHeader, TableColumn, DatePicker, Button, 
 } from "@nextui-org/react";
 import CalendarWeekTool from "../../../components/CalendarWeekTool";
-import { initializeWeek, initializeCurrentPage, CalendarHandle, submissionHandle, timeSet, breakHandle, saveHandle, addShift, deleteShift, noteHandle } from "../../../components/CalendarFunctions";
+import { initializeWeek, initializeCurrentPage, CalendarHandle, submissionHandle, timeSet, breakHandle, saveHandle, addShift, deleteShift, noteHandle, resetDay } from "../../../components/CalendarFunctions";
 import { DateTime } from "luxon";
 
 const Calendar = () => {
@@ -55,6 +55,7 @@ const Calendar = () => {
                                                 setCurrentPage={(page) => setCurrentPage(prev => ({ ...prev, [day]: page }))}  
                                                 deleteShift={deleteShift}
                                                 setWeek={setWeek}
+                                                resetDay={resetDay}
                                             />
                                         </TableCell>
                                     ))}
