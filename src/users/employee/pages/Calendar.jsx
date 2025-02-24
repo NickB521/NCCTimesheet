@@ -52,7 +52,7 @@ const Calendar = () => {
                                                 saveHandle={saveHandle} 
                                                 addShift={addShift} 
                                                 currentPage={currentPage[day]} 
-                                                setCurrentPage={(page) => setCurrentPage(prev => ({ ...prev, [day]: page }))} 
+                                                setCurrentPage={(page) => setCurrentPage(prev => ({ ...prev, [day]: page }))}  
                                                 deleteShift={deleteShift}
                                                 setWeek={setWeek}
                                             />

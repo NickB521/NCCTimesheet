@@ -146,7 +146,7 @@ const CalendarWeekTool = ({ week, timeSet, breakHandle, day, saveHandle, current
                                     </div>
                                     <div id="popup-checkbox">
                                         <Checkbox
-                                            style={{ margin: "6px 0px", fontWeight: "500"}} onClick={() => breakHandle(day, startIndex + index)}
+                                            style={{ margin: "6px 0px", fontWeight: "500"}} onClick={() => breakHandle(day, startIndex + index, week, setWeek)}
                                             isSelected={shift.breakTaken} isDisabled={week[day].saved}
                                         >
                                             <p style={{fontSize: "16px"}}>Meal Break?</p>
