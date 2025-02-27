@@ -57,7 +57,7 @@ export const breakHandle = (day, index, week, setWeek) => {
     setWeek({ ...week, [day]: { ...week[day], shifts: newShifts } });
 };
 
-export const addShift = (day, totalPages, setCurrentPage, week, setWeek) => {
+export const addShift = (day, totalPages, setCurrentPage, setWeek) => {
     setWeek((prevWeek) => {
         const lastShift = prevWeek[day].shifts[prevWeek[day].shifts.length - 1];
         const newStartTime = lastShift ? { ...lastShift.endTime } : { hour: 0, minute: 0 };
@@ -77,7 +77,9 @@ export const addShift = (day, totalPages, setCurrentPage, week, setWeek) => {
 
         return {
             ...prevWeek,
-            [day]: { ...prevWeek[day], shifts: [...prevWeek[day].shifts, newShift], saved: false }
+            [day]: { ...prevWeek[day], 
+                shifts: [...prevWeek[day].shifts, newShift],
+                saved: false }
         };
     });
     setCurrentPage(totalPages + 1);
@@ -227,24 +229,24 @@ export const calculateShiftHours = (shift) => {
     return Math.max(0, endDecimal - startDecimal - breakTime);
 };
 
-export const resetDay = (day, setWeek) => {
-    setWeek(prevWeek => {
-        if (!prevWeek[day]) {
-            console.warn(`resetDay: Attempted to reset a non-existent day: ${day}`);
-            return prevWeek;
-        }
+// export const resetDay = (day, setWeek) => {
+//     setWeek(prevWeek => {
+//         if (!prevWeek[day]) {
+//             console.warn(`resetDay: Attempted to reset a non-existent day: ${day}`);
+//             return prevWeek;
+//         }
 
-        return {
-            ...prevWeek,
-            [day]: {
-                ...prevWeek[day],
-                totalHours: 0,
-                saved: false,
-                shifts: [{}] // Empty the shifts array
-            }
-        };
-    });
-};
+//         return {
+//             ...prevWeek,
+//             [day]: {
+//                 ...prevWeek[day],
+//                 totalHours: 0,
+//                 saved: false,
+//                 shifts: [{}] // Empty the shifts array
+//             }
+//         };
+//     });
+// };
 
 const roundToNearest15Minutes = (time) => {
     const minutes = time.minute;

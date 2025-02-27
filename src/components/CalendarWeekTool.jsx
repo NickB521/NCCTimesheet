@@ -6,7 +6,9 @@ import {
 
 const MAX_SHIFTS_PER_DAY = 3;
 
-const CalendarWeekTool = ({ week, timeSet, breakHandle, day, saveHandle, currentPage, setCurrentPage, deleteShift, addShift, setWeek, resetDay }) => {
+// FIX THE THING WHERE YOU CHANGE THE START TIME AFTER CREATING A NEW SHIFT
+
+const CalendarWeekTool = ({ week, timeSet, breakHandle, day, saveHandle, currentPage, setCurrentPage, deleteShift, addShift, setWeek }) => {
     const [buttonColor, setButtonColor] = useState("#292F36");
     const [isTimeInputted, setIsTimeInputted] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -47,12 +49,6 @@ const CalendarWeekTool = ({ week, timeSet, breakHandle, day, saveHandle, current
             const formattedMinute = inpt.minute < 10 ? `0${inpt.minute}` : inpt.minute;
             setErrorMessage(`*Hour must be between 0 and 12. Setting hour to 12.*`);
             inpt.hour = 12; 
-        }
-    
-        if (timeType === "startTime" && previousShift && (inpt.hour < previousShift.endTime.hour || (inpt.hour === previousShift.endTime.hour && inpt.minute <= previousShift.endTime.minute))) {
-            const formattedMinute = inpt.minute < 10 ? `0${inpt.minute}` : inpt.minute;
-            setErrorMessage(`*Must be after ${previousShift.endTime.hour}:${formattedMinute}*`);
-            return;
         }
     
         setErrorMessage("");
@@ -97,7 +93,7 @@ const CalendarWeekTool = ({ week, timeSet, breakHandle, day, saveHandle, current
         }
 
         setErrorMessage(""); 
-        addShift(day, totalPages, setCurrentPage, week, setWeek);
+        addShift(day, totalPages, setCurrentPage, setWeek);
     };
 
     const handleDeleteShift = () => {
@@ -108,6 +104,11 @@ const CalendarWeekTool = ({ week, timeSet, breakHandle, day, saveHandle, current
         setErrorMessage("");
         deleteShift(day, totalPages, setCurrentPage, week, setWeek);
     };
+
+    // const thing = (shift) => {
+    //     console.log(shift.startTime);
+    //     shift.startTime.hour = 0;
+    // }
 
     return (
         <>
@@ -158,6 +159,8 @@ const CalendarWeekTool = ({ week, timeSet, breakHandle, day, saveHandle, current
                                             <p style={{fontSize: "16px"}}>Meal Break?</p>
                                         </Checkbox>
                                     </div>
+                                    
+                                    {/* <button onClick={() => { thing(shift); resetDay(day, setWeek); setCurrentPage(1); }}>RESET</button> */}
                                 </div>
                             ))}
                             {week[day].saved ? "Total Hours Worked: " + week[day].totalHours : ""}
@@ -178,7 +181,6 @@ const CalendarWeekTool = ({ week, timeSet, breakHandle, day, saveHandle, current
                                 <Pagination loop showControls color="warning" key={currentPage} initialPage={currentPage} total={totalPages} onChange={handlePageChange} boundaries={0} siblings={0} />
                             </div>
                             {/* COME BACK AND TRY TO GET THIS TO RESET THE INPUTS SO THE SHIFT LOOKS COMPLETELY EMPTY */}
-                            <button onClick={() => { resetDay(day, setWeek); }}>RESET</button>
                         </div>
                     </div>
                 </PopoverContent>
