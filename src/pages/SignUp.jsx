@@ -25,43 +25,41 @@ const SignUp = () => {
     }
     
     return (
-        <>
-            <div id="sign-in">
-                <div id="sign-in-card">
-                    <div id="sign-in-title">Sign Up</div>
+        <div id="sign-in">
+            <div id="sign-in-card">
+                <div id="sign-in-title">Sign Up</div>
 
-                    <SignInput
-                        placeholder="Email"
-                        startContent={<Email />}
-                        info={email}
-                        setInfo={setEmail}
-                    />
+                <SignInput
+                    placeholder="Email"
+                    startContent={<Email />}
+                    info={email}
+                    setInfo={setEmail}
+                />
 
-                    <SignInput
-                        placeholder="Password"
-                        startContent={<Lock />}
-                        info={pass}
-                        setInfo={setPass}
-                    />
+                <SignInput
+                    placeholder="Password"
+                    startContent={<Lock />}
+                    info={pass}
+                    setInfo={setPass}
+                />
 
-                    <SignInput
-                        placeholder="Worksite"
-                        startContent={<Worksite />}
-                        info={workSite}
-                        setInfo={setWorkSite}
-                        worksiteOptions={worksites}
-                    />
+                <SignInput
+                    placeholder="Worksite"
+                    startContent={<Worksite />}
+                    info={workSite}
+                    setInfo={setWorkSite}
+                    worksiteOptions={worksites}
+                />
 
-                    <div id="sign-in-button-div">
-                            <button id="sign-in-button" onClick={SignUp}>Sign Up</button>
-                    </div>
+                <div id="sign-in-button-div">
+                        <button id="sign-in-button" onClick={SignUp}>Sign Up</button>
+                </div>
 
-                    <div id="sign-in-text" style={{ textAlign: "center" }}>
-                            <button onClick={LogIn}>Already Have An Account?</button>
-                    </div>
+                <div id="sign-in-text" style={{ textAlign: "center" }}>
+                        <button onClick={LogIn}>Already Have An Account?</button>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

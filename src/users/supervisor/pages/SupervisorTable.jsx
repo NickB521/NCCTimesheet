@@ -32,6 +32,7 @@ const SupervisorTable = () => {
   const navigate = useNavigate();
 
   const getFilteredList = () => {
+    if (!employeeList) return []; 
     if (!searchQuery) return employeeList;
     return employeeList.filter((employee) =>
       employee.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -109,35 +110,18 @@ const SupervisorTable = () => {
       </Card>
       <Card className="tableCard">
         <CardHeader>
-          <div
-            className="tableCardHead"
-            style={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <div className="tableCardHead">
-              <CardBody>
-                <DatePicker
-                  aria-label="workWeekSelectTable"
-                  id="workWeekSelectTable"
-                  onChange={CalendarHandle}
+          <div className="tableCardHead">
+              <DatePicker aria-label="workWeekSelect" id="workWeekSelect" onChange={(e) => CalendarHandle(e, null, week, setWeek)} />
+              <div>
+                <Input
+                  clearable
+                  bordered
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  css={{ width: "250px" }}
                 />
-                <div id={"errorCode"}></div>
-              </CardBody>
-            </div>
-            <div>
-              <Input
-                clearable
-                bordered
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={(e) => handleSearch(e.target.value)}
-                css={{ width: "250px" }}
-              />
-            </div>
+              </div>
           </div>
         </CardHeader>
         <CardBody>
