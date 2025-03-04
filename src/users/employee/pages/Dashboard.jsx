@@ -59,7 +59,7 @@ const Dashboard = () => {
 
   return (
     <div id="dashboard">
-      <Greeting name={user.firstName} />
+      <Greeting name={user.role.name} />
       <div id="dashboard-body">
         <div id="main-card">
           <h1 className="widget-title" style={{fontSize:"30px"}}>Timesheets</h1>
