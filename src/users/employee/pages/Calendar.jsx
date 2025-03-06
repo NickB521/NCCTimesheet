@@ -3,7 +3,7 @@ import {
     Button, Card, CardHeader, CardBody, Table,
     TableHeader, TableBody, TableRow, TableColumn, TableCell,
     Textarea, DatePicker, Checkbox, TimeInput, Popover, PopoverTrigger, PopoverContent, Pagination
-} from "@nextui-org/react";
+} from "@heroui/react";;
 import { DateTime } from 'luxon';  
 import { Shift } from "../../../components/shift";
 

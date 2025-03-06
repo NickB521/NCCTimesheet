@@ -8,7 +8,7 @@ let lweek = weekOf.plus({days: -7}).toISODate().toString();
 export const businessData = [
     {date: lweek, companies : [
         {name: "Code Differently", employees: [
-            {id: 1, name: "Alice", workedHours: 20.0, breakTime: 100, totalTime: 120, sender: "Supervisor A", information: "in progress"},
+            {id: 1, name: "Alice", workedHours: 10.0, breakTime: 110, totalTime: 120, sender: "Supervisor A", information: "in progress"},
             {id: 2, name: "Bob", workedHours: 20.5, breakTime: 105, totalTime: 125, sender: "not sent", information: "forwarded"},
             {id: 3, name: "Charlie", workedHours: 21.0, breakTime: 110, totalTime: 130, sender: "Charlie", information: "incomplete"},
             {id: 4, name: "Diane", workedHours: 21.5, breakTime: 115, totalTime: 135, sender: "Supervisor B", information: "in progress"},
@@ -30,7 +30,7 @@ export const businessData = [
             {id: 20, name: "Tina", workedHours: 29.5, breakTime: 195, totalTime: 215, sender: "Tina", information: "incomplete"}
         ]},
         {name: "JP Morgan", employees: [
-            {id: 1, name: "Alice", workedHours: 20.0, breakTime: 100, totalTime: 120, sender: "Supervisor A", information: "in progress"},
+            {id: 1, name: "Alice", workedHours: 20.0, breakTime: 120, totalTime: 140, sender: "Supervisor A", information: "in progress"},
             {id: 2, name: "Bob", workedHours: 20.5, breakTime: 105, totalTime: 125, sender: "not sent", information: "forwarded"},
             {id: 3, name: "Charlie", workedHours: 21.0, breakTime: 110, totalTime: 130, sender: "Charlie", information: "incomplete"},
             {id: 4, name: "Diane", workedHours: 21.5, breakTime: 115, totalTime: 135, sender: "Supervisor B", information: "in progress"},
@@ -52,7 +52,7 @@ export const businessData = [
             {id: 20, name: "Tina", workedHours: 29.5, breakTime: 195, totalTime: 215, sender: "Tina", information: "incomplete"}
         ]},
         {name: "Chase", employees: [
-            {id: 1, name: "Alice", workedHours: 20.0, breakTime: 100, totalTime: 120, sender: "Supervisor A", information: "in progress"},
+            {id: 1, name: "Alice", workedHours: 40.0, breakTime: 100, totalTime: 140, sender: "Supervisor A", information: "in progress"},
             {id: 2, name: "Bob", workedHours: 20.5, breakTime: 105, totalTime: 125, sender: "not sent", information: "forwarded"},
             {id: 3, name: "Charlie", workedHours: 21.0, breakTime: 110, totalTime: 130, sender: "Charlie", information: "incomplete"},
             {id: 4, name: "Diane", workedHours: 21.5, breakTime: 115, totalTime: 135, sender: "Supervisor B", information: "in progress"},

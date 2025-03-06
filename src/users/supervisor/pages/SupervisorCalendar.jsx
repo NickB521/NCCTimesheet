@@ -17,7 +17,7 @@ import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { DateTime } from 'luxon';  
 
 const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {

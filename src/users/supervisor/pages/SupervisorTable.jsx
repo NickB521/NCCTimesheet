@@ -14,7 +14,7 @@ import {
   DatePicker,
   Pagination,
   Input,
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 import { Link, useNavigate } from "react-router-dom";
 import { DateTime } from 'luxon';
@@ -24,12 +24,45 @@ import { businessData } from "../../../assets/data/table-data";
 const SupervisorTable = () => {
   const location = useLocation();
 
-  const [employeeList, setEmployeeList] = useState(location.state?.employeeData);
-  const businessName = location.state?.businessName;
+  //This if statement IS necessary
+  if (!location.state) {
+    const week = DateTime.local().startOf("week").toISODate().toString();
+    const worksite = location.user.worksite.name;
+    let empList=[];
+
+    try {
+      empList = businessData.find(list => list.date == week).companies.find(list => list.name == worksite).employees
+    }
+    catch {
+      empList = [{
+        id: 1,
+        name: "N/A",
+        workedHours: 0,
+        breakTime: 0,
+        totalTime: 0,
+        sender: "N/A",
+        information: "N/A"
+      }];
+    }
+
+    location.state = {
+      employeeData: empList,
+      businessName: worksite,
+      date: week
+    }
+  }
+
+  const [employeeList, setEmployeeList] = useState(location.state.employeeData);
+  const [businessName, setBusinessName] = useState(location.state.businessName);
+  const [weekOf, setWeekOf] = useState(location.state.date);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setitemsPerPage] = useState(10);
   const navigate = useNavigate();
+  
+  useEffect(() => {
+      CalendarHandle(weekOf);
+  },[weekOf])
 
   const getFilteredList = () => {
     if (!searchQuery) return employeeList;
@@ -42,7 +75,6 @@ const SupervisorTable = () => {
     const filteredList = getFilteredList();
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    console.log(filteredList)
     return filteredList.slice(startIndex, endIndex);
   };
 
@@ -57,21 +89,33 @@ const SupervisorTable = () => {
 
   useEffect(() => {
     let week = DateTime.local().startOf("week");
-    console.log (week.toISODate().toString())
   }, [])
   
   const CalendarHandle = (input) => {
-    let weekOf;
-      
     if (input && !(input instanceof DateTime)) {
       input = DateTime.fromISO(input);
     }  
-      
-    weekOf = input.startOf('week').toISODate().toString();
-
-    console.log(weekOf);
+    console.log("rizz")
+    setWeekOf(input.startOf('week').toISODate().toString());
     
-    // setEmployeeList(supervisorTableData(weekOf));
+    //sees if the date exists in the array
+    try {
+      setEmployeeList(businessData.find(list => list.date == weekOf).companies.find(list => list.name == businessName).employees)
+    }
+    //If the date does not exist, then it fills businesslist with a "blank" list
+    catch {
+      let blankList = [{
+        id: 1,
+        name: "N/A",
+        workedHours: 0,
+        breakTime: 0,
+        totalTime: 0,
+        sender: "N/A",
+        information: "N/A"
+      }];
+      
+      setEmployeeList(blankList);
+    }
   };
 
   useEffect(() => {

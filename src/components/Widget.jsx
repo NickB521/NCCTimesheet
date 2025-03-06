@@ -1,4 +1,4 @@
-import { Tooltip } from "@nextui-org/react";
+import { Tooltip } from "@heroui/react";
 import { Seperator } from "/src/assets/icons/dashboard";
 import UseResponsiveMaxChars from "./useResponsiveMaxChars.jsx";
 

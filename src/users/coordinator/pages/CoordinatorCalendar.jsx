@@ -3,7 +3,7 @@ import {
     Button, Card, CardHeader, CardBody, Table,
     TableHeader, TableBody, TableRow, TableColumn, TableCell,
     Textarea, DatePicker, Checkbox, TimeInput, Popover, PopoverTrigger, PopoverContent
-} from "@nextui-org/react";
+} from "@heroui/react";;
 import { getDayOfWeek, getLocalTimeZone, today } from "@internationalized/date";
 
 const WeekTool = ({ week, timeSet, breakHandle, day, saveHandle }) => {

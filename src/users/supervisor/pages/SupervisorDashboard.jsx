@@ -8,7 +8,7 @@ import ContactCard from "../../../components/ContactCard";
 import PoliciesCard from "../../../components/PoliciesCard";
 import { supervisorInformation, coordinatorInformation } from "../../../assets/data/dashboard-contact-information";
 import { UpArrow, DownArrow } from "../../../assets/icons/dashboard";
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import Context from "../../../components/Context";
 
 // work on later
