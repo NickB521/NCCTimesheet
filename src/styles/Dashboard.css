@@ -98,6 +98,7 @@
     align-items: center;
     gap: 2px;
     overflow-y: auto;
+    max-height: 450px;
 }
 
 .side-card h1{
@@ -293,3 +294,7 @@ textarea{
 
     /* try to find a way to make it work as a button to slide up and down like a carousel */
 }
+
+
+/* IMPORTANT */
+/* fix the thingy where there isnt a max height on widget cards */

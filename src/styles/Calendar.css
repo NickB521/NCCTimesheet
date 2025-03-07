@@ -82,7 +82,6 @@
 
 #workWeekSelect{
     width: fit-content;
-    margin-top: -10px;
 }
 
 #shift-note{
@@ -230,3 +229,6 @@
     height: 4px;
     top: calc(50% - 2px);
 }
+
+/* IMPORTANT */
+/* FIX ISSUE WHERE YOU CAN NOT DELETE THE LAST SHIFT IN CASE OF MISTAKE OR SOMETHING */

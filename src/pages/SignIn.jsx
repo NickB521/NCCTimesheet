@@ -34,39 +34,37 @@ const SignIn = () => {
     }
 
     return (
-        <>
-            <div id="sign-in">
-                <div id="sign-in-card">
-                    <div id="sign-in-title">Sign In</div>
+        <div id="sign-in">
+            <div id="sign-in-card">
+                <div id="sign-in-title">Sign In</div>
 
-                    <SignInput
-                        placeholder="Email"
-                        startContent={<Email />}
-                        info={email}
-                        setInfo={setEmail}
-                    />
+                <SignInput
+                    placeholder="Email"
+                    startContent={<Email />}
+                    info={email}
+                    setInfo={setEmail}
+                />
 
-                    <SignInput
-                        placeholder="Password"
-                        startContent={<Lock />}
-                        info={pass}
-                        setInfo={setPass}
-                    />
+                <SignInput
+                    placeholder="Password"
+                    startContent={<Lock />}
+                    info={pass}
+                    setInfo={setPass}
+                />
 
-                    <div id="sign-in-text">
-                        <p>Forgot Password?</p>
-                    </div>
+                <div id="sign-in-text">
+                    <p>Forgot Password?</p>
+                </div>
 
-                    <div id="sign-in-button-div">
-                        <button id="sign-in-button" onClick={LogIn}>Sign In</button>
-                    </div>
+                <div id="sign-in-button-div">
+                    <button id="sign-in-button" onClick={LogIn}>Sign In</button>
+                </div>
 
-                    <div id="sign-in-text" style={{ textAlign: "center" }}>
-                        <button onClick={SignUp}>Sign Up Today!</button>
-                    </div>
+                <div id="sign-in-text" style={{ textAlign: "center" }}>
+                    <button onClick={SignUp}>Sign Up Today!</button>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 
