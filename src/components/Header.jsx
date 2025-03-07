@@ -2,7 +2,7 @@ import {
     Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, 
     Badge, Popover, PopoverTrigger, PopoverContent, Tabs, 
     Tab, ScrollShadow, Tooltip
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 import React, { useState } from "react";
 import { useLocation, Link } from "react-router-dom";

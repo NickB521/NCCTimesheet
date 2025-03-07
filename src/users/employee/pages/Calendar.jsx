@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {
-    Card, CardHeader, CardBody, Table, TableBody, TableRow, TableCell, TableHeader, TableColumn, DatePicker, Button, 
-} from "@nextui-org/react";
+    Button, Card, CardHeader, CardBody, Table,
+    TableHeader, TableBody, TableRow, TableColumn, TableCell,
+    Textarea, DatePicker, Checkbox, TimeInput, Popover, PopoverTrigger, PopoverContent, Pagination
+} from "@heroui/react";
 import CalendarWeekTool from "../../../components/CalendarWeekTool";
 import { initializeWeek, initializeCurrentPage, CalendarHandle, submissionHandle, timeSet, breakHandle, saveHandle, addShift, deleteShift, noteHandle } from "../../../components/CalendarFunctions";
 import { DateTime } from "luxon";

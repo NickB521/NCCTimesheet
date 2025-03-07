@@ -21,7 +21,7 @@ import HolidayAlert from "./components/HolidayAlert.jsx"
 import { Routes, Route } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import Context from "./components/Context.jsx";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const getCalendar = (role) => {
   switch (role) {
@@ -53,6 +53,7 @@ const getDashboard = (role) => {
 const App = () => {
   const [token, setToken] = useState();
   const navigate = useNavigate();
+  const location = useLocation();
   const [user, setUser] = useState(
     {
       holiday: false,
@@ -63,10 +64,13 @@ const App = () => {
       },
       email: "email@email.com",
       worksite: {
-        name: "place"
+        id: null,
+        name: "Code Differently"
       }
     }
   );
+  
+  location.user = user;
 
   const [dayOff, setDayOff] = useState(false);
 
@@ -102,6 +106,7 @@ const App = () => {
             <Route path="/" element={getDashboard(user.role.name)} />
             <Route path="calendar" element={getCalendar(user.role.name)} />
             <Route path="employee-focus" element={<SupervisorCalendar />} />
+            <Route path="supervisor-table" element={<SupervisorTable />} />
             <Route path="sign-in" element={<SignIn />} />
             <Route path="sign-up" element={<SignUp />} />
           </Routes>

@@ -8,7 +8,7 @@ import ContactCard from "../../../components/ContactCard";
 import { supervisorInformation, coordinatorInformation } from "../../../assets/data/dashboard-contact-information";
 import Context from "../../../components/Context";
 import { UpArrow, DownArrow } from "../../../assets/icons/dashboard";
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 
 // work on later
 const setActiveNotification = (item) => {

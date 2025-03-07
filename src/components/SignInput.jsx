@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Eye, EyeClosed } from "../assets/icons/sign-in";
-import { Input } from "@nextui-org/react";
+import { Input } from "@heroui/react";
 
 const SignInput = ({ placeholder, startContent, endContent, info, setInfo, worksiteOptions }) => {
 

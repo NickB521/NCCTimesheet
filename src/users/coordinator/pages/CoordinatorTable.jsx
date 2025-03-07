@@ -13,13 +13,18 @@ import {
   DatePicker,
   Pagination,
   Input,
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 import { Link, useNavigate } from "react-router-dom";
 import { DateTime } from 'luxon';
 import { businessData } from "../../../assets/data/table-data";
+import { useLocation } from "react-router-dom";
 
 const CoordinatorTable = () => {
+  const location = useLocation();
+  
+  // console.log(location.pathname);
+
   const [weekOf, setWeekOf] = useState(DateTime.local().startOf("week").toISODate().toString());
   const [businessList, setBusinessList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -44,18 +49,17 @@ const CoordinatorTable = () => {
     }
     //If the date does not exist, then it fills businesslist with a "blank" list
     catch {
-      let blankList = [{name: "N/A", employees: [ 
-          {
-            id: 1,
-            name: "N/A",
-            workedHours: 0,
-            breakTime: 0,
-            totalTime: 0,
-            sender: "N/A",
-            information: "N/A"
-          },
-        ]
-      }];
+      let blankList = [{name: "N/A", employees: [
+        {
+          id: 1,
+          name: "N/A",
+          workedHours: 0,
+          breakTime: 0,
+          totalTime: 0,
+          sender: "N/A",
+          information: "N/A"
+        },
+      ]}];
       
       setBusinessList(blankList);
     }
@@ -125,6 +129,7 @@ const CoordinatorTable = () => {
     updateItemsPerPage();
 
     window.addEventListener("resize", updateItemsPerPage);
+    
     return () => {
       window.removeEventListener("resize", updateItemsPerPage);
     };
@@ -181,10 +186,10 @@ const CoordinatorTable = () => {
                           color: "white",
                           background: "var(--gray)",
                         }}
-                        onClick={() =>
+                        onPress={() =>
                           navigate("/supervisor-table",
                             {
-                              state: {employeeData: row.employees, businessName : row.name}
+                              state: {employeeData: row.employees, businessName: row.name, date:  weekOf}
                             }
                           )
 

@@ -10,7 +10,7 @@ import { holidays as holidayData } from "../../../assets/data/holiday-data";
 import { announcements as announcementData } from "../../../assets/data/announcement-data";
 import { supervisorInformation, coordinatorInformation } from "../../../assets/data/dashboard-contact-information";
 import { UpArrow, DownArrow } from "../../../assets/icons/dashboard";
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";;
 import Context from "../../../components/Context";
 
 const Dashboard = () => {
