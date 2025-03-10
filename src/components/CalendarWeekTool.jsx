@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Shift } from "./shift";
 import {
     Button, Checkbox, TimeInput, Popover, PopoverTrigger, PopoverContent, Pagination
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 const MAX_SHIFTS_PER_DAY = 3;
 
